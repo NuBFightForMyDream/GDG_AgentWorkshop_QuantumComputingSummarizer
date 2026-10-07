@@ -1,0 +1,1243 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH9_CH10_CH11-959373-17698520373601.pdf
+TOTAL_PAGES: 37
+--- PAGE 1 ---
+Chapter 9:
+Unitary Transformation, Completeness,
+and Construction of Operator
+Kamonluk Suksen Ph.D.
+78
+--- PAGE 2 ---
+Unitary Transformation
+• The definition of a unitary matrix, U, is that it satisfies 𝑼†𝑼 = 𝑰, when two vectors are transformed by
+the same unitary their inner product is unchanged. It means that all the vectors (states) are transformed by
+the same unitary vector, it is equivalent to transforming the coordinates in the opposite “direction”
+.
+• If we rotate all vectors in the same way, it is equivalent to rotating the coordinates or the hyperspace in
+the opposite way. This is just like if there is only the Earth in an empty space, you can say the plane is
+flying around a fixed Earth or the Earth is rotating, in the opposite direction, under a stationary plane.
+• Naturally, a transformation by a unitary matrix is called a unitary transformation.
+• Then it is also the most important when we perform coordinates (basis) transformation, but in the
+opposite direction. Whenever we talk about unitary transformation, we apply it to coordinate
+transformation.
+.
+￼
+Pic.7 Vector |V ⟩ rotated anti-clockwise by θ (left) is equivalent to the basis vectors |0⟩ / |1⟩ rotated clockwise by θ 79
+Chapter 9: Unitary Transformation, Completeness, and Construction of Operator
+--- PAGE 3 ---
+Unitary Transformation
+• We know any vector ȁ ⟩
+𝑉 can be represented as a linear combination (i.e. superposition) of the basis states
+and we write it as:
+• Just remind that we are borrowing the 2D plane for visualization and |0⟩ and |1⟩ are orthogonal to each
+other and they cannot co-exist with 100% certainty at the same time.
+• When we perform a measurement, ȁ ⟩
+𝑉 will collapse to either ȁ ⟩0 or ȁ ⟩1 with probabilities 𝛼 2 and 𝛽 2
+,
+respectively.
+• If we rotate (transform) ȁ ⟩
+𝑉 anti-clockwise by θ (Left of Pic. 7), it becomes ȁ ⟩
+𝑉′ . How do we represent it
+in the old basis in terms of the old basis states |0⟩ and |1⟩?
+• By using trigonometry, we can find the new representation. But for another view. Instead of rotating ȁ ⟩
+𝑉
+anti-clockwise by θ, we can also rotate the basis (i.e. its basis states |0⟩ and |1⟩) clockwise by θ (Right of
+Pic. 7). The representation of ȁ ⟩
+𝑉 by the new basis states ȁ ⟩
+0′ and ȁ ⟩
+1′ will then be equal to the
+representation of ȁ ⟩
+𝑉′ by the old basis states ȁ ⟩0 and ȁ ⟩1 .
+• The coordinate transformation is just another name for the basis change.
+ȁ ⟩
+𝑉 = ȁ ⟩0 + ȁ ⟩1 =
+𝛼
+𝛽
+80
+Chapter 9: Unitary Transformation, Completeness, and Construction of Operator
+--- PAGE 4 ---
+Unitary Transformation
+• From the right of Pic. 7, using trigonometry,
+The basis we are using now is the ȁ ⟩
+0′ and ȁ ⟩
+1′ basis.
+• For the same ȁ ⟩
+𝑉 , it can have two different column forms because it is represented in two different bases.
+In this process, we have found a matrix to transform the representation in the old basis to the new basis.
+￼
+Pic.7 Vector |V ⟩ rotated anti-clockwise by θ (left) is
+equivalent to the basis vectors |0⟩ / |1⟩ rotated clockwise by θ
+ȁ ⟩0 = cos 𝜃 ȁ ⟩
+0′ + sin 𝜃 ȁ ⟩
+1′
+=
+cos 𝜃
+sin 𝜃
+ȁ ⟩1 = −sin 𝜃 ȁ ⟩
+0′ + co𝑠 𝜃 ȁ ⟩
+1′
+=
+− sin 𝜃
+cos 𝜃
+ȁ ⟩
+𝑉 = ȁ ⟩0 + ȁ ⟩1 =
+𝛼
+𝛽
+=  cos 𝜃 ȁ ⟩
+0′ + sin 𝜃 ȁ ⟩
+1′ + 𝛽(−sin 𝜃 ȁ ⟩
+0′ + co𝑠 𝜃 ȁ ⟩
+1′ )
+= ( cos 𝜃 − 𝛽 sin 𝜃) ȁ ⟩
+0′ + ( sin 𝜃 + 𝛽 cos 𝜃) ȁ ⟩
+1′
+=
+ cos 𝜃 − 𝛽 sin 𝜃
+ sin 𝜃 + 𝛽 cos 𝜃 ห ൿ
+0′ /ห ൿ
+1′
+81
+Chapter 9: Unitary Transformation, Completeness, and Construction of Operator
+--- PAGE 5 ---
+Unitary Transformation
+• For the same ȁ ⟩
+𝑉 , it can have two different column forms because it is represented in two different bases.
+In this process, we have found a matrix to transform the representation in the old basis to the new basis,
+where
+ cos 𝜃 − 𝛽 sin 𝜃
+ sin 𝜃 + 𝛽 cos 𝜃 ห ൿ
+0′ /ห ൿ
+1′
+= 𝑼
+𝛼
+𝛽 ȁ ⟩
+0 /ȁ ⟩1
+𝑼 =
+cos 𝜃 − sin 𝜃
+sin 𝜃 cos 𝜃
+82
+Chapter 9: Unitary Transformation, Completeness, and Construction of Operator
+--- PAGE 6 ---
+Construction of Unitary Transformation
+Matrices
+• How do we construct the transformation matrix?
+• Let the basis vectors in the old basis be ȁ ⟩0 , ȁ ⟩1 , … , ȁ ⟩
+𝑛 − 1 and those in the new basis be
+ȁ ⟩
+0′
+, ȁ ⟩
+1′
+, … , ȁ ⟩
+𝑛 − 1′ in an n-dimensional space. The transformation matrix to represent a vector in the
+new basis is given by
+The i-th row j-th column element is just the inner product of the i-th new basis vector and the j-th old
+basis vector, 𝑖′ 𝑗 . For example:
+We know that ȁ ⟩
+0′
+, ȁ ⟩
+1′ are orthonormal and used the distributive property. Therefore,
+𝑼 =
+0′ 0 0′ 1
+1′ 0 1′ 1
+⋯ 0′ 𝑛 − 1
+⋯ 1′ 𝑛 − 1
+⋮ ⋮
+𝑛 − 1′ 0 𝑛 − 1′ 1
+⋱ ⋮
+⋯ 𝑛 − 1′ 𝑛 − 1
+0′ 0 = ൻ ȁ
+0′ cos 𝜃ȁ ⟩
+0′ + sin 𝜃ȁ ⟩
+1′
+= cos 𝜃
+0′ 1 = ൻ ȁ
+0′
+−sin 𝜃ȁ ⟩
+0′ + cos 𝜃ȁ ⟩
+1′
+= −𝑠𝑖𝑛 𝜃
+1′ 0 = ൻ ȁ
+1′ cos 𝜃ȁ ⟩
+0′ + sin 𝜃ȁ ⟩
+1′
+= sin 𝜃
+1′ 1 = ൻ ȁ
+1′
+−sin 𝜃ȁ ⟩
+0′ + cos 𝜃ȁ ⟩
+1′
+= cos 𝜃
+𝑼 =
+0′ 0 0′ 1
+1′ 0 1′ 1
+=
+cos 𝜃 − sin 𝜃
+sin 𝜃 cos 𝜃 83
+Chapter 9: Unitary Transformation, Completeness, and Construction of Operator
+--- PAGE 7 ---
+Completeness of Basis
+• In quantum computing, the basis needs to be orthonormal. It makes our life much easier when deriving
+equations (e.g. it allows us to use ⟨1|0⟩ = 0). Another important requirement for the basis is its
+completeness.
+• This just means that the basis should span the whole space we are interested in.
+• For example, a basis composed of ȁ ⟩
+ො
+𝑥 and ȁ ⟩
+ො
+𝑦 is complete for a real 2D space but incomplete for a real
+3D space.
+• Every vector in the real 2D space can be represented as a linear combination of ȁ ⟩
+ො
+𝑥 and ȁ ⟩
+ො
+𝑦 , but some
+vectors in the real 3D space cannot. When the basis is complete, we can decompose any vector in the
+space of interest into a linear combination of the basis vectors.
+• For example, in an n-D space, a vector ȁ ⟩
+𝑣 can be described as the linear combination of a basis
+composed of basis vectors ȁ ⟩
+𝑖 , where i runs from 0 to 𝑛 − 1.
+where 𝛼𝑖 are scalars (complex numbers) and describe “how much” ȁ ⟩
+𝑖 vector ȁ ⟩
+𝑣 has.
+How to find 𝛼𝑖 (which is one of the 𝛼𝑖 inside the summation)?
+ȁ ⟩
+𝑣 = ෍
+𝑖=0
+𝑛−1
+𝛼𝑖 ȁ ⟩
+𝑖
+84
+Chapter 9: Unitary Transformation, Completeness, and Construction of Operator
+--- PAGE 8 ---
+Completeness of Basis
+• With Dirac’s bra–ket notation, this is very straightforward and we just need to perform the inner product
+of ȁ ⟩
+𝑗 and ȁ ⟩
+𝑖 and take advantage of the orthonormal property of the basis vectors,
+• Or we can project ȁ ⟩
+𝑉 on to ȁ ⟩
+𝑗 to find the resulting vector. As we know that 𝑃𝑗 = ȁ ⟩
+𝑗 ⟨ ȁj . Therefore,
+Note 𝑗 𝑖 is a scalar and we can move it freely to the front inside the summation. It gives the same result
+as the first equation except it gives the projected vector instead of just the “amount” of the component ȁ ⟩
+𝑗.
+𝑗 𝑉 = ෍
+𝑖=0
+𝑛−1
+𝛼𝑖 𝑗 𝑖 = ෍
+𝑖=0
+𝑛−1
+𝛼𝑖 𝛿𝑗𝑖 = 𝛼𝑗
+𝑃𝑗ȁ ⟩
+𝑉 = ȁ ⟩
+𝑗 ⟨ ȁ
+j ȁ ⟩
+𝑉
+= ෍
+𝑖=0
+𝑛−1
+𝛼𝑖 ȁ ⟩
+𝑗 𝑗 𝑖 = ෍
+𝑖=0
+𝑛−1
+𝛼𝑖ȁ ⟩
+𝑗 𝛿𝑗𝑖 = 𝛼𝑗ȁ ⟩
+𝑗
+85
+Chapter 9: Unitary Transformation, Completeness, and Construction of Operator
+--- PAGE 9 ---
+Completeness of Basis
+• From 𝑗 𝑉 = 𝛼𝑗, we can substitute it in ȁ ⟩
+𝑣 = σ𝑖=0
+𝑛−1 𝛼𝑖 ȁ ⟩
+𝑖 , but rename j to i:
+Since it gives ȁ ⟩
+𝑣 when it is multiplied to an arbitrary vector ȁ ⟩
+𝑣 , it means it must be the identity
+matrix.
+• It tells us that the outer products of each basis to itself sum up to an identity matrix.
+ȁ ⟩
+𝑣 = ෍
+𝑖=0
+𝑛−1
+𝛼𝑖 ȁ ⟩
+𝑖
+= ෍
+𝑖=0
+𝑛−1
+𝑖 𝑉 ȁ ⟩
+𝑖
+= ෍
+𝑖=0
+𝑛−1
+ȁ ⟩
+𝑖 𝑖 𝑉
+= ෍
+𝑖=0
+𝑛−1
+ȁ ⟩
+𝑖 ⟨ ȁ
+i ȁ ⟩
+𝑉
+෍
+𝑖=0
+𝑛−1
+ȁ ⟩
+𝑖 ⟨ ȁ
+i = 𝑰
+86
+Chapter 9: Unitary Transformation, Completeness, and Construction of Operator
+--- PAGE 10 ---
+Construct Operator from Eigenvalues and
+Eigenvectors
+• If an operator has eigenvalues 𝜆𝑖 and eigenvectors ȁ ⟩
+𝑖 , where i runs from 0 to n − 1, the operator, A, is
+given by,
+• When the matrix is represented in the basis formed by its eigenvectors, this is just the diagonal matrix.
+• Let us consider 𝜎𝑧. Its eigenvectors are ȁ ⟩0 =
+1
+0 and ȁ ⟩1 =
+0
+1 with eigenvalues of 1 and -1, respectively.
+Then it means
+This is exactly the matrix form of 𝜎𝑧.
+𝜎𝑧
+= ෍
+𝑖=0
+2−1
+𝜆𝑖 ȁ ⟩
+𝑖 ⟨ ȁ
+i
+𝑨 = ෍
+𝑖=0
+𝑛−1
+𝜆𝑖 ȁ ⟩
+𝑖 ⟨ ȁ
+i
+= 𝜆0ȁ ⟩0 ⟨ ȁ0 + 𝜆1ȁ ⟩1 ⟨ ȁ1
+= 1 ×
+1
+0 1 0 + −1 ×
+0
+1 0 1
+=
+1 0
+0 0 + 0 0
+0 −1=
+1 0
+0 −1
+87
+Chapter 9: Unitary Transformation, Completeness, and Construction of Operator
+--- PAGE 11 ---
+Summary
+• Representation in Different Bases: The core concept emphasized is representing
+quantum states in various bases, analogous to expressing the exact same meaning
+in different languages (e.g., English vs. Cantonese).
+• Role of Unitary Matrices: Unitary matrices are used to transform vectors from
+one representation to another by rotating the basis in hyperspace.
+• The Translation Analogy: In this context, the matrix acts as a "dictionary," and
+the rotation represents the actual transformation or translation process between the
+two "languages" (bases).
+• Mathematical Foundations: The text notes the importance of the concept of
+completeness and the ability to construct matrices using eigenvalues and
+eigenvectors.
+• Relevance to Quantum Computing: These mathematical skills are fundamental
+tools that will be essential for future quantum computing applications.
+88
+Chapter 9: Unitary Transformation, Completeness, and Construction of Operator
+--- PAGE 12 ---
+Chapter 10:
+Hilbert Space, Tensor Product,
+and Multi-Qubit
+Kamonluk Suksen Ph.D.
+89
+--- PAGE 13 ---
+Hilbert Space
+• A Hilbert space is a complete linear space with an inner product defined. The word “complete” here
+means it converges in certain operations and it is not the same as the completeness concept.
+• It is just a generalization of our real 3D space. So we can loosely regard a Hilbert space as a space with
+any dimensions which allows complex coefficients.
+• In this space, it has vectors and it has a well-defined inner product, 𝑓 𝑔 , of any pair of vectors, ȁ ⟩
+𝑓 and
+ȁ ⟩
+𝑔 , and for any complex number, c, with the following properties
+The inner product of a vector to itself has to be positive or zero. This is because 𝑓 𝑓 is just the square of
+the length of the vector ȁ ⟩
+𝑓.
+• We can scale ȁ ⟩
+𝑓 by a scalar c and then take it bra version to multiply to ȁ ⟩
+𝑔, it is the same as multiplying
+ȁ ⟩
+𝑓’s bra version on ȁ ⟩
+𝑔 followed by multiplying the complex conjugate of c. So, we get
+But no complex conjugate is needed if the c is used to scale the second vector, which only appears in its
+ket vesion as following:
+• As we know that projecting ȁ ⟩
+𝑔 on ȁ ⟩
+𝑓 gives a scalar which is the complex conjugate of the projection of
+ȁ ⟩
+𝑓 on ȁ ⟩
+𝑔 . And the last equation is just the distribution properties of a linear operation.
+𝑓 𝑓 ≥ 0
+𝑐𝑓 𝑔 = 𝑐∗ 𝑓 𝑔
+𝑓 𝑔 = 𝑔 𝑓∗
+𝑓 + ℎ 𝑔 = 𝑓 𝑔 + ℎ 𝑔
+𝑓 𝑐𝑔 = 𝑐 𝑓 𝑔
+90
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 14 ---
+Expansion of Hilbert Space and Tensor
+Product
+• If there is one electron, we know that its spin forms a Hilbert space with the basis vectors of spinning up or
+down (i.e. |0⟩ or |1⟩). We say it is a Hilbert space because it fulfills the complete requirement and the
+requirements from previous equations. Every vector in this space is just a linear combination of the basis
+states, ȁ ⟩0 + ȁ ⟩1 .
+• We may also use ȁ ⟩
++ / ȁ ⟩
+− as the basis but it still the same Hilbert space (just different representations).
+Let’s call this space, ℋ1.
+• How to describe the position of the electron? The position itself also forms a Hilbert space with the basis
+vectors being any point in the real space. The state of the electron in this space is a superposition of the
+basis vectors.
+• In principle, for example, the electron in a water molecule in the cloud has a finite probability to be in your
+cup asȁ ⟩
+𝐿𝑜𝑐𝑎𝑡𝑖𝑜𝑛 𝑠𝑡𝑎𝑡𝑒 𝑜𝑓 𝑒𝑙𝑒𝑐𝑡𝑟𝑜𝑛 = ȁ ⟩
+𝐴𝑡 𝑎 𝑝𝑜𝑖𝑛𝑡 𝑖𝑛 𝑡ℎ𝑒 𝑐𝑙𝑜𝑢𝑑 + ȁ ⟩
+𝐴𝑡 𝑎 𝑝𝑜𝑖𝑛𝑡 𝑖𝑛 𝑦𝑜𝑢𝑟 𝑐𝑢𝑝 + ⋯
+,
+although  can be very small. Let’s call this space, ℋ2.
+• The spin Hilbert space and the position Hilbert space can form a bigger (higher-dimensional) space, ℋ3.
+The way to form it is by using the tensor product denoted as ⨂,
+ℋ3 = ℋ1⨂ℋ2
+91
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 15 ---
+Expansion of Hilbert Space and Tensor
+Product
+• We also use the tensor product of two smaller spaces to form the vector in the larger space.
+• If ȁ ⟩
+𝑓 1 and ȁ ⟩
+𝑔 2 are two vectors in ℋ1 and ℋ2, respectively, it can form a vector ȁ ⟩
+ℎ 3 in ℋ3 through
+ȁ ⟩
+ℎ 3
+= ȁ ⟩
+𝑓 1⨂ȁ ⟩
+𝑔 2.
+• The tensor product is what makes quantum computing so powerful. Note that the spin space has no
+interaction with the position space. We can treat them as two quantities in two different universes. They
+never talk to each other. So, the basis vectors in the spin space and the position space can form a new basis
+in ℋ3 through permutation.
+• Assume we have two electrons. The first electron has its own spin space with basis vectors ȁ ⟩0 1 and ȁ ⟩1 1.
+The subscript “1” to denote that the basis vectors are of the first electron or in Hilbert space ℋ1. The state
+of the first electron can be a linear combination of the basis states,
+• Similarly, for the second electron, it has its own spin space ℋ2 and basis vectors ȁ ⟩0 2 and ȁ ⟩1 2 and any
+spin states of the second electron ȁ ⟩
+𝑔 2 can be represented as
+ȁ ⟩
+𝑓 1
+= 𝛼1ȁ ⟩
+0 1 + 𝛽1ȁ ⟩1 1
+ȁ ⟩
+𝑔 2
+= 𝛼2ȁ ⟩
+0 2 + 𝛽2ȁ ⟩1 2 92
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 16 ---
+Expansion of Hilbert Space and Tensor
+Product
+• To describe the system of the two electrons which have individual spins, we can use a tensor product,
+ℋ3 = ℋ1⨂ℋ2. What are the basis states of this new system with two electrons? It will be the permutation
+through product of their basis states,
+• ℋ3 has four basis states and they are just the permutation of electron 1’s and electron 2’s basis states.
+• How to represent an arbitrary state ȁ ⟩
+ℎ 3 in ℋ3? Again it must be a linear combination of the basis vectors
+in ℋ3. Therefore,
+where 𝛼3, 𝛽3, 𝛾3, and 𝛿3 are the complex coefficients.
+ȁ ⟩0 3
+= ȁ ⟩0 1⨂ȁ ⟩0 2
+= ȁ ⟩0 1 ȁ ⟩0 2
+ȁ ⟩1 3
+= ȁ ⟩0 1⨂ȁ ⟩1 2
+= ȁ ⟩0 1 ȁ ⟩1 2
+ȁ ⟩2 3
+= ȁ ⟩1 1⨂ȁ ⟩0 2
+= ȁ ⟩1 1 ȁ ⟩0 2
+ȁ ⟩3 3
+= ȁ ⟩1 1⨂ȁ ⟩1 2
+= ȁ ⟩1 1 ȁ ⟩1 2
+ȁ ⟩
+ℎ 3
+= 𝛼3ȁ ⟩0 3 + 𝛽3ȁ ⟩1 3 + 𝛾3ȁ ⟩2 3 + 𝛿3ȁ ⟩3 3
+93
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 17 ---
+Expansion of Hilbert Space and Tensor
+Product
+• By substituting, we can write state ȁ ⟩
+ℎ 3 in ℋ3 as:
+• We can also write it in column form,
+ȁ ⟩
+ℎ 3
+=
+𝛼3
+𝛽3
+𝛾3
+𝛿3
+ȁ ⟩
+ℎ 3
+= 𝛼3ȁ ⟩0 1⨂ȁ ⟩0 2 + 𝛽3ȁ ⟩0 1⨂ȁ ⟩1 2 + 𝛾3ȁ ⟩1 1⨂ȁ ⟩0 2 + 𝛿3ȁ ⟩1 1⨂ȁ ⟩1 2
+= 𝛼3ȁ ⟩0 1ȁ ⟩0 2 + 𝛽3ȁ ⟩0 1ȁ ⟩1 2 + 𝛾3ȁ ⟩1 1ȁ ⟩0 2 + 𝛿3ȁ ⟩1 1ȁ ⟩1 2
+= 𝛼3ȁ ⟩0 ȁ ⟩0 + 𝛽3ȁ ⟩0 ȁ ⟩1 + 𝛾3ȁ ⟩1 ȁ ⟩0 + 𝛿3ȁ ⟩1 ȁ ⟩1
+= 𝛼3ȁ ⟩
+00 + 𝛽3ȁ ⟩
+01 + 𝛾3ȁ ⟩10 + 𝛿3ȁ ⟩11
+94
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 18 ---
+Multi-Qubits
+• Qubit stands for quantum bit. It refers to a vector space with two basis vectors and it is 2D. We are very familiar
+with this already. The vector in this vector space can be represented by a qubit, which is the linear combination
+of the basis vectors. And the basis vectors can be ȁ ⟩0 / ȁ ⟩1 and ȁ ⟩
++ / ȁ ⟩
+− in a single spin system.
+• We just discussed that we can form a larger system with two qubits and the number of basis vectors becomes
+four. Since the tensor product is used to construct a larger system from its subsystems through the permutation
+of basis vectors, the number of basis states grows exponentially and this is the power of quantum computing.
+• For a single qubit, we call it a ℂ2 space, which means it is a 2D complex vector space ( ℂ means complex).
+When there are 2 qubits, the space is ℂ4 as it is a 4-dimensional due to the tensor product of two ℂ2 spaces. E.g.
+for n qubits, it is a tensor product of two 𝑛ℂ2 spaces and the dimension is 2𝑛 instead of n.
+So, if there are 10 qubits, the dimension is now 1024 and there are 1024 basis states! A vector (state) in the 10-
+qubit system will be a superposition of 1024 basis states which will enable quantum parallelism.
+• Since it is just the permutation of the basis vectors of single-qubits, then it is just the permutation of 0’s and 1’s.
+Therefore, they are just the binary numbers from 0 to 2𝑛
+− 1 for n-qubits. This helps us to memorize the basis
+vectors and also allows us to write them succinctly in decimal numbers in the kets.
+• Moreover, we need to be very careful how each qubit is ordered. Which qubit is treated as the Most Significant
+Bit (MSB) and which is the Least Significant Bit (LSB). For the spins of two electrons, A and B, we may write
+electron A on the left (as the MSB) or on the right (as the LSB). For MSB case, the tensor product state due to
+electron A spinning up and electron B spinning down is ȁ ⟩0 𝐴ȁ ⟩1 𝐵
+= ȁ ⟩01 = ȁ ⟩1 . For LSB case, is ȁ ⟩1 𝐵ȁ ⟩0 𝐴
+=
+ȁ ⟩10 = ȁ ⟩2
+95
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 19 ---
+Multi-Qubits
+• Let’s understand vector tensor product from another perspective, i.e. in their column forms.
+The column vector form clearly shows that how two ℂ2 can form a ℂ4 vector. But how do we find the
+𝛼3
+𝛽3
+𝛾3
+𝛿3
+for the given 𝛼1
+𝛽1
+and 𝛼2
+𝛽2
+?
+• So, 𝛼3 = 𝛼1𝛼2; 𝛽3 = 𝛼1𝛽2; 𝛾3 = 𝛽1𝛼2; and 𝛿3 = 𝛽1𝛽2.
+ȁ ⟩
+ℎ 3
+= ȁ ⟩
+𝑓 1⨂ȁ ⟩
+𝑔 2
+𝛼3
+𝛽3
+𝛾3
+𝛿3
+=
+𝛼1
+𝛽1
+⨂
+𝛼2
+𝛽2
+ȁ ⟩
+ℎ 3
+= 𝛼3ȁ ⟩
+0 1⨂ȁ ⟩0 2 + 𝛽3ȁ ⟩0 1⨂ȁ ⟩1 2 + 𝛾3ȁ ⟩1 1⨂ȁ ⟩0 2 + 𝛿3ȁ ⟩1 1⨂ȁ ⟩1 2
+= 𝛼3ȁ ⟩
+0 1ȁ ⟩0 2 + 𝛽3ȁ ⟩0 1ȁ ⟩1 2 + 𝛾3ȁ ⟩1 1ȁ ⟩0 2 + 𝛿3ȁ ⟩1 1ȁ ⟩1 2
+= ȁ ⟩
+𝑓 1 ⨂ȁ ⟩
+𝑔 2
+= (𝛼1ȁ ⟩
+0 1 + 𝛽1ȁ ⟩1 1)(𝛼2ȁ ⟩0 2 + 𝛽2ȁ ⟩1 2)
+= 𝛼1𝛼2ȁ ⟩0 1ȁ ⟩0 2 + 𝛼1𝛽2ȁ ⟩0 1ȁ ⟩1 2 + 𝛽1𝛼2ȁ ⟩1 1ȁ ⟩0 2 + 𝛽1𝛽2ȁ ⟩1 1ȁ ⟩1 2
+96
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 20 ---
+Multi-Qubits
+• Therefore, this is just a permutation of the coefficients through scalar multiplication. So, we can also do
+this in column vector using the following steps
+𝛼3
+𝛽3
+𝛾3
+𝛿3
+=
+𝛼1
+𝛽1
+⨂
+𝛼2
+𝛽2
+=
+𝛼1
+𝛼2
+𝛽2
+𝛽1
+𝛼2
+𝛽2
+=
+𝛼1𝛼2
+𝛼1𝛽2
+𝛽1𝛼2
+𝛽1𝛽2
+97
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 21 ---
+Multi-Qubits
+• Basis vectors of multi-qubit systems
+Number of
+qubits
+Number of
+basis vectors
+Basis Vectors Space
+1 2 ȁ ⟩0 , ȁ ⟩1 ℂ2
+2 4 ȁ ⟩0 ȁ ⟩0 , ȁ ⟩0 ȁ ⟩1 , ȁ ⟩1 ȁ ⟩0 , ȁ ⟩1 ȁ ⟩1
+Or: ȁ ⟩00 , ȁ ⟩01 , ȁ ⟩10 , ȁ ⟩11
+Or: ȁ ⟩0 , ȁ ⟩1 , ȁ ⟩2 , ȁ ⟩3
+ℂ4 = ℂ2⨂ℂ2
+3 8 ȁ ⟩0 ȁ ⟩0 ȁ ⟩0 , ȁ ⟩0 ȁ ⟩0 ȁ ⟩1 , …, ȁ ⟩1 ȁ ⟩1 ȁ ⟩1
+Or: ȁ ⟩000 , ȁ0 ⟩01 , …, ȁ ⟩111
+Or: ȁ ⟩
+0 , ȁ ⟩1 , …, ȁ ⟩7
+ℂ8 = ℂ2⨂ℂ2⨂ℂ2
+n 2𝑛 ȁ ⟩0 , ȁ ⟩
+1 , …, ȁ2𝑛 ⟩
+−1 ℂ2𝑛
+= ℂ2⨂ ⋯ ⨂ℂ2 = ℂ2 𝑛⊗
+98
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 22 ---
+More About Tensor Product in Hilbert Space
+• If ℋ3 = ℋ1⨂ℋ2, what vectors does ℋ3 contains? It contains the linear combination of the tensor
+products of the vectors in ℋ1 and ℋ2.
+• For example, n can be 1 and ȁ ⟩
+ℎ can be ȁ ⟩0 ȁ ⟩1 or ห ⟩1 ȁ ⟩1 . Or n can be 2, then ȁ ⟩
+ℎ may be i ȁ ⟩0 ȁ ⟩1 + ȁ ⟩1 ȁ ⟩0 ,
+if ȁ ⟩
+𝑓1 = 𝑖ȁ ⟩0 , ห ⟩
+𝑓2 = ȁ ⟩1 , ȁ ⟩
+𝑔1 = ȁ ⟩1 , and ȁ ⟩
+𝑔2 = ȁ ⟩0 .
+• We may also scale the vector in their subspace first and then perform tensor product or vice versa. The
+result is the same,
+It also obeys distribution rule, from both right and left,
+ȁ ⟩
+ℎ = ෍
+𝑗=1
+𝑛
+ȁ ⟩
+𝑓𝑖 ⨂ ห ൿ
+𝑔𝑗
+𝑐ȁ ⟩
+𝑓 ⨂ȁ ⟩
+𝑔 = ȁ ⟩
+𝑐𝑓 ⨂ȁ ⟩
+𝑔 = ȁ ⟩
+𝑓 ⨂ȁ𝑐 ⟩
+𝑔
+(ȁ ⟩
+𝑓 + ห ⟩
+𝑒 )⨂ȁ ⟩
+𝑔 = ȁ ⟩
+𝑓 ⨂ȁ ⟩
+𝑔 + ȁ ⟩
+𝑒 ⨂ȁ ⟩
+𝑔
+ȁ ⟩
+𝑔 ⨂(ȁ ⟩
+𝑓 + ȁ ⟩
+𝑒 ) = ȁ ⟩
+𝑔 ⨂ȁ ⟩
+𝑓 + ȁ ⟩
+𝑔 ⨂ȁ ⟩
+𝑒
+99
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 23 ---
+More About Tensor Product in Hilbert Space
+• Finally, if we perform inner product in their respective ℋ1 and ℋ2 spaces first and then perform the tensor
+product, it is the same as forming tensor product first and then perform inner product in the ℋ3 space.
+Here, ȁ ⟩
+ℎ1 and ȁ ⟩
+ℎ2 are the vectors in the ℋ3 space. They are formed by the linear combination of tensor
+products of ห ൿ
+𝑓𝑗 and ȁ ⟩
+𝑒𝑙 in the ℋ1 space and ห ൿ
+𝑔𝑗 and ȁ ⟩
+𝑘𝑙 in the ℋ2 . This shows again the subspaces are
+not “talking to each other” because ห ൿ
+𝑓𝑗 and ห ൿ
+𝑔𝑗 only form inner products with ȁ ⟩
+𝑒𝑙 and ȁ ⟩
+𝑘𝑙 , respectively.
+ℎ1 ℎ2 = σ𝑗=1
+𝑛1 ȁ ⟩
+𝑓𝑖 ⨂ ห ൿ
+𝑔𝑗 σ𝑙=1
+𝑛2 ȁ ⟩
+𝑒𝑙 ⨂ ȁ ⟩
+𝑘𝑙 = ෍
+𝑗=1
+𝑛1
+෍
+𝑙=1
+𝑛2
+𝑓𝑗 𝑒𝑙 𝑔𝑗 𝑘𝑙
+100
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 24 ---
+Summary
+• Hilbert Space Fundamentals
+• Many properties are similar to the familiar 3D space we live in.
+• Operations overlap with concepts learned in previous chapters; memorizing
+every property is not necessary.
+• The Power of Tensor Product
+• Enables the construction of higher-dimensional Hilbert spaces.
+• Allows us to produce a vector (state) in a larger space using given lower-
+dimensional vectors.
+• Why This Matters
+• These concepts serve as the essential foundation for understanding Quantum
+Computing Algorithms.
+101
+Chapter 10: Hilbert Space, Tensor Product, and Multi-Qubit
+--- PAGE 25 ---
+Chapter 11:
+Tensor Product of Operators, Partial
+Measurement, and Matrix
+Representation in a Given Basis
+Kamonluk Suksen Ph.D.
+102
+--- PAGE 26 ---
+Tensor Product of Vectors in General Form
+• How to perform tensor product for two vectors from arbitrary/higher-dimensional spaces?
+• Let 𝑉 = 𝑉0
+ෝ
+𝑒0 + 𝑉1
+ෝ
+𝑒1 + ⋯ + 𝑉𝑛−1
+ෟ
+𝑒𝑛−1 in an n-dimensional space and 𝑊 = 𝑊0
+෡
+𝑓0 + 𝑊1
+෡
+𝑓1 + ⋯ +
+𝑊𝑚−1
+෣
+𝑓𝑚−1 in an m-dimensional space. ෝ
+𝑒0,…,
+ෟ
+𝑒𝑛−1 and ෡
+𝑓0,…,
+෣
+𝑓𝑚−1 are the basis vectors in the
+corresponding space.
+• We can write it in bra–ket notation or column form, too.
+• If we perform a tensor product of ห ൿ
+𝑉 ⨂ ห ൿ
+𝑊 , what do we get?
+ห ൿ
+𝑉 =𝑉0ȁ ⟩
+ෝ
+𝑒0 + 𝑉1ȁ ⟩
+ෝ
+𝑒1 + ⋯ + 𝑉𝑛−1ȁ ⟩
+ෟ
+𝑒𝑛−1 =
+𝑉0
+𝑉1
+⋮
+𝑉𝑛−1
+ห ൿ
+𝑊 =𝑊0ห ൿ
+෡
+𝑓0 + 𝑊1ห ൿ
+෡
+𝑓1 + ⋯ + 𝑊𝑚−1ห ൿ
+෣
+𝑓𝑚−1 =
+𝑊0
+𝑊1
+⋮
+𝑊𝑚−1
+ห ൿ
+𝑉 ⨂ ห ൿ
+𝑊 = (𝑉0ȁ ⟩
+ෝ
+𝑒0 + 𝑉1ȁ ⟩
+ෝ
+𝑒1 + ⋯ + 𝑉𝑛−1ȁ ⟩
+ෟ
+𝑒𝑛−1 ) ⨂(𝑊0ห ൿ
+෡
+𝑓0 + 𝑊1ห ൿ
+෡
+𝑓1 + ⋯ + 𝑊𝑚−1ห ൿ
+෣
+𝑓𝑚−1 )
+= 𝑉0𝑊0 ȁ ⟩
+ෝ
+𝑒0 ห ൿ
+෡
+𝑓0 + 𝑉0𝑊1 ȁ ⟩
+ෝ
+𝑒0 ห ൿ
+෡
+𝑓1 + ⋯ + 𝑉1𝑊0 ȁ ⟩
+ෝ
+𝑒1 ห ൿ
+෡
+𝑓0 + ⋯ + 𝑉𝑛−1𝑊𝑚−1 ȁ ⟩
+ෟ
+𝑒𝑛−1 ห ൿ
+෣
+𝑓𝑚−1
+103
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 27 ---
+Tensor Product of Vectors in General Form
+• So how many new basis vectors do we have now? There are ቚ ⟩
+ෝ
+𝑒0 ห ൿ
+෡
+𝑓0 , ቚ ⟩
+ෝ
+𝑒0 ห ൿ
+෡
+𝑓1 , …, ቚ ⟩
+ෝ
+𝑒1 ห ൿ
+෡
+𝑓0 , …, ቚ ⟩
+ෟ
+𝑒𝑛−1 ห ൿ
+෣
+𝑓𝑚−1.
+• They are the permutation of the basis vectors from the two spaces and there are 𝑛 × 𝑚 new basis vectors.
+So, the new space is 𝑛 × 𝑚 –dimensional. We can see this from the column vector multiplication in a
+tensor product.
+ห ൿ
+𝑉 ⨂ห ൿ
+𝑊 =
+𝑉0
+𝑉1
+⋮
+𝑉𝑛−1
+⨂
+𝑊0
+𝑊1
+⋮
+𝑊𝑚−1
+=
+𝑉0
+𝑊0
+𝑊1
+⋮
+𝑊𝑚−1
+⋮
+𝑉𝑛−1
+𝑊0
+𝑊1
+⋮
+𝑊𝑚−1
+=
+𝑉0𝑊0
+⋮
+𝑉0𝑊𝑚−1
+⋮
+𝑉𝑛−1𝑊0
+⋮
+𝑉𝑛−1𝑊𝑚−1
+104
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 28 ---
+Tensor Product of Vectors in General Form
+• Sometimes the tensor product is written in matrix form to make it more compact.
+In this type of notation, the second vector is written in row form. And the basis vector for the i-th row
+and j -th column element in the matrix is ȁ ⟩
+ෝ
+𝑒𝑖 ห ൿ
+෡
+𝑓𝑗
+ห ൿ
+𝑉 ⨂ห ൿ
+𝑊 =
+𝑉0
+𝑉1
+⋮
+𝑉𝑛−1
+𝑊0 … … 𝑊𝑚−1 =
+𝑉0𝑊0⋯ 𝑉0𝑊𝑚−1
+⋮ ⋱ ⋮
+𝑉𝑛−1𝑊0⋯ 𝑉𝑛−1𝑊𝑚−1
+105
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 29 ---
+Tensor Product of Operators
+• In each Hilbert space, it has its own operators. Physically, if there are two electrons, there will be two
+separate operators used to manipulate the spin of the electrons (electrons to rotate the vector in the ℂ2
+space).
+• We use a magnetic field to manipulate the spin of the electron. So we need two magnetic fields to
+manipulate the spin of two electrons.
+• In the ℂ2 spaces, it just means that there are two matrices to rotate the vectors, one in each space and each
+corresponds to a different set of basis vectors.
+• If we consider the two electron as a whole system, we can use the tensor product to construct the state in
+the larger system. How do we construct an operator to describe the manipulation of the combined vector?
+That is how to describe the two magnetic fields used to control the two electrons as a whole. We still use
+the tensor product.
+• Assume ℋ3 = ℋ1⨂ℋ2, and 𝑼1 and 𝑼2 are two operators in the two ℂ2 spaces of ℋ1 and ℋ2,
+respectively. Assume,
+𝑼1 =
+𝑎 𝑐
+𝑏 𝑑 ; 𝑼2 =
+𝑒 𝑔
+𝑓 ℎ
+106
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 30 ---
+Tensor Product of Operators
+• The corresponding operator in the ℋ3 space is 𝑼 = 𝑼1⨂𝑼2, where
+We also labeled the basis states next to the matrix so we know which basis vector each row corresponds to.
+• For example, assume both electrons have an up-spin, i.e. ȁ ⟩0 =
+1
+0 and ȁ ⟩
+0′
+=
+1
+0 . If we consider each
+electron individually and apply operators on the vectors in the individual ℂ2 spaces,
+=
+𝑎
+𝑒 𝑔
+𝑓 ℎ 𝑐
+𝑒 𝑔
+𝑓 ℎ
+𝑏
+𝑒 𝑔
+𝑓 ℎ 𝑑
+𝑒 𝑔
+𝑓 ℎ
+=
+𝑎𝑒 𝑎𝑔
+𝑎𝑓 𝑎ℎ
+𝑐𝑒 𝑐𝑔
+𝑐𝑓 𝑐ℎ
+𝑏𝑒 𝑏𝑔
+𝑏𝑓 𝑏ℎ
+𝑑𝑒 𝑑𝑔
+𝑑𝑓 𝑑ℎ
+ȁ ⟩
+00′
+ȁ ⟩
+01′
+ȁ ⟩
+10′
+ȁ ⟩
+11′
+𝑼 = 𝑼1⨂𝑼2 =
+𝑎 𝑐
+𝑏 𝑑 ⨂
+𝑒 𝑔
+𝑓 ℎ
+𝑼1ȁ ⟩0 =
+𝑎 𝑐
+𝑏 𝑑
+1
+0
+=
+𝑎
+𝑏
+= 𝑎ȁ ⟩0 + 𝑏ȁ ⟩1
+𝑼2ȁ ⟩
+0′
+=
+𝑒 𝑔
+𝑓 ℎ
+1
+0=
+𝑒
+𝑓
+= 𝑒ȁ ⟩
+0′ + 𝑓ȁ ⟩
+1′
+107
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 31 ---
+Tensor Product of Operators
+• We can then form a tensor product to see how the final vector looks like in the ℂ4 spaces,
+• Or we can also operate e directly on the tensor product of ȁ ⟩0 and ȁ ⟩
+0′ (this initial states). We get ȁ ⟩
+00′ ,
+and then apply U to ȁ ⟩00′ , i.e. to apply an operator on a vector in the ℂ4 spaces.
+The result is exactly the same as previous.
+𝑼ȁ ⟩
+00′
+=
+𝑎𝑒 𝑎𝑔
+𝑎𝑓 𝑎ℎ
+𝑐𝑒 𝑐𝑔
+𝑐𝑓 𝑐ℎ
+𝑏𝑒 𝑏𝑔
+𝑏𝑓 𝑏ℎ
+𝑑𝑒 𝑑𝑔
+𝑑𝑓 𝑑ℎ
+1
+0
+0
+0
+=
+𝑎𝑒
+𝑎𝑓
+𝑏𝑒
+𝑏𝑓
+ȁ ⟩
+00′
+ȁ ⟩
+01′
+ȁ ⟩
+10′
+ȁ ⟩
+11′
+𝑼1ȁ ⟩0 ⨂𝑼2ȁ ⟩
+0′
+= (𝑎ȁ ⟩0 + 𝑏ȁ ⟩1 )⨂(𝑒ȁ ⟩
+0′ + 𝑓ȁ ⟩
+1′ )
+=
+𝑎
+𝑏 ⨂
+𝑒
+𝑓
+=
+𝑎 𝑒
+𝑓
+𝑏 𝑒
+𝑓
+=
+𝑎𝑒
+𝑎𝑓
+𝑏𝑒
+𝑏𝑓
+ȁ ⟩
+00′
+ȁ ⟩
+01′
+ȁ ⟩
+10′
+ȁ ⟩
+11′
+108
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 32 ---
+Tensor Product of Operators
+• In general, the tensor product of an n-dimensional operator and a m-dimensional
+• operator is an 𝑛 × 𝑚-dimensional operator.
+𝑎0,0⋯ 𝑎0,𝑛−1
+⋮ ⋱ ⋮
+𝑎𝑛−1,0⋯ 𝑎𝑛−1,𝑛−1
+⨂
+𝑏0,0⋯ 𝑏0,𝑚−1
+⋮ ⋱ ⋮
+𝑏𝑚−1,0⋯ 𝑏𝑚−1,𝑚−1
+=
+𝑎0,0
+𝑏0,0⋯ 𝑏0,𝑚−1
+⋮ ⋱ ⋮
+𝑏𝑚−1,0⋯ 𝑏𝑚−1,𝑚−1
+⋯ 𝑎0,𝑛−1
+𝑏0,0⋯ 𝑏0,𝑚−1
+⋮ ⋱ ⋮
+𝑏𝑚−1,0⋯ 𝑏𝑚−1,𝑚−1
+⋮ ⋱ ⋮
+𝑎𝑛−1,0
+𝑏0,0⋯ 𝑏0,𝑚−1
+⋮ ⋱ ⋮
+𝑏𝑚−1,0⋯ 𝑏𝑚−1,𝑚−1
+⋯ 𝑎𝑛−1,𝑛−1
+𝑏0,0⋯ 𝑏0,𝑚−1
+⋮ ⋱ ⋮
+𝑏𝑚−1,0⋯ 𝑏𝑚−1,𝑚−1
+=
+𝑎0,0𝑏0,0⋯ 𝑎0,𝑛−1𝑏0,𝑚−1
+⋮ ⋱ ⋮
+𝑎𝑛−1,0𝑏𝑚−1,0⋯ 𝑎𝑛−1,𝑛−1𝑏𝑚−1,𝑚−1 109
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 33 ---
+Partial Measurement
+• If we use a certain method to measure the spin of both electrons in the ℂ4 spaces, based on what we
+learned , it will randomly collapse to one of the basis states. For example,
+If we measure ȁ ⟩
+ℎ 3, the probability it will collapse to ȁ ⟩00 , ȁ ⟩
+01 , ȁ ⟩
+10 , and ȁ ⟩
+11 is 𝛼3
+2
+, 𝛽3
+2
+, 𝛾3
+2, and
+𝛿3
+2, respectively.
+• E.g. to find the probability to collapse to ȁ1 ⟩0 state, we can use the projector 𝑃ȁ ⟩
+10 = ȁ ⟩10 ⟨ ȁ10 and
+ℎ3 𝑃ȁ ⟩10 ℎ3.
+Here we have used the orthonormal properties of the basis vectors. We can say ȁ ⟩
+10 is orthogonal to ȁ ⟩00 ,
+ȁ ⟩01 , and ȁ ⟩11 because they are different basis vectors. Or we can use the fact that ȁ ⟩10 = ห ⟩1 ⨂ȁ ⟩0 , then,
+ℎ3 𝑃ȁ ⟩10 ℎ3 = (𝛼3
+∗⟨ ȁ00 +𝛽3
+∗ൻ ȁ
+01 + 𝛾3
+∗⟨ ȁ
+10 +𝛿3
+∗⟨ ȁ11 )ȁ ⟩10 ⟨ ȁ10 (𝛼3ȁ ⟩00 + 𝛽3ȁ ⟩01 + 𝛾3ȁ ⟩10 + 𝛿3ȁ ⟩11 )
+= 𝛾3
+∗⟨ ȁ10 ȁ ⟩10 ⟨ ȁ10 𝛾3ȁ ⟩10
+= 𝛾3
+∗𝛾3 = 𝛾3
+2
+ȁ ⟩
+ℎ 3
+= 𝛼3ȁ ⟩00 + 𝛽3ȁ ⟩01 + 𝛾3ȁ ⟩10 + 𝛿3ȁ ⟩11
+⟨ ȁ
+11 ȁ ⟩10 = (⟨ ȁ
+1 1⨂⟨ ȁ1 2)(ȁ ⟩1 1⨂ȁ ⟩0 2)
+= ⟨ ȁ1 1 ȁ ⟩1 1 × ⟨ ȁ1 2ȁ ⟩0 2
+= 1 × 0 = 0
+110
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 34 ---
+Partial Measurement
+• We may also ask what is the probability to collapse to |00⟩ or |01⟩ states and we can use the projector
+𝑃ȁ ⟩
+00 ȁ ⟩
+01 = ȁ ⟩
+00 ⟨ ȁ
+00 + ȁ ⟩
+01 ⟨ ȁ01 to find it. Similarly, we will get 𝛼3
+2 + 𝛽3
+2
+.
+• We may also only perform a measurement on one of the electrons, e.g. electron 1. The vector (state) for
+electron 1 can be written as ȁ ⟩
+𝑓 1
+= 𝛼1ȁ ⟩0 1 + 𝛽1ȁ ⟩1 1 and that for electron 2 as ȁ ⟩
+𝑔 2
+= 𝛼2ȁ ⟩0 2 + 𝛽2ȁ ⟩1 2.
+• If after measurement, electron 1 collapses to ȁ ⟩0 1, it will become ȁ ⟩
+𝑓 1
+= 𝛼1ȁ ⟩0 1 (not normalized yet) and
+only |00⟩ and |01⟩ will remain in the whole system. This is called the partial measurement.
+• What is the probability that electron 1 will collapse to ȁ ⟩0 1 in this partial measurement? Since after
+electron collapses to ȁ ⟩0 1 , only |00⟩ and |01⟩ are left in the whole system, so it should be the same asking
+“what is the probability to collapse to the |00⟩ or |01⟩ states” after the measurement?
+Therefore, it is 𝛼3
+2 + 𝛽3
+2
+.
+• Another way we can check if this true by using the projector operator, 𝑃ȁ ⟩
+0 1
+= ȁ ⟩0 1⟨ ȁ0 1 to confirm.
+• The last way is that we can also see this as electron 1 firstly collapses to |0⟩ and then performs tensor
+product with ȁ ⟩
+𝑔 2 to obtain the vector in the ℂ4 space,
+However, We need to normalize the vector which is required.
+So, the probabilities of obtaining ȁ ⟩0 1 ȁ ⟩0 2 and | ȁ ⟩0 1 ȁ ⟩1 2 sum up to 1.
+ȁ ⟩
+ℎ 3
+= 𝛼1ȁ ⟩0 1⨂(𝛼2ȁ ⟩0 2 + 𝛽2ȁ ⟩1 2)
+= 𝛼1𝛼2ȁ ⟩0 1ȁ ⟩0 2 + 𝛼1𝛽2ȁ ⟩0 1ȁ ⟩1 2
+= 𝛼3 ȁ ⟩0 1ȁ ⟩0 2 + 𝛽3ȁ ⟩0 1ȁ ⟩1 2 111
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 35 ---
+Matrix Representation in a Given Basis
+• We know that in different bases, a vector has different representations in column or row forms. For
+example,
+• The above vector is in the ȁ ⟩0 / ȁ ⟩1 basis (black) but ȁ ⟩
+𝑉 = ȁ ⟩
++ =
+0
+1 in the ȁ ⟩
++ / ȁ ⟩
+− basis (red).
+ȁ ⟩
+𝑉 =
+1
+2 ȁ ⟩0 + ȁ ⟩1 =
+1
+2
+1
+1
+￼
+Pic.8 Representations of |V⟩ in two different bases
+112
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 36 ---
+Matrix Representation in a Given Basis
+• Naturally, the operator should also have different representations in different bases. How do we represent
+an operator, H, in a given basis? Assume the basis has basis vectors ȁ ⟩
+𝛼𝑘 where k running from 0 to n – 1
+in an n-dimensional space. The i-th row and j-th column elements is given by:
+Note that 𝐻𝑖,𝑗 is a scalar (complex number). What is the representation of 𝜎𝑥 in the basis form by the
+eigenvectors of 𝜎𝑧?
+• Firstly, the eigenvectors of 𝜎𝑧 from a 2D space. The two eigenvectors are ȁ ⟩
+𝛼0 =
+1
+0 and ȁ ⟩
+𝛼1 =
+0
+1.
+So the matrix must be 2 × 2, with k running from 0 to 1. For example, 𝐻0,0 = 𝛼0 𝜎𝑥 𝛼0.
+But we need to know 𝜎𝑥 in order to evaluate this equation. So, it is a chicken and egg problem.
+• Since 𝜎𝑥 =
+0 1
+1 0 , we have
+𝐻𝑖,𝑗 = 𝛼𝑖 𝐻 𝛼𝑗
+𝜎𝑥 =
+𝛼0 𝜎𝑥 𝛼0 𝛼0 𝜎𝑥 𝛼1
+𝛼1 𝜎𝑥 𝛼0 𝛼1 𝜎𝑥 𝛼1
+=
+(1 0) 0 1
+1 0
+1
+0 (1 0) 0 1
+1 0
+0
+1
+(0 1) 0 1
+1 0
+1
+0 (0 1) 0 1
+1 0
+0
+1
+=
+0 1
+1 0
+113
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis
+--- PAGE 37 ---
+Summary
+• Tensor Product Proficiency
+• Gained familiarity with operations on both vectors and matrices.
+• Vector Decomposition
+• Decomposing higher-dimensional vectors into lower-dimensional tensor
+products.
+• Note: This is not always possible (a precursor to Entanglement).
+• Partial Measurement
+• Understanding the measurement of specific sub-space vectors within a larger
+system.
+• Matrix Construction
+• Learned the procedure to construct a matrix representation from a given basis.
+114
+Chapter 11: Tensor Product of Operators, Partial Measurement, and Matrix Representation in a Given Basis

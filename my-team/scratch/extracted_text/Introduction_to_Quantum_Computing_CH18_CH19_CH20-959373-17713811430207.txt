@@ -1,0 +1,921 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH18_CH19_CH20-959373-17713811430207.pdf
+TOTAL_PAGES: 34
+--- PAGE 1 ---
+Chapter 18:
+No-Cloning Theorem and Quantum
+Teleportation I
+Kamonluk Suksen Ph.D.
+77
+--- PAGE 2 ---
+No-Cloning Theorem
+• No-Cloning Theorem is a very important property of quantum mechanics.
+• It says that not all quantum states can be cloned or copied.
+• We can copy the contents of any classical register or memory to another classical register or memory.
+But quantum mechanics tells us that we cannot copy any arbitrary quantum state from a system to
+another identical system.
+• In the electronic age, while we can copy the information, we are not copying the matters. The memory in
+our computer is not exactly the same as the memory in our cell phone, at least at the molecular level. So,
+we are not really cloning a system when we copy a file from our cell phone to our computer. We only
+copy the information.
+• Copying a state in the microscopic scale, where quantum mechanics dominates has more meaning than
+just copying information on the macroscopic scale.
+• Assume there are two electrons, A and B. Their initial states are ȁ ۧ
+𝜓 𝐴 and ȁ ۧ0 𝐵. We do not know what
+ȁ ۧ
+𝜓 𝐴 is but we know it must be a linear combination of ȁ ۧ0 and ȁ ۧ1 . That is
+ȁ ۧ
+𝜓 𝐴
+= 𝛼ȁ ۧ0 𝐴 + 𝛽ȁ ۧ1 𝐴
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+78
+--- PAGE 3 ---
+No-Cloning Theorem
+• The state of the whole system (i.e. electrons A and B) is a tensor product of both, which is ȁ ۧ
+𝜓 𝐴 ⊗
+ȁ ۧ0 𝐵
+= ȁ ۧ
+𝜓 𝐴ȁ ۧ0 𝐵. Can we clone the state (wavefunction) from electron A to electron B? If so, it means
+that after cloning, the state of the whole system becomes ȁ ۧ
+𝜓 𝐴ȁ ۧ
+𝜓 𝐵.
+• In a classical computer, we need to read before copying. But in a quantum computer, we cannot clone by
+reading the state first because the state will collapse to either |0ۧ or |1ۧ, after which we would have
+destroyed the original state and thus it is not a cloning operation.
+• Cloning must be done through an operation (not a measurement) and we can write it as an operator
+(matrix) like other quantum gates, and it must be unitary (if it exists). It must also be a rotation of the
+vector in the corresponding hyperspace.
+• Let the cloning operator be L, which is an operator in the ℂ4 space. We have
+We can expand the final state as
+𝑳(ȁ ۧ
+𝜓 𝐴ȁ ۧ0 𝐵) = ȁ ۧ
+𝜓 𝐴ȁ ۧ
+𝜓 𝐵
+𝑳(ȁ ۧ
+𝜓 𝐴ȁ ۧ0 𝐵) = ȁ ۧ
+𝜓 𝐴ȁ ۧ
+𝜓 𝐵
+= (𝛼ȁ ۧ0 𝐴 + 𝛽ȁ ۧ1 𝐴)⨂(𝛼ȁ ۧ
+0 𝐵 + 𝛽ȁ ۧ1 𝐵)
+= (𝛼ȁ ۧ0 𝐴𝛼ȁ ۧ0 𝐵 + 𝛼ȁ ۧ0 𝐴𝛽ȁ ۧ1 𝐵 + 𝛽ȁ ۧ1 𝐴𝛼ȁ ۧ0 𝐵 + 𝛽ȁ ۧ1 𝐴𝛽ȁ ۧ1 𝐵)
+= 𝛼2ȁ ۧ0 𝐴 ȁ ۧ0 𝐵 + 𝛼𝛽ȁ ۧ0 𝐴ȁ ۧ1 𝐵 + 𝛽𝛼ȁ ۧ1 𝐴ȁ ۧ0 𝐵 + 𝛽2ȁ ۧ1 𝐴ȁ ۧ1 𝐵
+= 𝛼2 ȁ ۧ00 + 𝛼𝛽ȁ ۧ
+01 + 𝛽𝛼ȁ ۧ10 + 𝛽2ȁ ۧ11 79
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+--- PAGE 4 ---
+No-Cloning Theorem
+• On the other hand, the initial state before cloning can also be written as
+Since the cloning operator is just a regular operator, it obeys the rules of matrix vector multiplication
+including the linearity and distribution law. Therefore, after cloning on the state in the above equation, we
+have the following:
+We can see that 𝑳(ȁ ۧ
+𝜓 𝐴ȁ ۧ0 𝐵) is not equal to 𝑳 𝛼ȁ ۧ
+00 + 𝛽ȁ ۧ10.
+Comparing the coefficients of |01ۧ, it means αβ = 0, which further means either α = 0 or β = 0. This
+means that we can only clone the basis vectors |1ۧ (α = 0) or |0ۧ (β = 0) but not any general vector.
+• If electron A is in a basis state (|0ۧ or |1ۧ), we can read it without destroying its state (because the basis
+state will stay the same after any measurement) and then just use any appropriate method to set electron
+B to that basis state to complete the cloning process.
+• So, it is possible to clone the basis states but NOT other superposition states.
+ȁ ۧ
+𝜓 𝐴ȁ ۧ0 𝐵
+= 𝛼ȁ ۧ0 𝐴 + 𝛽ȁ ۧ1 𝐴 ȁ ۧ0 𝐵
+= 𝛼ȁ ۧ0 𝐴ȁ ۧ0 𝐵 + 𝛽ȁ ۧ
+1 𝐴ȁ ۧ0 𝐵
+= 𝛼ȁ ۧ
+00 + 𝛽ȁ ۧ10
+𝑳 𝛼ȁ ۧ00 + 𝛽ȁ ۧ10 = 𝑳𝛼ȁ ۧ00 + 𝑳𝛽ȁ ۧ
+10
+= 𝛼ȁ ۧ00 + 𝛽ȁ ۧ11
+= 𝛼ȁ ۧ00 + 0ȁ ۧ01 + 0ȁ ۧ10 + 𝛽ȁ ۧ11
+80
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+--- PAGE 5 ---
+No-Cloning Theorem
+• The no-cloning theorem has many important applications in quantum computing and quantum
+communication.
+• For example, an eavesdropper will not be able to copy your message without destroying your original
+information. We can thus use this to avoid eavesdropping in quantum communication.
+• The no-cloning theorem also prevents the design of any quantum algorithms that will allow useful
+information to propagate faster than the speed of the light.
+81
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+--- PAGE 6 ---
+Quantum Teleportation
+• What is teleportation?
+• It is the transfer of matters and energies without traversing the space in between.
+• This also leads us to associate the transfer of matters and energies faster than the speed of light. We know
+this is contradicting the Theory of Relativity.
+• Assume Alice has an electron with the state ȁ ۧ
+𝜓 𝐴
+= 𝛼ȁ ۧ0 𝐴 + 𝛽ȁ ۧ1 𝐴. This is a general state that no one
+knows what α and β are.
+• The purpose of quantum teleportation is to transfer the state to Bob’s electron, which might have an
+initial state of ȁ ۧ0 𝐵. Here we use subscripts A and B to make it clear that the states belong to the electrons
+of Alice and Bob, respectively.
+• We want to transfer the state of Alice’s electron to Bob in no time regardless of the distance between
+them!
+• However, do not forget the no-cloning theorem. When the state of Alice’s electron is transferred to
+Bob’s electron, the original state in Alice’s electron will be changed (i.e. no longer ȁ ۧ
+𝜓 𝐴). Otherwise, we
+violate the no-cloning theorem.
+• Similarly, if you are quantum teleported to Mars, the 1000 particles on the Earth will lose their original
+states and you are no longer who you are on the Earth. 82
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+--- PAGE 7 ---
+Quantum Teleportation
+• In the quantum teleportation process, it seems that the state information will be teleported in no time.
+However, the information can only be confirmed (i.e. completion of the information transfer process)
+through two classical communications.
+• Since classical communication cannot be faster than the speed of light, the whole quantum teleportation
+process is only completed at a speed slower than light. Therefore, it does not violate the Theory of
+Relativity.
+• But we still call it teleportation because the action of copying the quantum state is instantaneous
+regardless of the distance.
+• In the simplified version, only one classical communication is needed.
+83
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+--- PAGE 8 ---
+Quantum Teleportation
+The algorithm for a simplified version of quantum teleportation:
+• Step 1: Entanglement Between ȁ ۧ
+𝜓 𝐴 and ȁ ۧ0 𝐵, we can use a CNOT gate to achieve this purpose.
+￼
+Pic.20 Quantum teleportation algorithm for transferring a quantum state from Alice’s lab to Bob’s lab
+1. We start from Alice’s electron and Bob’s
+electron form a ℂ4 space and their state is
+ȁ ۧ
+𝜓 𝐴 ⊗ ȁ ۧ0 𝐵
+= 𝛼ȁ ۧ0 𝐴ȁ ۧ0 𝐵 + 𝛽ȁ ۧ1 𝐴ȁ ۧ0 𝐵
+=
+𝛼ȁ ۧ
+00 + 𝛽ȁ ۧ11 .
+2. We are using Alice’s electron as the control
+qubit. So, we get 𝛼ȁ ۧ
+00 + 𝛽ȁ ۧ11 . This is an
+entangled state because whenever Alice’s
+measurement is 0 (or 1), Bob’s is also 0 (or 1).
+84
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+--- PAGE 9 ---
+Quantum Teleportation
+The algorithm for a simplified version of quantum teleportation:
+• Step 2: Alice Measures Her Qubits in the |+ۧ / |−ۧ Basis
+Now if Alice performs a measurement on her qubit in the |+ۧ / |−ۧ basis, she will obtain either ȁ ۧ
++ 𝐴 or
+ȁ ۧ
+−
+𝐴 and Bob’s qubit will become either 𝛼ȁ ۧ0 𝐵 + 𝛽ȁ ۧ1 𝐵 or 𝛼ȁ ۧ0 𝐵− 𝛽ȁ ۧ1 𝐵.
+￼
+Pic.20 Quantum teleportation algorithm for transferring a quantum state from Alice’s lab to Bob’s lab
+After Alice has entangled her qubit with
+Bob’s, Alice will try to measure her qubit
+in the |+ۧ / |−ۧ basis. Since ȁ ۧ0 =
+1
+2 (ȁ ۧ
++ +
+ȁ ۧ
+− ) and ȁ ۧ1 =
+1
+2 (ȁ ۧ
++ − ȁ ۧ
+− ), we have
+𝛼ȁ ۧ
+00 + 𝛽ȁ ۧ11 = 𝛼ȁ ۧ0 𝐴ȁ ۧ0 𝐵 + 𝛽ȁ ۧ1 𝐴ȁ ۧ1 𝐵
+= 𝛼
+1
+2 ȁ ۧ
++ 𝐴 + ȁ ۧ
+−
+𝐴 ȁ ۧ0 𝐵
++ 𝛽
+1
+2 ȁ ۧ
++ 𝐴− ȁ ۧ
+−
+𝐴 ȁ ۧ1 𝐵
+= ȁ ۧ
++ 𝐴
+1
+2
+𝛼ȁ ۧ0 𝐵 + 𝛽ȁ ۧ1 𝐵
++ ȁ ۧ
+−
+𝐴
+1
+2
+𝛼ȁ ۧ0 𝐵− 𝛽ȁ ۧ1 𝐵
+85
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+--- PAGE 10 ---
+Quantum Teleportation
+The algorithm for a simplified version of quantum teleportation:
+• Step 3: Classical Communication to Complete the Teleportation
+Now, Alice’s qubit’s original state has also been destroyed due to the measurement.
+￼
+Pic.20 Quantum teleportation algorithm for transferring a quantum state from Alice’s lab to Bob’s lab
+Alice will then call Bob and let him know her
+outcome through a classical channel, which is
+slower than or the same as the speed of the light. If
+Alice obtains |+ۧ, Bob knows that his electron is in
+the state of ȁ ۧ
+𝜓 , and the quantum teleportation
+process is completed. Or equivalently, he will
+apply an identity gate to his qubit. However, if
+Alice obtains |−ۧ, Bob knows his electron is in the
+state of 1
+2
+𝛼ȁ ۧ0 𝐵− 𝛽ȁ ۧ1 𝐵 , which is not ȁ ۧ
+𝜓 . He
+will apply a Z-gate, which is a phase shift gate
+with angle being π.
+86
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+--- PAGE 11 ---
+Quantum Teleportation
+• Measurement in the |+ۧ / |−ۧ Basis
+▪ In the quantum teleportation algorithm, Alice needs to measure her qubit in the |+ۧ / |−ۧ basis in Step
+2. If the apparatus can only measure in the |0ۧ / |1ۧ basis, how do we achieve this?
+▪ The trick is to apply the Hadamard gate before the measurement.
+▪ In Step 2, instead of just performing a measurement in the |+ۧ / |−ۧ basis, a Hadamard gate is applied
+followed by a measurement in the |0ۧ / |1ۧ basis.
+▪ For an arbitrary wavefunction ȁ ۧ
+𝜙 = 𝑎ȁ ۧ0 + 𝑏ȁ ۧ1 , the probability distribution in the |+ۧ / |−ۧ basis
+measurement is equivalent to that in the |0ۧ / |1ۧ basis measurement after it is transformed by a
+Hadamard gate
+▪ We first represent ȁ ۧ
+𝜙 in the ȁ ۧ
++ / ȁ ۧ
+− basis to find out the probabilities of getting ȁ ۧ
++ and ȁ ۧ
+− . Since,
+ȁ ۧ0 =
+1
+2 (ȁ ۧ
++ + ȁ ۧ
+− ) and ȁ ۧ1 =
+1
+2 (ȁ ۧ
++ − ȁ ۧ
+− ), we have
+▪ If we perform a measurement on the ȁ ۧ
++ / ȁ ۧ
+− basis, the probability of getting ȁ ۧ
++ is 𝑎 + 𝑏 2/2 and
+that for ȁ ۧ
+− is 𝑎 − 𝑏 2/2
+ȁ ۧ
+𝜙 = 𝑎ȁ ۧ0 + 𝑏ȁ ۧ1
+= 𝑎(
+1
+2 ȁ ۧ+ + ȁ ۧ− ) + 𝑏(
+1
+2 ȁ ۧ+ − ȁ ۧ− )
+=
+1
+2 ( 𝑎 + 𝑏 ȁ ۧ+ + 𝑎 − 𝑏 ȁ ۧ
+− )
+87
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+--- PAGE 12 ---
+Quantum Teleportation
+• Measurement in the |+ۧ / |−ۧ Basis
+▪ What if we apply a Hadamard gate to ȁ ۧ
+𝜙 and then perform the measurement in the ȁ ۧ0 / ȁ ۧ1 basis?
+▪ If we perform a measurement on the ȁ ۧ0 / ȁ ۧ1 basis, the probability of getting ȁ ۧ0 is 𝑎 + 𝑏 2/2 and
+that for ȁ ۧ1 is 𝑎 − 𝑏 2/2. This is the same as the distribution of performing a ȁ ۧ
+𝜙 measurement on
+the ȁ ۧ
++ / ȁ ۧ
+− basis.
+▪ Since this is a 2-qubit system, the basis states are either in the form of |1Xۧ or |0Xۧ, where X can be 0
+or 1. Since ȁ ۧ1 =
+1
+2 ȁ ۧ
++ − ȁ ۧ
+− , if it is |1Xۧ, we can replace the first qubit (Alice’ qubit) accordingly
+and get 1
+2 ȁ ۧ
++ − ȁ ۧ
+− ⊗ |Xۧ. If we perform a measurement using the |+ۧ / |−ۧ basis, it will collapse
+to either |+ۧ|Xۧ or − |−ۧ|Xۧ. From Bob’s perspective, his qubit becomes |Xۧ or − |Xۧ, respectively.
+▪ If we apply a Hadamard gate to Alice’s qubit first, |1Xۧ becomes |-ۧ|Xۧ, which is 1
+2 ȁ ۧ
+0 − ȁ ۧ
+1 ⊗ ห ۧ
+𝑥 .
+When Alice performs a measurement using the |0ۧ / |1ۧ basis, it will collapse to either |0ۧ|Xۧ or −
+|1ۧ|Xۧ. From Bob’s perspective, his qubit again becomes |Xۧ or − |Xۧ, respectively.
+▪ Therefore, the effect on the LSB is the same. So, performing a |+ۧ / |−ۧ measurement is equivalent to
+performing a |0ۧ / |1ۧ measurement after the application of the Hadamard gate.
+𝑯ȁ ۧ
+𝜙 = 𝑎ȁ ۧ+ + 𝑏ȁ ۧ
+−
+= 𝑎(
+1
+2 ȁ ۧ0 + ȁ ۧ1 ) + 𝑏(
+1
+2 ȁ ۧ0 − ȁ ۧ1 )
+=
+1
+2 ( 𝑎 + 𝑏 ȁ ۧ0 + 𝑎 − 𝑏 ȁ ۧ1 )
+88
+Chapter 18: No-Cloning Theorem and Quantum Teleportation I
+--- PAGE 13 ---
+Chapter 19:
+Quantum Teleportation II
+and Entanglement Swapping
+Kamonluk Suksen Ph.D.
+89
+--- PAGE 14 ---
+Quantum Teleportation: The Full Version
+• In the full version of quantum teleportation, we will solve the difficulty in creating an ideal CNOT gate
+that needs to operate on two qubits separated by a huge distance.
+• We will involve one more qubit (an ancillary qubit) and also need to physically transport that qubit from
+Bob’s lab to Alice’s lab before performing any quantum teleportation. This means we must prepare for
+teleportation ahead by transporting an ancillary qubit to the target lab.
+• An ancillary qubit is an “extra” qubit but is critical for the circuit to achieve the goal. Therefore, although
+it is extra, it is not redundant.
+• For example, in the quantum teleportation circuit, Alice’s qubit is the source and Bob’s qubit is the target.
+Therefore, these are the only two qubits we need for quantum teleportation. However, if we want to
+obviate the use of the ideal CNOT gate, we need to add an extra ancillary bit.
+• In the complete algorithm, we will replace Step 1 with Step 1a and Step 1b. The purpose is to create the
+entanglement in Step 1 of the simplified version.
+90
+Chapter 19: Quantum Teleportation II and Entanglement Swapping
+--- PAGE 15 ---
+Quantum Teleportation
+The algorithm for a full version of quantum teleportation:
+• Step 1a: Qubit Entanglement and Ancillary Qubit Transportation
+Pic.21 Algorithm to replace Step 1 in the simplified quantum teleportation circuit in Pic. 20.
+After this, Steps 2 and 3 in Pic. 20 need to be executed to complete the quantum teleportation
+process
+Bob will entangle the qubit ȁ ۧ0 𝐵, he wants to write
+ahead with another ancillary qubit initialized as
+ȁ ۧ0 𝐵𝐵. The qubit he want to write is the LSB.
+Therefore, the state of Bob’s qubits is ȁ ۧ0 𝐵𝐵 ⊗ ȁ ۧ0 𝐵.
+He then applies 𝑯 ⊗ 𝑰 to it. Therefore, it becomes
+1
+2 ȁ ۧ0 𝐵𝐵 + ȁ ۧ1 𝐵𝐵 ⊗ ȁ ۧ0 𝐵. So it can be written as
+1
+2 ȁ ۧ
+00 + ȁ ۧ
+10 . Then it goes through the CNOT
+gate. Note that both qubits are in close proximity
+and they are both in Bob’s lab. So there is no
+problem in creating a CNOT gate with high fidelity.
+So, the state of Bob’s qubits is now 1
+2 (
+)
+ȁ ۧ
+00 +
+ȁ ۧ
+11 , which is entangled (ȁ ۧ
+𝜙+ ).
+￼
+91
+Chapter 19: Quantum Teleportation II and Entanglement Swapping
+--- PAGE 16 ---
+Quantum Teleportation
+The algorithm for a full version of quantum teleportation:
+• Step 1a: Qubit Entanglement and Ancillary Qubit Transportation
+Pic.21 Algorithm to replace Step 1 in the simplified quantum teleportation circuit in Pic. 20.
+After this, Steps 2 and 3 in Pic. 20 need to be executed to complete the quantum teleportation
+process
+Now Bob will send the BB qubit to Alice and it will
+stay there and still entangled with the B qubit in
+Bob’s lab until they want to do quantum
+teleportation. One day, Alice decides to quantum
+teleport her qubit information to Bob. That
+qubit has a state ȁ ۧ
+𝜓 𝐴
+= 𝛼ȁ ۧ0 𝐴 + 𝛽ȁ ۧ1 𝐴 like in the
+simplified version. She will then perform a CNOT
+operation, by using her qubit A as the control qubit,
+on qubit BB which was sent by Bob earlier and is
+still entangled with Bob’s qubit B.
+￼
+92
+Chapter 19: Quantum Teleportation II and Entanglement Swapping
+--- PAGE 17 ---
+Quantum Teleportation
+The algorithm for a full version of quantum teleportation:
+• Step 1a: Qubit Entanglement and Ancillary Qubit Transportation
+Pic.21 Algorithm to replace Step 1 in the simplified quantum teleportation
+circuit in Pic. 20. After this, Steps 2 and 3 in Pic. 20 need to be executed to
+complete the quantum teleportation process
+Before the CNOT gate by Alice, the state of the 3-qubit
+system is:
+ȁ ۧ
+𝜓 𝐴 ⊗
+1
+2 ȁ ۧ00 + ȁ ۧ
+11
+= (𝛼ȁ ۧ0 𝐴 + 𝛽ȁ ۧ1 𝐴) ⊗
+1
+2 ȁ ۧ00 + ȁ ۧ11
+= (𝛼ȁ ۧ0 + 𝛽ȁ ۧ1 )
+1
+2 ȁ ۧ00 + ȁ ۧ11
+=
+1
+2
+𝛼ȁ0 ۧ
+00 + 𝛽ห1 ۧ
+00 + 𝛼ȁ0 ۧ
+11 + 𝛽ȁ1 ۧ
+11
+After that, the CNOT gate is applied. The control qubit is
+the MSB (A) and the second qubit (BB) is the target
+qubit. Whenever the basis MSB is 1, the target qubit will
+be flipped. So, ȁ1 ۧ00 becomes ȁ ۧ
+110 and ȁ ۧ
+111 becomes
+ȁ1 ۧ
+01 . As a result, the state of the 3-qubit system
+becomes, 1
+2
+𝛼ȁ0 ۧ00 + 𝛽ห1 ۧ
+01 + 𝛼ȁ0 ۧ
+11 + 𝛽ȁ1 ۧ
+10 .
+93
+￼
+Chapter 19: Quantum Teleportation II and Entanglement Swapping
+--- PAGE 18 ---
+Quantum Teleportation
+The algorithm for a full version of quantum teleportation:
+• Step 1b: Measurement of the Ancillary Qubit
+Pic.21 Algorithm to replace Step 1 in the simplified quantum teleportation
+circuit in Pic. 20. After this, Steps 2 and 3 in Pic. 20 need to be executed to
+complete the quantum teleportation process
+Now Alice will perform a measurement on the
+second qubit (BB) on the |0ۧ / |1ۧ basis. If she
+obtains |0ۧ, it means the whole system has collapsed
+to a state containing only |000ۧ and |101ۧ, which is
+𝛼ȁ ۧ
+000 + 𝛽ȁ ۧ
+101 (after normalization).
+However, Alice can just call Bob and tell him that
+she got |0ۧ. Their qubits have been entangled and
+they can continue to perform Step 2 and Step 3 in
+Pic. 20 to complete the quantum teleportation.
+If Alice, on the other hand, obtains |1ۧ, Bob just
+needs to apply a NOT gate to his qubit to flip the bit
+value in the basis states. If only consider the MSB
+and LSB, they are α |01ۧ + β |10ۧ. They are still
+entangled because when the MSB is 1 (or 0), the
+LSB is always 0 (or 1).Therefore, the state becomes
+α |00ۧ + β |11ۧ, which is the output of Step1 in the
+simplified version in Pic. 20. 94
+Chapter 19: Quantum Teleportation II and Entanglement Swapping
+￼
+--- PAGE 19 ---
+Quantum Teleportation
+The algorithm for a full version of quantum teleportation:
+Pic.22 Implementation of the full quantum teleportation algorithm by
+combining Pic. 21 and Steps 2 and 3 in Pic. 20
+Pic. 22 shows the quantum circuit built-on IBM-Q. It has four steps.
+Step 1a and Step 1b correspond to Pic. 21 to perform entanglement
+between Alice’s qubit (A) and Bob’s qubit (B) with the help of the
+ancillary qubit (BB) to obviate the need of an ideal CNOT gate.
+Step 2 and Step 3 implement the Step 2 and Step 3 in Pic. 20. It is
+worth mentioning that the ancillary qubit goes through only identity
+gates and has no contribution to the algorithm anymore after Step
+1b.
+In Step 1b, Alice measures q1 using the |0ۧ / |1ۧ basis. As the setup
+shows, it is stored in 1st classical bit. Therefore, if she measures |1ۧ,
+c3 becomes (010)2. If she measures |0ۧ, c3 is still (000)2. Then Bob
+will apply a NOT-gate if the value in c3 is
+2 (in decimal), which is (010)2 and doing nothing otherwise.
+In Step 2, Alice performs a measurement on the source qubit (A)
+using the |+ۧ / |-ۧ basis. The Hadamard gate is used so that we can
+perform a |+ۧ / |-ۧ basis measurement. The measurement result is
+stored in the 2nd bit in the classical register (MSB). Bob will apply
+Z-gate if Alice measures |1ۧ in Step 2. This means c3 can be either
+(100)2 or (110)2, which are 4 or 6 in decimal, respectively.
+Therefore, in Step 3, two conditional Z gates are used and they are
+only applied when either c3 = 4 or c3 = 6. Note that for every single
+experiment, c3 cannot be 4 and 6 at the same time. Therefore, the Z-
+gate will never be applied twice.
+95
+Chapter 19: Quantum Teleportation II and Entanglement Swapping
+￼
+￼
+￼
+￼
+￼
+Apply H gate
+at Alice’s qubit
+--- PAGE 20 ---
+Entanglement Swapping
+Pic.23 Entanglement swapping circuit built in IBM-Q
+Assume Alice’s electron was entangled with another
+electron, owned by Carlos (our new character in this
+play). If Alice teleports the state of her electron to
+Bob, we will expect that Bob’s electron will then
+entangle with Carlos’ electron. This is a natural
+consequence if we agree quantum teleportation of a
+state in the microscopic world is very similar to
+hypothetic teleportation. Now we also have Carlos’s
+electron and this becomes a 4-qubit system.
+If we teleport Alice’s qubit to Bob while Alice’s
+qubit was entangled with Carlos’ qubit, Bob’s qubit
+will then entangle with Carlos’ qubit after quantum
+teleportation.
+￼
+96
+Chapter 19: Quantum Teleportation II and Entanglement Swapping
+--- PAGE 21 ---
+Entanglement Swapping
+Pic.23 Entanglement swapping circuit built in IBM-Q
+Use matrix multiplication to show that Alice’s and Carlos’
+are entangled right before the quantum teleportation block
+in Pic.22.
+The input state to the circuit is |0ۧC ⊗|0ۧA ⊗|0ۧBB
+⊗|0ۧB. The part of the circuit performing the operation is
+(𝑈𝑋𝑂𝑅 ⊗ 𝐼⊗2)(𝐻 ⊗ 𝐼⊗3).
+This is a 4-qubit system and the matrix will be 16 × 16.
+We see that only identity gates are applied to the last two
+qubits (the ancillary bit BB and Bob’s B), therefore,
+So, Carlos’ and Alice’s qubits are entangled as whenever
+Carlos measures |0ۧ (or |1ۧ), Alice’s qubit will collapse to
+|0ۧ (or |1ۧ). Now including the BB and C qubits, the state
+is 1
+2 (ȁ ۧ
+0000 + ȁ ۧ1100 ) 97
+𝑈𝑋𝑂𝑅 ⊗ 𝐼⊗2 𝐻 ⊗ 𝐼⊗3 ȁ ۧ
+0000
+= 𝑈𝑋𝑂𝑅 𝐻 ⊗ 𝐼 ȁ ۧ
+00 ⊗ 𝐼⊗2𝐼⊗2ȁ ۧ00
+= 𝑈𝑋𝑂𝑅 𝐻 ⊗ 𝐼 ȁ ۧ00 ⊗ ȁ ۧ00
+=
+1
+2 (ȁ ۧ00 + ȁ ۧ11 ) ⊗ ȁ ۧ00
+Chapter 19: Quantum Teleportation II and Entanglement Swapping
+￼
+--- PAGE 22 ---
+Chapter 20:
+Deutsch Algorithm
+Kamonluk Suksen Ph.D.
+98
+--- PAGE 23 ---
+Deutsch Algorithm
+• The Deutsch Algorithm is a sub-problem of a more general Deutsch–Jozsa Algorithm. We will only discuss the
+Deutsch Algorithm and inspect the algorithm in detail.
+• The Deutsch Algorithm provides a two-time speedup in the computation.
+• In the more general Deutsch–Jozsa Algorithm, it provides an exponential speedup over the classical one. This
+means that for an n-qubit problem, classically we need 2𝑛−1 + 1 computations but only 1 computation using
+the Deutsch–Jozsa Algorithm.
+• Therefore, the Deutsch Algorithm also provides an exponential speedup, but it just happens that n = 1 and thus
+it only has two times of speedup.
+• In the Deutsch–Jozsa problem, we are given an oracle (a black box into which we cannot peep), which maps
+𝑓: {0, 1}𝑛→ {0, 1}. it takes an n binary digits (n-bits) as the input.
+• For example, if 𝑛 = 3, the inputs can be any permutation of 3 digits of 0 or 1. E.g. the input may be “000”,
+“001”, …, “111”.
+• So, an oracle is just a function and we do not know which function it implements. But we are told that it is
+either balanced or constant in the Deutsch–Jozsa problem (this is given).
+• A balanced function means that half of its outputs are “0” and the other half are “1.”
+• A constant function means that, regardless of the input values, it always outputs the same value (a constant
+value). The output is constantly “1” or constantly “0”.
+• The Deutsch–Jozsa Algorithm is to figure out if the oracle is balanced or constant. The problem is completely
+classical. 99
+Chapter 20: Deutsch Algorithm
+--- PAGE 24 ---
+Deutsch Algorithm
+• Give an example of an oracle that is constant for the 𝑛 = 3 case.
+• There are eight possible inputs in the 𝑛 = 3 case.
+• Let the input bits be 𝑥2, 𝑥1, and 𝑥0.
+• If an oracle implements the following function: 𝑓(𝑥2 𝑥1𝑥0) = 𝑥2. 𝑥1. 𝑥0. 0, where “.” is the classical
+Boolean AND operation, then
+And this is a constant oracle, which always gives “0” as the output.
+𝑓 000 = 0.0.0.0 = 0
+𝑓 001 = 0.0.1.0 = 0
+𝑓 010 = 0.1.0.0 = 0
+𝑓 011 = 0.1.1.0 = 0
+𝑓 100 = 1.0.0.0 = 0
+𝑓 101 = 1.0.1.0 = 0
+𝑓 110 = 1.1.0.0 = 0
+𝑓 111 = 1.1.1.0 = 0
+100
+Chapter 20: Deutsch Algorithm
+--- PAGE 25 ---
+Deutsch Algorithm
+• Give an example of an oracle that is constant for the 𝑛 = 3 case.
+• There are eight possible inputs in the 𝑛 = 3 case.
+• Let the input bits be 𝑥2, 𝑥1, and 𝑥0.
+• If an oracle implements the following function: 𝑓(𝑥2 𝑥1𝑥0) = 𝑥2 ⊕ 𝑥1 ⊕ 𝑥0, where “⊕” is the classical
+XOR operation, then
+This is a balanced oracle. A half (4) of the inputs results in “0” and a half (4) of the inputs results in “1”.
+𝑓 000 = 0 ⊕ 0 ⊕ 0 = 0
+𝑓 001 = 0 ⊕ 0 ⊕ 1 = 1
+𝑓 010 = 0 ⊕ 1 ⊕ 0 = 1
+𝑓 011 = 0 ⊕ 1 ⊕ 1 = 0
+𝑓 100 = 1 ⊕ 0 ⊕ 0 = 1
+𝑓 101 = 1 ⊕ 0 ⊕ 1 = 0
+𝑓 110 = 1 ⊕ 1 ⊕ 0 = 0
+𝑓 111 = 1 ⊕ 1 ⊕ 1 = 1
+101
+Chapter 20: Deutsch Algorithm
+--- PAGE 26 ---
+Deutsch Algorithm
+• We do NOT know what function the oracle implements. But we are told that it can be either balanced or
+constant.
+• Now, let us turn to the Deutsch problem. It is a special case of the Deutsch–Jozsa problem with n = 1.
+• Therefore, the oracle maps 𝑓: {0, 1} → {0, 1}. It only has 1 bit of input and thus it only has two possible
+inputs (either “0” or “1”).
+• As a result, it only has two possible outputs (𝑓(0) and 𝑓(1)). Our goal is still to find out if the oracle is
+“balanced” or “constant” (𝑓 0 = 𝑓(1)).
+• Since it only has two possible outputs, the “balanced” case is the same as a “non-constant” case as there
+is only one non-constant case, i.e. (𝑓 0 ≠ 𝑓(1)).
+• While in the Deutsch–Jozsa problem with 𝑛 > 1, non-constant is not necessarily balanced.
+102
+Chapter 20: Deutsch Algorithm
+--- PAGE 27 ---
+Deutsch Algorithm
+• Classical Algorithm
+▪ To find out if the solution is constant, in a classical way, we need to provide the input one by one and measure
+the outputs.
+▪ If both outputs are the same, then it is a constant oracle. Otherwise, it is balanced (or non-constant).
+▪ Therefore, we need to use the oracle to perform two computations to know the answer.
+▪ For example, in the Deutsch problem, what are the possible input and output combinations?
+Since there are two inputs and two outputs, there are only 4 types of functions.
+We see that 𝑓𝐴 and 𝑓𝐷 are constant functions while 𝑓𝐵 and 𝑓𝐶 are balanced functions (or non-constant functions).
+▪ There is no way that we can determine if the function is constant or not without performing two calculations
+(i.e. computing (𝑓(0) and 𝑓(1)).
+𝑓𝐴 0 = 0 and 𝑓𝐴 1 = 0
+𝑓𝐵 0 = 0 and 𝑓𝐵 1 = 1
+𝑓𝐶 0 = 1 and 𝑓𝐶 1 = 0
+𝑓𝐷 0 = 1 and 𝑓𝐷 1 = 1
+103
+Chapter 20: Deutsch Algorithm
+--- PAGE 28 ---
+Deutsch Algorithm
+• Quantum Computing Solution
+▪ Luckily, we have quantum computers. By using the Deutsch Algorithm, we only need to perform one computation by using
+quantum parallelism.
+▪ Step 0: Create a Quantum Oracle
+We will discuss the quantum oracle in detail in the next chapter. Now we will only learn the essence of quantum oracle so
+we can understand the Deutsch algorithm.
+▪ Pic. 24 shows a quantum oracle embedded in a quantum circuit of 2 qubits. A quantum oracle is just a quantum gate! It needs
+to be unitary. The quantum oracle encodes the problem we are trying to solve.
+Pic.24 The quantum oracle of a 2-qubit circuit used in the Deutsch algorithm. The top is the convention we have been
+using (IBM-Q) with MSB at the bottom and the bottom one is the other version often seen in other books. Both are
+using the little-endian convention. Note that |xۧ|yۧ are basis vectors
+￼
+104
+Chapter 20: Deutsch Algorithm
+--- PAGE 29 ---
+Deutsch Algorithm
+• Quantum Computing Solution
+▪ Step 0: Create a Quantum Oracle
+Therefore, we will just treat it as a black box and we assume some physical systems in nature can be used to create this oracle in
+the quantum computer if we do not know how to create it from simple quantum gates.
+▪ Since a quantum oracle is just a quantum gate, the definition of a quantum oracle is still defined by how it transforms the basis
+states just like how we defined a simple quantum gate. Pic. 24 shows the definition.
+▪ The symbol of the oracle is 𝑼𝑓, signifying that this is a unitary gate corresponding to the oracle function, 𝑓(𝑥).
+▪ For any basis vector, ȁ ۧ
+𝑥 ȁ ۧ
+𝑦 , the output is ȁ ۧ
+𝑥 ȁ ۧ
+𝑦 ⊕ 𝑓(𝑥) , where ⊕ is the classical XOR and 𝑓(𝑥) is the function, we are
+evaluating. That is
+▪ This means that when the input is a basis vector with x being the MSB and y being the LSB, the output will be another basis
+vector with the MSB unchanged (still x) but the LSB becomes 𝑦 ⊕ 𝑓(𝑥), which depends on the 𝑓(𝑥) of the oracle.
+▪ For example, if 𝑓(𝑥) is a constant function that always gives “0”, how does the oracle transform the basis vectors?
+There are only four basis vectors in a 2-qubit system, namely ȁ ۧ
+00 , ȁ ۧ
+01 , ȁ ۧ
+10 , and ȁ ۧ
+11 . By tracing the change of x and y:
+We see that we can implement this oracle by an identity gate. But we still do not know what is 𝑓(𝑥) in the oracle.
+We only know how it behaves.
+𝑼𝑓ȁ ۧ
+𝑥 ȁ ۧ
+𝑦 = ȁ ۧ
+𝑥 ȁ ۧ
+𝑦 ⊕ 𝑓(𝑥)
+𝑼𝑓ȁ ۧ0 ȁ ۧ0 = ȁ ۧ0 ȁ ۧ
+0 ⊕ 𝑓(0) = ȁ ۧ0 ȁ ۧ
+0 ⊕ 0 = ȁ ۧ0 ȁ ۧ0
+𝑼𝑓ȁ ۧ0 ȁ ۧ1 = ȁ ۧ0 ȁ ۧ
+1 ⊕ 𝑓(0) = ȁ ۧ0 ȁ ۧ
+1 ⊕ 0 = ȁ ۧ0 ȁ ۧ1
+𝑼𝑓ȁ ۧ1 ȁ ۧ0 = ȁ ۧ1 ȁ ۧ
+0 ⊕ 𝑓(1) = ȁ ۧ1 ȁ ۧ
+0 ⊕ 0 = ȁ ۧ1 ȁ ۧ0
+𝑼𝑓ȁ ۧ1 ȁ ۧ1 = ȁ ۧ1 ȁ ۧ
+1 ⊕ 𝑓(1) = ȁ ۧ1 ȁ ۧ
+1 ⊕ 0 = ȁ ۧ1 ȁ ۧ1
+105
+Chapter 20: Deutsch Algorithm
+--- PAGE 30 ---
+Deutsch Algorithm
+• Quantum Computing Solution
+▪ Step 1: Create a Superposition Input
+We will create a special superposition state as the input to the oracle. It is not surprising that a superposition state is needed
+because we want to use quantum parallelism to evaluate the function with different basis vectors at the same time.
+▪ The superposition state to be created is |+ۧ|−ۧ. We represent it in the original |0ۧ/|1ۧ basis as:
+We can see that is has equal weight for every basis vector, but the phases are not the same.
+▪ Step 2: Evaluate Using the Quantum Oracle
+When apply 𝑼𝑓 to ȁ ۧ
++ ȁ ۧ
+− :
+▪ We know anything XOR with “0” is itself and anything XOR with “1” is its negation. Where 𝑓 𝑥 is the negation of 𝑓 𝑥 .
+ȁ ۧ
++ ȁ ۧ
+− =
+1
+2 (ȁ ۧ
+0 + ȁ ۧ
+1 )
+1
+2 (ȁ ۧ
+0 − ȁ ۧ
+1 )
+=
+1
+2 (ȁ ۧ
+00 − ȁ ۧ
+01 + ȁ ۧ
+10 − ȁ ۧ
+11 )
+𝑼𝑓ȁ ۧ
++ ȁ ۧ
+− = 𝑼𝑓(
+1
+2 ȁ ۧ
+00 − ȁ ۧ
+01 + ȁ ۧ
+10 − ȁ ۧ
+11 )
+=
+1
+2 𝑼𝑓ȁ ۧ
+00 − 𝑼𝑓ȁ ۧ
+01 + 𝑼𝑓ȁ ۧ
+10 − 𝑼𝑓ȁ ۧ
+11
+=
+1
+2 (ȁ ۧ
+0, 0 ⊕ 𝑓 0 − ȁ0, ۧ
+1 ⊕ 𝑓 0 + ȁ1, ۧ
+0 ⊕ 𝑓 1 − ȁ1, ۧ
+1 ⊕ 𝑓 1 )
+𝑼𝑓ȁ ۧ+ ȁ ۧ
+− =
+1
+2 (ȁ ۧ
+0, 𝑓 0 − ห0, ൿ
+𝑓 0 + ȁ1, ۧ
+𝑓 1 − ห1, ൿ
+𝑓 1 )
+106
+Chapter 20: Deutsch Algorithm
+--- PAGE 31 ---
+Deutsch Algorithm
+• Quantum Computing Solution
+▪ Step 3: Measure on the Right Basis to Get the Answer
+If 𝑓 𝑥 is a constant function, then 𝑓 0 = 𝑓 1 and 𝑓 0 = 𝑓 1 . We can then perform a factorization on the tensor product:
+We also see that the oracle keeps the MSB unchanged if it is constant.
+▪ If 𝑓 𝑥 is balanced (non-constant), then 𝑓 0 = 𝑓 1 and 𝑓 0 = 𝑓 1 . For example, if 𝑓 0 = 1 and 𝑓 1 = 0, then 𝑓 0 =
+𝑓 1 =
+ത
+0 = 1. We can then perform a factorization on the tensor product:
+𝑼𝑓ȁ ۧ+ ȁ ۧ
+− =
+1
+2 (ȁ ۧ
+0, 𝑓 0 − ห0, ൿ
+𝑓 0 + ȁ1, ۧ
+𝑓 1 − ห1, ൿ
+𝑓 1 )
+=
+1
+2 (ȁ ۧ
+0, 𝑓 0 − ห0, ൿ
+𝑓 0 + ȁ1, ۧ
+𝑓 0 − ห1, ൿ
+𝑓 0 )
+=
+1
+2 (ȁ ۧ
+0 ȁ ۧ
+𝑓 0 − ȁ ۧ
+0 ห ൿ
+𝑓 0 + ȁ ۧ
+1 ȁ ۧ
+𝑓 0 − ȁ ۧ
+1 ห ൿ
+𝑓 0 )
+=
+1
+2 ( ȁ ۧ
+0 + ȁ ۧ
+1 ȁ ۧ
+𝑓 0 − ȁ ۧ
+0 + ȁ ۧ
+1 ห ൿ
+𝑓 0 )
+=
+1
+2 ห ۧ
++ ȁ ۧ
+𝑓 0 − ȁ ۧ
++ ห ൿ
+𝑓 0
+= ȁ ۧ
++ 1
+2 ȁ ۧ
+𝑓 0 − ห ൿ
+𝑓 0
+𝑼𝑓ȁ ۧ+ ȁ ۧ
+− =
+1
+2 (ȁ ۧ
+0, 𝑓 0 − ห0, ൿ
+𝑓 0 + ȁ1, ۧ
+𝑓 1 − ห1, ൿ
+𝑓 1 )
+=
+1
+2 ( ȁ ۧ
+0 − ȁ ۧ
+1 ȁ ۧ
+𝑓 0 − ȁ ۧ
+0 − ȁ ۧ
+1 ห ൿ
+𝑓 0 )
+=
+1
+2 ห ۧ
+− ȁ ۧ
+𝑓 0 − ȁ ۧ
+− ห ൿ
+𝑓 0
+= ȁ ۧ
+−
+1
+2 ȁ ۧ
+𝑓 0 − ห ൿ
+𝑓 0 107
+Chapter 20: Deutsch Algorithm
+--- PAGE 32 ---
+Deutsch Algorithm
+• The Quantum Circuit
+▪ In summary, the quantum oracle in the Deutsch algorithm takes |+ −ۧ as the input and keeps the MSB as |+ۧ if 𝑓 𝑥 is
+constant and flips it to |−ۧ if it is balanced (non-constant). This is simple but we need to do two things to complete the circuit.
+▪ Firstly, we need to create |+ −ۧ and secondly, we need to measure in the |0ۧ / |1ۧ basis to determine if the MSB is |+ۧ or |−ۧ.
+￼
+Pic. 25 The Deutsch algorithm circuit. The top is the convention we have been using (IBM-Q)
+with MSB at the bottom and the bottom one is the other version often seen in other books.
+Both are using little-endian convention
+108
+Chapter 20: Deutsch Algorithm
+--- PAGE 33 ---
+Deutsch Algorithm
+• The Quantum Circuit
+▪ We prefer to start the quantum circuits by initializing the input qubits to ȁ ۧ
+0 𝑛 with 𝑛 = 2 in this case, i.e. ȁ ۧ
+0 ȁ ۧ
+0 . We use the
+Hadamard gates to prepare ȁ ۧ
++ ȁ ۧ
+− state. Since 𝑯ȁ ۧ
+0 = ȁ ۧ
++ and 𝑯ȁ ۧ
+1 = ȁ ۧ
+− . So, we need to create ȁ ۧ
+1 first, using the NOT-
+gate (X).
+▪ Step 1 of the circuit using the following equation: 𝑯𝑯 𝑰𝑿 ȁ ۧ
+0 ȁ ۧ
+0 = 𝑯𝑯 ȁ ۧ
+0 ȁ ۧ
+1 = ȁ ۧ
++ ȁ ۧ
+−
+.
+Pic. 25 The Deutsch algorithm circuit. The top is the convention we have been using (IBM-Q)
+with MSB at the bottom and the bottom one is the other version often seen in other books.
+Both are using little-endian convention
+109
+￼
+Chapter 20: Deutsch Algorithm
+--- PAGE 34 ---
+Deutsch Algorithm
+• The Quantum Circuit
+▪ How do we determine if the MSB is ȁ ۧ
++ or ȁ ۧ
+− while we can only measure in the |0ۧ / |1ۧ basis? The trick is again to use the
+Hadamard gate. We discussed this in the quantum teleportation algorithm already. That is measuring a state in the |+ۧ / |−ۧ
+basis is the same as measuring in the |0ۧ / |1ۧ basis after applying a Hadamard gate. So, we apply a Hadamard gate after the
+quantum oracle and then perform a measurement on the MSB.
+▪ If the result is |0ۧ (corresponds to measuring |+ۧ before the Hadamard gate), we know the function is constant.
+If the result is |1ۧ (corresponds to measuring |−ۧ before the Hadamard gate), we know the function is balanced.
+Pic. 25 The Deutsch algorithm circuit. The top is the convention we have been using (IBM-Q)
+with MSB at the bottom and the bottom one is the other version often seen in other books.
+Both are using little-endian convention
+110
+￼
+Chapter 20: Deutsch Algorithm

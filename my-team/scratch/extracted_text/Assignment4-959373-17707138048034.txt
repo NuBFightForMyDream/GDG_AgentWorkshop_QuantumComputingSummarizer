@@ -1,0 +1,67 @@
+DOCUMENT: sources/Assignments/Assignment4-959373-17707138048034.pdf
+TOTAL_PAGES: 2
+--- PAGE 1 ---
+2. z= (6) Poor= 10201 + Mr /
+Prz= 162)2A => (b) (00)+ (i)(01)
+· (d) (= · (00)= I
+(8) +(ii)
+3 eigenvector n
+of = (i),
+(= (60
+-
+ex&or c
+= -)
+- P(u))= <01P10)= (+ 102 = 1)()/2= 1= 50 %
+Pr()= <olp. 10)= (10)= ((-(! )("= += 30 %
+S
+5.
+We and know that
+Vij= Citi
+So when we consider a row of U
+V: Vo
+E2
+In
+,
+,. . . .
+To 1. prove outhonormalitywe Normality: I rill = 1 need to for show 2 condition
+all i
+2
+. Orthogonality: Virj= 0 for all it j
+Proof Steps-
+1.
+Take any row ri to the inner product Vi
+. riertri- 1
+2. take any
+two different row ri and rj- vitri-
+--- PAGE 2 ---
+d
+. (x= (b)
+Alv>= AIV)
+A NV)= xIIV)
+I- loot :
+It-I)= 0
+fi -1
+= 0-> ti= 1
+dy= (0 -)
+I
+= ori)
+= xi- (-i. i)= G
+% -1= 0-> Xi= 11
+62= (8)
+= /14x)= 0
+· (0-Xi)= 0
+vi= 1-> Xi= I +
+8.
+Wecan take A as (b) (ex)
+We know parli matrix are unitary
+.
+We can prove it now
+(i)= 10x)
+E
+-1 1B)
+Iti)= (c)
+Alti)= (0)()&
+We can prove ortho normality by (2)+ (E)
+Adding square
+of crefficient of transformed vector
+(e)(e)= (e)= 0

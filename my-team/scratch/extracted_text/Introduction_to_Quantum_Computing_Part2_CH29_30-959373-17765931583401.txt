@@ -1,0 +1,1105 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_Part2_CH29_30-959373-17765931583401.pdf
+TOTAL_PAGES: 37
+--- PAGE 1 ---
+Chapter 29:
+Shor’s Algorithm
+Kamonluk Suksen Ph.D.
+243
+--- PAGE 2 ---
+Background - Encryption
+• Nowadays, data encryption is an indispensable part of our daily life.
+• In the encryption process, we usually generate a very big integer number, N, using two large prime numbers, P
+and Q, such that 𝑁 = 𝑃 × 𝑄.
+• N is shared with the public, and only the persons who have a key can find P and Q quickly.
+• Otherwise, to break the encryption (e.g. in RSA), one needs to be able to perform prime integer factorization
+of N, i.e. to find the values of P and Q.
+• There is no known method to do it quickly. Internet security relies almost entirely on the fact/expectation that
+no one can perform the prime integer factorization efficiently.
+244
+Chapter 29: Shor’s Algorithm
+--- PAGE 3 ---
+Background – Period Finding
+• The prime integer factorization of N is related to the period finding of a certain function.
+• More precisely, if we want to factorize the number N, mathematically, it is equivalent to finding the period, r,
+of the following function (we will not prove this):
+where a is a parameter and x is an independent variable. Therefore, 𝑓𝑎,𝑁 x is a function depending on the
+parameters, a and N, and the variable x. The variable x is also an integer.
+• This is a function using the modulo operator, mod, which returns the remainder of a division. For example,
+7 mod 2 = 1 because 7 = 3 × 2 + 1. When 7 is divided by 2, the remainder is 1.
+• Therefore, the function returns the remainder of 𝑎𝑥 divided by N.
+245
+𝑓𝑎,𝑁 x ≡ 𝑎𝑥 𝑚𝑜𝑑 𝑁
+Chapter 29: Shor’s Algorithm
+--- PAGE 4 ---
+Background – Period Finding
+• For example, assume we want to factorize 𝑁 = 21. Let us pick 𝑎 = 11 (we will discuss how to pick a later.)
+Find the period, r, of the function 𝑓𝑎,𝑁 x = 𝑓11,21 x . We will find it by substituting x beginning from 0.
+• We see that the answer repeats with a period of 6 (𝑓11,21 0 = 𝑓11,21(0 + 6)). Therefore, 𝑟 = 6.
+• Note that finding the period is computationally intensive.
+246
+𝑓11,21 0 ≡ 110 𝑚𝑜𝑑 21 = 1 as 110 = 0 × 21 + 1
+𝑓11,21 1 ≡ 111 𝑚𝑜𝑑 21 = 11 as 111 = 0 × 21 + 11
+𝑓11,21 2 ≡ 112 𝑚𝑜𝑑 21 = 16 as 112 = 5 × 21 + 16
+𝑓11,21 3 ≡ 113 𝑚𝑜𝑑 21 = 8 as 113 = 63 × 21 + 8
+𝑓11,21 4 ≡ 114 𝑚𝑜𝑑 21 = 4 as 114 = 697 × 21 + 4
+𝑓11,21 5 ≡ 115 𝑚𝑜𝑑 21 = 2 as 115 = 7669 × 21 + 2
+𝑓11,21 6 ≡ 116 𝑚𝑜𝑑 21 = 1 as 116 = 84360 × 21 + 1
+Chapter 29: Shor’s Algorithm
+--- PAGE 5 ---
+Background – Prime Integer Factorization
+• Once we find the period r of 𝑓𝑎,𝑁 x , we can perform factorization in a quick way.
+• Let us consider the following derivation.
+Due to the periodicity, r,
+where we used the fact that 1 𝑚𝑜𝑑 𝑁 = 1 (i.e. the remainder of 1 divided by N is 1 as long as N > 1). We can
+use the rules in algebra and rearrange the second equation, and we have
+where we use the rule like in the algebra that 𝑎
+𝑟
+2− 1 𝑎
+𝑟
+2 + 1 = 𝑎𝑟
+− 1.
+• Then we will use a theorem that if r is even and 𝑎
+𝑟
+2 + 1 mod 𝑁 ≠ 0, then the prime factors are given by
+where gcd(𝑥, 𝑦) refers to the greatest common divisor of 𝑥 and 𝑦. For example, gcd 10, 20 = 10. 247
+𝑓𝑎,𝑁 0 = 𝑎0 𝑚𝑜𝑑 𝑁 = 1 𝑚𝑜𝑑 𝑁 = 1
+𝑓𝑎,𝑁 r = 𝑓𝑎,𝑁 r + 0 = 𝑎𝑟 𝑚𝑜𝑑 𝑁 = 𝑓𝑎,𝑁 0 = 1
+𝑎𝑟
+− 1 𝑚𝑜𝑑 𝑁 = 0
+(𝑎
+1
+2𝑟
+− 1)(𝑎
+1
+2𝑟 + 1)𝑚𝑜𝑑 𝑁 = 0
+𝑃 = gcd(𝑎
+𝑟
+2 + 1, 𝑁)
+𝑄 = gcd(𝑎
+𝑟
+2− 1, 𝑁)
+Chapter 29: Shor’s Algorithm
+--- PAGE 6 ---
+Background – Prime Integer Factorization
+• Another example is 𝑔𝑐𝑑 21, 14 = 7 because 7 is the largest number and can divide (without remainder) 21
+and 14.
+• If r is not even or 𝑎
+𝑟
+2 + 1 mod 𝑁 = 0, we need to try another a.
+• There is a theory that says that 50% of the a will satisfy this requirement. Therefore, we have a high chance
+to be able to use the following equation to do factorization:
+• Therefore, once the period is found, the problem is converted into a problem of finding the gcd of the
+numbers that can be done effectively e.g. using the Euclidean algorithm.
+• Let us continue on the previous example. We know that r = 6 now. Find P and Q.
+r = 6 is even. We still need to check if 𝑎
+𝑟
+2 + 1 𝑚𝑜𝑑 𝑁 ≠ 0.
+𝑎
+𝑟
+2 + 1 𝑚𝑜𝑑 𝑁 = 11
+6
+2 + 1 𝑚𝑜𝑑 21 = 1332 𝑚𝑜𝑑 21 = 9 ≠ 0
+Therefore, we can go ahead to find the gcd. We have
+Therefore, 21 = 3 × 7.
+248
+𝑔𝑐𝑑 𝑎
+𝑟
+2 + 1, 𝑁 = 𝑔𝑐𝑑 11
+6
+2 + 1, 21 = 𝑔𝑐𝑑 1332, 21 = 3
+𝑔𝑐𝑑 𝑎
+𝑟
+2− 1, 𝑁 = 𝑔𝑐𝑑 11
+6
+2− 1, 21 = 𝑔𝑐𝑑 1330, 21 = 7
+𝑃 = gcd(𝑎
+𝑟
+2 + 1, 𝑁)
+𝑄 = gcd(𝑎
+𝑟
+2− 1, 𝑁)
+Chapter 29: Shor’s Algorithm
+--- PAGE 7 ---
+Shor’s Algorithm
+• To break the classical encryptions, we need to perform prime integer factorization of a big number (N = P × Q).
+• We can do this by first finding the period, r, of the function 𝑓𝑎,𝑁 𝑥 ≡ 𝑎𝑥 𝑚𝑜𝑑 𝑁.
+• Once the period is found to be an even number and 𝑎
+𝑟
+2 + 1 𝑚𝑜𝑑 𝑁 ≠ 0, we can find P and Q easily by finding
+the gcd of some numbers.
+• We need to guess the parameter a so we can use the theory, but the chance of picking the right a is pretty high
+(50%).
+• The most time-consuming part of this procedure is in the period finding process. The quantum computing part
+of the Shor’s algorithm is used to speed up this process.
+• Classically, the period finding process complexity is 𝛰(𝑟) (refer to computational complexity in Chapter
+Grover’s Algorithm). With Shor’s algorithm, it becomes 𝛰(log 𝑟 ) and thus it is an exponential speedup.
+249
+Chapter 29: Shor’s Algorithm
+--- PAGE 8 ---
+Shor’s Algorithm
+• Pic. 52 shows the quantum circuit of Shor’s algorithm. There are 4 parts in Shor’s algorithm.
+For a function 𝑓 𝑥 = 𝑓(𝑥 + 𝑟):
+1. Create a superposition of exponentially many arguments.
+2. Evaluate the function on a superposition of exponentially many arguments.
+3. Compute a parallel Fourier transform on the superposition using QFT.
+4. Sample the Fourier power spectrum to obtain the function’s period.
+250
+Pic. 52 Top: quantum circuit for Shor’s algorithm. Bottom: XOR quantum oracle circuit displayed for convenience.
+￼
+Chapter 29: Shor’s Algorithm
+--- PAGE 9 ---
+Shor’s Algorithm
+• For any N, we can always find n such that 2𝑛 ≥ 𝑁. For example, if 𝑁 = 21, we need 𝑛 = 5 so that 2𝑛 =
+32 ≥ 21.
+• In Shor’s algorithm, we need 3n qubits. They are grouped into two registers. The register with the more
+significant qubits has 2n qubits, and the other one has n qubits as shown in Pic. 49.
+• Therefore, the quantum state starts with ȁ ۧ
+𝜉0 = ȁ ۧ0 ⨂2𝑛ȁ ۧ0 ⨂𝑛
+.
+251
+Pic. 52 Top: quantum circuit for Shor’s algorithm. Bottom: XOR quantum oracle circuit displayed for convenience.
+￼
+Chapter 29: Shor’s Algorithm
+--- PAGE 10 ---
+Shor’s Algorithm
+• Step 1: After that, a 2n-qubit Hadamard gate, 𝑯⨂2𝑛, is applied to the first register, while the second register
+is kept intact.
+• A n-qubit identity gate, 𝑰⨂𝑛, is also applied at the same time to the last n-qubit register. We added
+parentheses to separate the operators and states in the first line. Then parentheses are used to separate the
+two registers in the second line.
+• Each 1-qubit Hadamard gate transforms ȁ ۧ0 into 1
+2 (ȁ ۧ0 + ȁ ۧ1 ), and the products of the n transformed qubits
+become the summation in the third line. Note that the x in each |xۧ is written in decimal form, and it has 2n
+qubits as indicated in the subscript. This step creates a superposition of exponentially many basis states
+(22𝑛) to be evaluated in parallel in the next step. 252
+ȁ ۧ
+𝜉1 = (𝑯⨂2𝑛𝑰⨂𝑛)(ȁ ۧ0 ⨂2𝑛ȁ ۧ0 ⨂𝑛)
+= (𝑯⨂2𝑛ȁ ۧ0 ⨂2𝑛)(𝑰⨂𝑛ȁ ۧ0 ⨂𝑛)
+=
+1
+2
+2𝑛
+2 ෍
+𝑥=0
+22𝑛
+−1
+ȁ ۧ
+𝑥 2𝑛 ⨂ȁ ۧ0 ⨂𝑛
+=
+1
+2𝑛 ෍
+𝑥=0
+22𝑛
+−1
+ȁ ۧ
+𝑥 2𝑛 ȁ ۧ0 𝑛
+Chapter 29: Shor’s Algorithm
+--- PAGE 11 ---
+Shor’s Algorithm
+• Step 2: Since the Shor’s algorithm involves a function 𝑓𝑎,𝑁 𝑥 ≡ 𝑎𝑥 𝑚𝑜𝑑 𝑁, we naturally expect we need a
+quantum oracle that has the property of 𝑓𝑎,𝑁 𝑥 .
+• The quantum oracle has 3n qubits. As shown in Pic. 49, it transforms any basis vector of the 3n qubits by
+which is just the regular behavior of an XOR quantum oracle. The most significant 2n qubits are the query
+qubits, and the least significant n qubits are the auxiliary qubits. The 𝑓(𝑥) here is the 𝑓𝑎,𝑁 𝑥 function of
+which the period is to be found.
+• Let us apply the quantum oracle to ȁ ۧ
+𝜉1 . We will use the above equation with 𝑦 = 0.
+253
+𝑼𝑓 ȁ ۧ
+𝑥 2𝑛ȁ ۧ
+𝑦 𝑛
+= ȁ ۧ
+𝑥 2𝑛ȁ ۧ
+𝑦⊕𝑓(𝑥) 𝑛
+ȁ ۧ
+𝜉2 = 𝑼𝑓ȁ ۧ
+𝜉1
+= 𝑼𝑓
+1
+2
+2𝑛
+2 ෍
+𝑥=0
+22𝑛
+−1
+ȁ ۧ
+𝑥 2𝑛 ȁ ۧ0 𝑛
+=
+1
+2𝑛 ෍
+𝑥=0
+22𝑛
+−1
+ȁ ۧ
+𝑥 2𝑛 ȁ ۧ
+0⨂𝑓(𝑥) 𝑛
+=
+1
+2𝑛 ෍
+𝑥=0
+22𝑛
+−1
+ȁ ۧ
+𝑥 2𝑛 ȁ ۧ
+𝑓(𝑥) 𝑛
+• Note that the classical XOR operation of the label (i.e. 0 ⊕ 𝑓(𝑥))
+of the least significant n qubits is relatively straightforward
+because y = 0, and thus the least significant n qubits become just
+the corresponding values of 𝑓(𝑥). For example, if n = 3 and 𝑓(𝑥)
+= 5, then ȁ ۧ
+0⊕𝑓(𝑥) 𝑛
+= ȁ ۧ5 3
+= ȁ ۧ
+101 .
+• This step evaluates the exponentially many basis vectors with
+label x all at one time in parallel. That is, it evaluates f (0) up to
+𝑓(22𝑛
+− 1) in one execution. This is where the quantum
+computing provides the exponential speedup.
+Chapter 29: Shor’s Algorithm
+--- PAGE 12 ---
+Shor’s Algorithm
+• Step 3: However, the evaluated results are stored as the basis vectors in a superposition wavefunction, and
+we cannot extract them directly. The next step is to perform QFT to extract the results we want. We apply a
+QFT operation defined in equation:
+• The QFT is only applied to the first register. We also need to apply an n-qubit identity gate to the second
+register. Therefore,
+254
+ȁ ۧ
+𝜉3 = (𝑼𝑸𝑭𝑻⨂𝑰⨂𝑛)ȁ ۧ
+𝜉2
+= (𝑼𝑸𝑭𝑻⨂𝑰⨂𝑛)(
+1
+2𝑛 ෍
+𝑥=0
+22𝑛
+−1
+ȁ ۧ
+𝑥 2𝑛 ȁ ۧ
+𝑓(𝑥) 𝑛)
+=
+1
+2𝑛 ෍
+𝑥=0
+22𝑛
+−1
+(𝑼𝑸𝑭𝑻ȁ ۧ
+𝑥
+2𝑛) 𝑰⨂𝑛ȁ ۧ
+𝑓 𝑥 𝑛
+=
+1
+2𝑛 ෍
+𝑥=0
+22𝑛
+−1
+(𝑼𝑸𝑭𝑻ȁ ۧ
+𝑥
+2𝑛) ȁ ۧ
+𝑓 𝑥 𝑛
+=
+1
+2𝑛 ෍
+𝑥=0
+22𝑛
+−1
+(
+1
+22𝑛 ෍
+𝑘=0
+22𝑛
+−1
+(𝜔−𝑘𝑥ȁ ۧ
+𝑘 2𝑛) ȁ ۧ
+𝑓 𝑥 𝑛 ) =
+1
+22𝑛 ෍
+𝑥=0
+22𝑛
+−1
+෍
+𝑘=0
+22𝑛
+−1
+𝜔−𝑘𝑥ȁ ۧ
+𝑘 2𝑛ȁ ۧ
+𝑓 𝑥 𝑛
+𝑼𝑸𝑭𝑻ȁ ۧ
+𝑥 =
+1
+22𝑛 ෍
+𝑘=0
+22𝑛
+−1
+𝜔−𝑘𝑥ȁ ۧ
+𝑘
+Chapter 29: Shor’s Algorithm
+--- PAGE 13 ---
+Shor’s Algorithm
+• Step 4: We will now perform a measurement on the least significant n-qubit (the second register). The
+wavefunction will collapse to one of the ȁ ۧ
+𝑓 𝑥 𝑛. For example, if the function is 𝑓11,21 𝑥 , there are only 6
+possible ȁ ۧ
+𝑓 𝑥 𝑛, which are ȁ ۧ1 , ȁ ۧ11 , ȁ ۧ16 , ȁ ۧ8 , ȁ ۧ4 , and ȁ ۧ2 .
+• However, there are many x that will give the same 𝑓 𝑥 . For example, 𝑓 𝑥 = 0 = 𝑓 𝑥 = 6 = 𝑓 𝑥 = 12
+= ⋯ = 1 and 𝑓 𝑥 = 2 = 𝑓 𝑥 = 8 = 𝑓 𝑥 = 14 = ⋯ = 16.
+• And this is because of the periodicity of the function. Therefore, when the wavefunction collapses, for
+example becomes ȁ ۧ
+𝑓 𝑥0 𝑛 it actually collapses by keeping ȁ ۧ
+𝑓 𝑥0 𝑛, ȁ ۧ
+𝑓 𝑥0 + 𝑟
+𝑛, ȁ ۧ
+𝑓 𝑥0 + 2𝑟
+𝑛,
+ȁ ۧ
+𝑓 𝑥0 + 3𝑟
+𝑛, etc., where r is the periodicity. That means when the wavefunction collapses to a certain
+state after measurement, it will keep all x separated by the period r. Therefore, if after the measurement, it
+collapses to ȁ ۧ
+𝑓 𝑥0 𝑛, the wavefunction becomes ȁ ۧ
+𝜉4.
+255
+Chapter 29: Shor’s Algorithm
+--- PAGE 14 ---
+Shor’s Algorithm
+• Step 4:
+256
+ȁ ۧ
+𝜉4 ≈ ෍
+𝑥=𝑥0+𝑦𝑟
+෍
+𝑘=0
+22𝑛
+−1
+𝜔−𝑘𝑥ȁ ۧ
+𝑘 2𝑛ȁ ۧ
+𝑓 𝑥 𝑛
+= ෍
+𝑥=𝑥0+𝑦𝑟
+෍
+𝑘=0
+22𝑛
+−1
+𝜔−𝑘𝑥ȁ ۧ
+𝑘 2𝑛ȁ ۧ
+𝑓 𝑥0 𝑛
+= ෍
+𝑘=0
+22𝑛
+−1
+෍
+𝑥=𝑥0+𝑦𝑟
+𝜔−𝑘𝑥ȁ ۧ
+𝑘 2𝑛ȁ ۧ
+𝑓 𝑥0 𝑛
+= ෍
+𝑘=0
+22𝑛
+−1
+෍
+𝑦
+𝜔−𝑘(𝑥0+𝑦𝑟)ȁ ۧ
+𝑘 2𝑛ȁ ۧ
+𝑓 𝑥0 𝑛
+= ෍
+𝑘=0
+22𝑛
+−1
+෍
+𝑦
+𝜔−𝑘𝑥0 𝜔−𝑘𝑦𝑟ȁ ۧ
+𝑘 2𝑛ȁ ۧ
+𝑓 𝑥0 𝑛
+In the first line, we removed all x not separated by multiples of r from 𝑥0.
+Therefore, the summation σ𝑥=0
+22𝑛
+−1 becomes σ𝑥=𝑥0+𝑦𝑟 , which means
+we only have a periodic series of x that are 𝑥0, 𝑥0 + 𝑟, 𝑥0 + 2𝑟, etc. and
+y are integers. (If there were no periodicity, we even would not have this
+summation.) The maximum y should be such that are:
+𝑥 = 𝑥0𝑠 + 𝑦𝑟 < 22𝑛
+− 1. Note that we also skipped the constants in front
+of the summations. This is because we need to perform normalization
+after the measurement and the equation is too messy to put.
+In the second line, we just replace ȁ ۧ
+𝑓 𝑥 𝑛 by ȁ ۧ
+𝑓 𝑥0 𝑛 because all x in
+𝑥 = 𝑥0 + 𝑦𝑟 give ȁ ۧ
+𝑓 𝑥0 𝑛.
+In the fourth line, we then convert the summation of x into a summation
+of y and rewrite 𝑥 = 𝑥0 + 𝑦𝑟 in the exponents.
+Chapter 29: Shor’s Algorithm
+--- PAGE 15 ---
+Shor’s Algorithm
+• Step 5: We will now perform a measurement on the first register that has the most significant 2n qubits.
+Assume it will collapse to ȁ ۧ
+𝑘0 . Then
+where again we do not perform normalization and skip the constant coefficients.
+• We see that the coefficient of the measured state is proportional to σ𝑦 𝜔−𝑘0𝑦𝑟, and we put in a pair of
+parentheses to emphasize this. Let us substitute 𝜔 = 𝑒𝑖2𝜋/22𝑛
+.
+• We will not evaluate the sum but will try to understand it graphically.
+257
+ȁ ۧ
+𝜉5 ≈ ෍
+𝑦
+𝜔−𝑘0𝑥0𝜔−𝑘0𝑦𝑟ȁ ۧ
+𝑘0 2𝑛ȁ ۧ
+𝑓 𝑥0 𝑛
+= 𝜔−𝑘0𝑥0(෍
+𝑦
+𝜔−𝑘0𝑦𝑟)ȁ ۧ
+𝑘0 2𝑛ȁ ۧ
+𝑓 𝑥0 𝑛
+෍
+𝑦
+𝜔−𝑘0𝑦𝑟 = ෍
+𝑦
+𝑒−𝑖2𝜋𝑘0𝑦𝑟/22𝑛
+Chapter 29: Shor’s Algorithm
+--- PAGE 16 ---
+Shor’s Algorithm
+• Step 5: The constructive interference that is:
+where d is an integer indicating how many circles it goes around when y increases by 1.
+• Here, it means that if we measure ȁ ۧ
+𝑘0 , then the period r is 22𝑛𝑑/𝑘0.
+• Since d is an integer that we do not know, we still do not know the value of r.
+• However, Shor’s algorithm already helps to narrow down the possible values of r.
+• After this, the classical continued fraction expansion will
+be used to further narrow down the possible value of r, which
+will not be discussed here. The result can be checked easily,
+and if it is wrong, we will redo Shor’s algorithm until the
+correct answer is found.
+258
+Pic. 53 Plotting of 𝑒−𝑖2𝜋𝑘0𝑦𝑟/22𝑛 on the complex plane. Yellow dots refer to the first round,
+and red dots refer to the second round. Left: Distribution of the terms resulting in destructive
+interference. Right: Distribution of the terms resulting in constructive interference
+2𝜋𝑘0𝑦𝑟
+22𝑛
+= 2𝜋𝑑
+𝑟 = 22𝑛𝑑/𝑘0
+￼
+Chapter 29: Shor’s Algorithm
+--- PAGE 17 ---
+Shor’s Algorithm
+• Step 5: Pic. 53 shows two types of possible distributions of 𝑒−𝑖2𝜋𝑘0𝑦𝑟/22𝑛
+.
+• Starting with 𝑦 = 0, the terms go around the unit circle in the complex plane anti-clockwise. After going
+through many rounds, the numbers distribute fairly evenly on the unit circuit. Their summation is thus very
+small as they cancel the others (destructive interference).
+• This happens for some k, and thus the probability of measuring these |kۧ is very small and near zero. On the
+other hand, certain values of k will give a large enough and just enough step to go around a full circle when
+y is incremented by 1.
+• In this case, all the terms will be at the same point or very close to the others. This means the phase of
+𝑒−𝑖2𝜋𝑘0𝑦𝑟/22𝑛 needs to increase by 2𝜋 or multiples of 2𝜋 when y is increased by 1 so to result in a
+constructive interference.
+259
+Pic. 53 Plotting of 𝑒−𝑖2𝜋𝑘0𝑦𝑟/22𝑛 on the complex plane. Yellow dots refer to the first round, and red dots refer to the
+second round. Left: Distribution of the terms resulting in destructive interference. Right: Distribution of the terms
+resulting in constructive interference
+￼
+Chapter 29: Shor’s Algorithm
+--- PAGE 18 ---
+Chapter 30:
+Harrow–Hassidim–Lloyd (HHL)
+Quantum Algorithm
+Kamonluk Suksen Ph.D.
+260
+--- PAGE 19 ---
+Introduction
+• The HHL algorithm, proposed by Aram Harrow, Avinatan Hassidim, and Seth Lloyd in 2009, is used for
+solving linear systems of equations using the principles of quantum computing.
+• To solve such a system, we cast our problem in the form A|xۧ = |bۧ, where |xۧ and |bۧ are normalized vectors
+and A is a hermitian matrix.
+• The process involves finding the eigenvalues of the matrix by making use of the Quantum Phase Estimation
+(QPE) sub-routine. This in turn makes use of the inverse Quantum Fourier Transform (QFT).
+• The determined eigenvalues are then used to implement a controlled rotation to effectively find the inverse
+of the matrix A. This allows us to calculate |xۧ = 𝐴−1|bۧ. The final step is to uncompute the phase estimation.
+• The Harrow-Hassidim-Lloyd (HHL) algorithm solves the Quantum Linear Systems Problem (QLSP) in
+𝒪(𝐾2𝑆2
+∈ ) steps, where 𝐾 is the condition number of the matrix, 𝑆 is its sparsity (maximum non-zero entries
+per row), and ϵ is the desired solution accuracy. This is an exponential speed-up over the best classical
+methods, which scale as ~𝑁2.81, provided that 𝐾 and 𝑆 remain small.
+• This algorithm serves as a subroutine of more advanced algorithms such as those pertaining to Machine
+Learning and the modeling of quantum systems.
+261
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 20 ---
+Mathematical Formulation
+• Our problem is expressed as:
+𝐴ȁ ۧ
+𝑥 = ȁ ۧ
+𝑏 (1)
+Where 𝐴 is an 𝑁 × 𝑁 Hermitian matrix, and ȁ ۧ
+𝑥 and ȁ ۧ
+𝑏 are normalized vectors. Using the spectral
+decomposition theorem, we can express 𝐴 as:
+𝐴 = σ𝑗=0
+𝑁−1 𝜆𝑗 ห ൿ
+𝑢𝑗 ൻ ห
+𝑢𝑗, (2)
+• Since 𝐴 is hermitian, its eigenstate is orthonormal. We can also calculate the inverse of 𝐴 as:
+𝐴−1 = σ𝑗=0
+𝑁−1 𝜆𝑗
+−1 ห ൿ
+𝑢𝑗 ൻ ห
+𝑢𝑗. (3)
+• Further, we express ȁ ۧ
+𝑏 in the eigenstate of 𝐴 as:
+ȁ ۧ
+𝑏 = σ𝑖=0
+𝑁−1 𝑏𝑖 ȁ ۧ
+𝑢𝑖. (4)
+• Now, the solution vector for Eq. (1) is given by: ȁ ۧ
+𝑥 = 𝐴−1ȁ ۧ
+𝑏 .
+262
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 21 ---
+Mathematical Formulation
+• By substituting in equations (3) and (4) into the above, we get:
+ȁ ۧ
+𝑥 = ෍
+𝑗=0
+𝑁−1
+𝜆𝑗
+−1 ห ൿ
+𝑢𝑗 ൻ ห
+𝑢𝑗 ෍
+𝑖=0
+𝑁−1
+𝑏𝑖 ȁ ۧ
+𝑢𝑖
+= ෍
+𝑗=0
+𝑁−1
+෍
+𝑖=0
+𝑁−1
+𝜆𝑗
+−1𝑏𝑖 ห ൿ
+𝑢𝑗 ൻ ห
+𝑢𝑗 ۧ
+𝑢𝑖
+ȁ ۧ
+𝑥 = σ𝑗=0
+𝑁−1 𝜆𝑗
+−1 𝑏𝑗ห ൿ
+𝑢𝑗 (5)
+Note that ȁ ۧ
+𝑥 is normalized, hence:
+σ𝑗=0
+𝑁−1 𝜆𝑗
+−1𝑏𝑗
+2
+= 1 (6)
+263
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 22 ---
+Tracing the Evolution of the State
+• We can trace the evolution of the state in a step-wise fashion with reference to Pic. 54.
+• The circuit contains three registers: the first register is based on 𝑛𝑏 qubits, so that it can be encoded with the
+value of |bۧ. The size of the |bۧ vector is thus 𝑁 × 1 where 𝑁 = 2𝑛𝑏
+.
+• The second register, also known as the clock register, is based on 𝑛𝑙 qubits. This is meant to hold the
+eigenvalues of A.
+• The final register is a single ancilla qubit. In the diagram, the convention followed is that the most
+significant bit is at the bottom and the least significant bit is at the top.
+264
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+￼
+Pic. 54 Circuit diagram.
+--- PAGE 23 ---
+Tracing the Evolution of the State
+• We initialize the state as:
+ȁ ۧ
+𝜓0 = ȁ ۧ0 ⨂𝑛𝑏 ȁ ۧ0 ⨂𝑛𝑙 ȁ ۧ0 .
+• We encode the information for ȁ ۧ
+𝑏 onto the 𝑛𝑏 register using a unitary operation ෡
+𝑈𝑏 such that ෡
+𝑈𝑏ȁ ۧ0 = ȁ ۧ
+𝑏 to
+obtain the following:
+ȁ ۧ
+𝜓1 = ȁ ۧ
+𝑏 ⨂𝑛𝑏 ȁ ۧ0 ⨂𝑛𝑙 ȁ ۧ0 .
+• Next, we apply the Quantum Phase Estimation subroutine to encode the eigenvalues on to the 𝑛𝑙 register.
+This results on the following state:
+ȁ ۧ
+𝜓2 = ȁ ۧ
+𝑏 ⨂𝑛𝑏 ห ൿ
+෩
+𝜆𝑗
+⨂𝑛𝑙 ȁ ۧ0 .
+• We now want to find the inverse of the eigenvalues. To this end, we apply a controlled rotation on the
+ancilla qubit in the top register, based on the value of the 𝑛𝑙 register. Thus we obtain following state:
+ȁ ۧ
+𝜓3 = σ𝑗=0
+𝑁−1 𝑏𝑗ห ൿ
+𝑢𝑗 ห ൿ
+෩
+𝜆𝑗 1 −
+𝐶2
+𝜆𝑗
+2 ȁ ۧ0 + 𝐶
+𝜆𝑗
+ȁ ۧ1 .
+• In the above equation, C is a normalization constant for the third register. The next step is to perform a
+measurement on the third register. The desired outcome is |1ۧ, which will result in the following state:
+265
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 24 ---
+Tracing the Evolution of the State
+ȁ ۧ
+𝜓4 =
+1
+σ𝑗=0
+𝑁−1 𝑏𝑗𝐶
+𝜆𝑗
+2 σ𝑗=0
+𝑁−1 𝑏𝑗ห ൿ
+𝑢𝑗 ห ൿ
+෩
+𝜆𝑗
+𝐶
+𝜆𝑗
+ȁ ۧ1 .
+where the pre-factor is there to ensure normalization post measurement. If the measurement had
+resulted in the |0ۧ state, we would have repeated the procedure until we obtained the desired state. With a little
+manipulation, the state ȁ ۧ
+𝜓4 becomes:
+ȁ ۧ
+𝜓4 =
+𝐶
+σ𝑗=0
+𝑁−1 𝑏𝑗𝐶
+𝜆𝑗
+2 ෍
+𝑗=0
+𝑁−1
+𝑏𝑗𝜆𝑗
+−1ห ൿ
+𝑢𝑗 ห ൿ
+෩
+𝜆𝑗 ȁ ۧ1 .
+• If C is real, we can cancel it out; secondly, we make use of the normalization condition from Eq.(6) to obtain
+the following simplified expression:
+ȁ ۧ
+𝜓4 = ෍
+𝑗=0
+𝑁−1
+𝑏𝑗𝜆𝑗
+−1ห ൿ
+𝑢𝑗 ห ൿ
+෩
+𝜆𝑗 ȁ ۧ1 .
+266
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 25 ---
+Tracing the Evolution of the State
+• We then enter the uncompute stage, where we apply the inverse phase estimation, hence returning the 𝑛𝑙
+register to the ȁ ۧ0 state. The state now becomes:
+ȁ ۧ
+𝜓5 = ෍
+𝑗=0
+𝑁−1
+𝑏𝑗𝜆𝑗
+−1ห ൿ
+𝑢𝑗 ȁ ۧ0 ⨂𝑛𝑙 ȁ ۧ1 .
+• Now we know from Eq. (5) that ȁ ۧ
+𝑥 = σ𝑗=0
+𝑁−1 𝑏𝑗𝜆𝑗
+−1ห ൿ
+𝑢𝑗, so:
+ȁ ۧ
+𝜓5 = ȁ ۧ
+𝑥 ȁ ۧ0 ⨂𝑛𝑙 ȁ ۧ1 .
+• We can see that the final state ȁ ۧ
+𝜓5 is proportional to our solution vector.
+267
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 26 ---
+Implementation Methodology
+• In this section, we explain the gate level implementation of the HHL algorithm and present a worked
+example simulated on IBM qiskit.
+• Here we have chosen a 2 × 2 hermitian matrix A such that:
+𝐴 =
+3
+4
+1
+4
+1
+4
+3
+4
+,
+and the following ȁ ۧ
+𝑏 vector:
+ȁ ۧ
+𝑏 =
+0
+1 .
+• The solution vector for this system is 𝑥 =
+−1
+2
+3
+2
+, and the ratio of the squares of the magnitudes of its
+components is 1 : 9 which we will later compare with the results of the simulation to verify its accuracy.
+268
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 27 ---
+Implementation Methodology
+• The eigenvectors for A are ȁ ۧ
+𝑈0 =
+−1
+2
+1
+2
+and ȁ ۧ
+𝑈1 =
+1
+2
+1
+2
+, whereas its eigenvalues are 𝜆0 =
+1
+2
+and 𝜆1 = 1.
+Using this information, we can diagonalize A as follows:
+𝐴 = 𝑃Λ𝑃−1 =
+1
+2
+−1 1
+1 1
+1
+2
+0
+0 1
+−1 1
+1 1
+269
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+￼
+Pic. 55 Simulated circuit on IBM Qiskit
+--- PAGE 28 ---
+Implementation Methodology
+1. Encoding ȁ ۧ𝒃
+• We assume that there exists an operator that can efficiently encode the vector |bۧ onto the first register, or that |bۧ is the output of
+a different algorithm which feeds into our circuit.
+• In our example, where 𝑏 =
+0
+1 , the application of a simple NOT gate will suffice.
+2. Hamiltonian Simulation
+• In quantum mechanics, when given a Hamiltonian H, we can write the time evolution of a quantum state as
+ቚ ۧ
+𝜓(𝑡) = 𝑒−𝑖𝐻𝑡/ℏȁ ۧ
+𝜓(0) , where 𝑒−𝑖𝐻𝑡/ℏ is a unitary operator.
+• We can treat matrix A which is one of the main inputs of the HHL algorithm as a Hamiltonian, the only precondition being that
+A is hermitian, as is the case for a true Hamiltonian. However, quantum gates can only implement unitary operations. Thus, we
+modify our hermitian matrix to form 𝑈 = 𝑒−𝑖𝐴𝑡, which is unitary.
+• There are multiple ways to implement this operator at a gate level, depending on the complexity of the Hamiltonian. For our
+numerical example involving a single qubit vector |bۧ, U can be implemented on Qiskit using the following four-parameter gate,
+with the appropriate choice of input parameters:
+𝑈𝜃𝜙𝛾𝜆=
+𝑒𝑖𝛾 cos
+𝜃
+2
+−𝑒𝑖(𝛾+𝜆) sin 𝜃
+2
+𝑒𝑖(𝛾+𝜙) sin 𝜃
+2
+𝑒𝑖(𝛾+𝜆+𝜙) cos
+𝜃
+2
+• Any single-qubit unitary operation can be carried out using the above operator, and it is trivial to modify it to form a control U
+gate for use in QPE:
+𝑈𝑐 = 𝑈⨂ȁ ۧ
+ȁ ۦ 1
+1 + 𝐼⨂ȁ ۧ
+ȁ ۦ 0
+. 0
+270
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 29 ---
+Implementation Methodology
+3. Quantum Phase Estimation
+• A unitary matrix acting on its eigenvector is represented as follows:
+𝑈ȁ ۧ
+𝑢 = 𝑒𝑖2𝜋𝜙ȁ ۧ
+𝑢 .
+• If the unitary matrix is of the form 𝑈 = 𝑒𝑖𝐴𝑡, with A being a Hermitian matrix bearing the eigenvalues 𝜆𝑖, then the above
+equation can be written as:
+𝑒𝑖𝐴𝑡ȁ ۧ
+𝑢 = 𝑒𝑖𝜆𝑖𝑡ȁ ۧ
+𝑢 .
+• Comparing the two equations, we obtain:
+𝜙𝑖 =
+𝜆𝑖𝑡
+2𝜋
+.
+• If the input vector is not an eigenvector of the unitary operator, it can be expressed as a linear combination of the eigenvectors,
+and due to the linearity of operators, the transformation acts on each of these eigenvectors.
+• The Quantum Phase Estimation (QPE) process acts on the clock register as ȁ ۧ
+0 ⊗𝑛𝑙 → ȁ ۧ
+𝜙𝑖2𝑛𝑙 = ห ൿ
+෩
+𝜆𝑖. Using 𝜙𝑖 =
+𝜆𝑖𝑡
+2𝜋, we can
+write the output of the QPE as:
+ห ൿ
+෩
+𝜆𝑖 =
+𝜆𝑖𝑡2𝑛𝑙
+2𝜋.
+• In our example, 𝑛𝑙 = 2 and, in order to obtain integer values, t is chosen to be π and 𝜆0 =
+1
+2
+and 𝜆1 = 1. Hence we obtain:
+ห ൿ
+෪
+𝜆0 = ȁ ۧ
+110 = ȁ ۧ
+012 ,
+ห ൿ
+෪
+𝜆1 = ȁ ۧ
+210 = ȁ ۧ
+102 ,
+• This is an instance of Basis Encoding, where the eigenvalue is mapped onto the computational basis of the qubits, which involves
+the use of the binary representation of the eigenvalues. 271
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 30 ---
+Implementation Methodology
+3. Quantum Phase Estimation
+• Next, given that A is a hermitian matrix we can exponentiate it to create a unitary operator 𝑈 = 𝑒𝑖𝐴𝑡
+. We can determine the exact
+form of U by comparing with 𝐴 = 𝑃Λ𝑃−1 =
+1
+2
+−1 1
+1 1
+1
+2
+0
+0 1
+−1 1
+1 1 :
+𝑈 =
+1
+2
+−1 1
+1 1
+𝑖 0
+0 −1
+−1 1
+1 1
+where the diagonal elements of the second matrix are obtained by:
+𝑒𝑖𝜆0𝑡 = 𝑒
+𝑖𝜋
+2 = 𝑖.
+𝑒𝑖𝜆1𝑡 = 𝑒𝑖𝜋 = −1.
+• Hence:
+𝑈 =
+1
+2
+−1 + 𝑖 −1 − 𝑖
+−1 − 𝑖 −1 + 𝑖,
+and
+𝑈2 =
+0 1
+1 0.
+• In order to implement 𝑈 and 𝑈2 in the simulated circuit in Pic. 55, we make use of the four parameter arbitrary unitary gate
+from:
+𝑈𝜃𝜙𝛾𝜆=
+𝑒𝑖𝛾 cos
+𝜃
+2
+−𝑒𝑖(𝛾+𝜆) sin 𝜃
+2
+𝑒𝑖(𝛾+𝜙) sin 𝜃
+2
+𝑒𝑖(𝛾+𝜆+𝜙) cos
+𝜃
+2
+by setting 𝜃 = −
+𝜋
+2 , 𝜙 = −
+𝜋
+2 , 𝜆 =
+𝜋
+2 , and 𝛾 =
+3𝜋
+4
+for 𝑈.
+272
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+￼
+Pic. 55 Simulated circuit on IBM Qiskit
+--- PAGE 31 ---
+Implementation Methodology
+3. Quantum Phase Estimation
+• Next, by setting 𝜃 = 𝜋, 𝜙 = 0, 𝜆 = 𝜋, and 𝛾 = 0, we can implement 𝑈2
+.
+• Applying the inverse of QPE at the end of the algorithm is a simple matter of finding the inverse of each unitary gate and
+applying it in reverse order. We can clearly see from 𝑈2 =
+0 1
+1 0 that 𝑈2 is real and symmetric, hence (𝑈2)−1= (𝑈2)†= 𝑈2
+.
+• Next, we can easily find the inverse of U by conjugating and transposing it:
+• Hence:
+𝑈−1 = 𝑈† =
+1
+2
+−1 − 𝑖 −1 + 𝑖
+−1 + 𝑖 −1 − 𝑖.
+• We can implement this using the four parameter arbitrary unitary gate by setting 𝜃 = −
+𝜋
+2 , 𝜙 =
+𝜋
+2 , 𝜆 = −
+𝜋
+2 , and 𝛾 = −
+3𝜋
+4.
+273
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+Pic. 55 Simulated circuit on IBM Qiskit
+￼
+--- PAGE 32 ---
+Implementation Methodology
+4. Ancilla Rotation
+• At this stage of the algorithm, we wish to encode the inverse of the calculated eigenvalue onto the amplitude of the ancilla
+register as follows:
+ȁ ۧ
+0 →
+1
+ሚ
+𝜆 ȁ ۧ
+0 .
+• Such a transformation, however, is not possible. Instead, we apply the following change on the ancilla qubit:
+ȁ ۧ
+0 → 1 −
+𝐶
+ሚ
+𝜆
+2
+ȁ ۧ
+0 +
+𝐶
+ሚ
+𝜆 ȁ ۧ
+1 ,
+• In order to affect the above change, we must apply the controlled rotation 𝑅𝑦 𝜃𝑖. C must be chosen such that it is not larger
+than the smallest eigenvalue, so as not to disturb normalization. In our example, we set C = 1.
+• By comparing the second equation with the representation of an arbitrary quantum state ȁ ۧ
+𝜓 = cos
+𝜃
+2
++ 𝑒𝑖𝜙 sin 𝜃
+2, we can
+determine the required angle of rotation:
+𝜃𝑖 = 2arcsin
+1
+෩
+𝜆𝑖
+.
+• Hence, for ෪
+𝜆0 = 1, we find that 𝜃0 = 𝜋, and the required rotation is 𝑅𝑦(𝜋). For ෪
+𝜆1 = 2, we find that 𝜃1 =
+𝜋
+3.
+274
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 33 ---
+Implementation Methodology
+4. Ancilla Rotation
+• In effect, we want to apply ȁ ۧ
+𝑏 = σ𝑖=0
+𝑁−1 𝑏𝑖 ȁ ۧ
+𝑢𝑖 :
+Θ 𝐶1𝐶0 =
+𝜋
+3 𝐶1 + 𝜋𝐶0,
+where Θ 𝐶1𝐶0 is a function that takes the values encoded in the clock register ncoded in the clock register in binary form, and
+outputs the required rotation angle 𝜃. This is achieved using two controlled rotation gates as shown in Pic.55.
+• In contrast with QPE, the ancilla rotation is an instance of Amplitude Encoding, where the relevant information, i.e., the inverse
+of the eigenvalue, is encoded into the amplitude of a qubit.
+275
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+￼
+Pic. 55 Simulated circuit on IBM Qiskit
+--- PAGE 34 ---
+Time and Resource Efficiency
+• Classical Runtimes: Standard classical methods like Gaussian elimination take 𝒪(𝑁3) time. However, this
+drops to 𝒪(𝑁 𝑘) if the matrix is sparse and well-conditioned, and you only need a summary statistic.
+• HHL Algorithm Runtime: This quantum algorithm achieves an exponentially faster runtime of 𝒪(𝐾2 log 𝑁
+𝜖 ),
+assuming the matrix is 𝑠-sparse (maximum of 𝑠 non-zero elements per row) and 𝜖 is the acceptable margin
+of error.
+• Condition Number (𝒌): The ratio of the smallest to largest eigenvalue, which indicates the system's
+sensitivity to perturbations.
+• Quantum Phase Estimation (QPE) Challenges: QPE is a major source of error and is highly resource-
+intensive. It requires many qubits and gates, scaling with the system size, and its computational complexity
+scales as 𝒪(1/𝜖) based on the desired accuracy of the eigenvalues.
+• Eigenvalue Inversion Challenges: This stage is also resource-heavy because it relies on a non-unitary
+transformation, which may require multiple attempts to successfully produce the required ȁ ۧ1 state.
+276
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+--- PAGE 35 ---
+Results
+￼
+277
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+• We ran the circuit shown in Pic.55, with our
+chosen example as input, first on a high
+performance simulator, and then proceeded to run
+the same circuit on real quantum hardware.
+• The results of the simulation are presented in Pic.
+56 with 1000 shots fired. Recall that we are only
+interested in case where the measurement of the
+ancilla results in |1ۧ. Therefore we look at the bins
+marked 01 and 11, whose heights correspond to
+the magnitude squared of the first and second
+coefficients of the solution vector |xۧ respectively.
+• The calculated ratio thus obtained is 1 : 9.762,
+which is very close to the true ratio of the solution
+vector based on the classical solution, i.e., 1 : 9.
+Pic. 56 Simulated results for 1000 shots
+--- PAGE 36 ---
+Results
+278
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+• Running the same circuit on actual quantum
+hardware generated the results presented in Pic. 57.
+• The corresponding ratio in this case is 1 : 1.234
+which is significantly different from the true value.
+• This difference is due to noise from the environment
+and decoherence arising from the usage of a real
+quantum computer as opposed to a simulator.
+• The circuit we have implemented can be generalized
+to some extent, as we can input any 2×1 vector |bۧ
+without needing to change other elements of the
+circuit. (Note that solving for a different matrix A
+would require significant changes to the circuit with
+our current implementation methodology).
+Pic. 57 Quantum computer results for 1000 shots
+￼
+--- PAGE 37 ---
+Results
+• From several different vectors and compared the solutions from the simulator to the classical solutions. A
+summary of the results is presented in the following table.
+279
+Chapter 30: Harrow–Hassidim–Lloyd (HHL) Quantum Algorithm
+Input state Probability Ratio of ȁ ۧ
+𝑥
+Relative Error
+Classical Simulation
+ȁ ۧ
++ 1 : 1 1 : 1.315 31.5%
+ȁ ۧ
+− 1 : 1 1 : 0.992 0.8%
+ȁ ۧ0 1 : 0.111 1 : 0.119 7.2%
+ȁ ۧ1 1 : 9 1 : 9.762 8.5%
+Table 1: Results for different inputs of vector |bۧ

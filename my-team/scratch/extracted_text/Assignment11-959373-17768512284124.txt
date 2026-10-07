@@ -1,0 +1,305 @@
+DOCUMENT: sources/Assignments/Assignment11-959373-17768512284124.pdf
+TOTAL_PAGES: 6
+--- PAGE 1 ---
+Assignment 11.
+0
+0
+-
+.
+w
+-> 0 CN-1)-
+W
+1. ----
+-
+I
+-
+-
+&
+L
+( )
+Yu =-Ki
+N-10izt Xj
+eitco. 1)
+-it(0N-1
+....
+-item)=
+.......
+inm/N
+wh
+e
+=>
+,
+So it equals to 0 after substitution .
+I= [www
+2. Yes Vart is Hermitian
+VarT=It] equal to # gate.
+Vart" =E [i]
+3
+(x1
+UpFT"= VQFtso
+,
+it satisfies Hermitian [WXwX-
+requirements.
+.
+=
+N-Y· (N-lyt
+itj= 1 :<Xj(j) <41= *EW-0-
+% 1 w-Y. 2
+....
+<;Y) =-Sk wi
+=N wil
+N-1
+= Go =
+if j + 1 : let then
+m= 1-j0 (mod N) my
+umuM
+K=g
+So [Xj, 4)= 0
+the rows are outhonormal and UPFTUQFT= I
+; VaFT is unitary
+.
+--- PAGE 2 ---
+4. For 3 qubit matrix
+N= c = s
+I 11 I
+I
+I
+We yt-&8-10 j1
+y
+W
+-Iwil
+I
+I
+I
+Given
+izi-eit
+w= C
+ciE
+= Costisin ==
+24
+wo
+cei= +
+wLi1
+=
+= 0= w
+,
+5
+Unt
+.
+= (wife&
+VIRFT
+= Ww- wores)
+VAFT. VIAFT
+= [NOO= 00
+S
+[&
+g 1
+Wi~. Virt
+---
+=
+or- WeIi
+For 2 Qubit W= i
+VIQFT=
+!in
+i i
+=
+I I
+Vaft. Virt= 1()
+= [00:To
+--- PAGE 3 ---
+8. As we know when apply I gate to a gubit ,
+it will be(10+1
+So
+,
+QFT= Hadamard gate for > gobit and we know there will be
+no phase shift if all bits are zero then we know they will equal
+probability in all states if all the given importsare in starting
+state (10).
+9. Ucps, Vepsid= I
+I-][=ridzia)= T
+10. Uswap= Uswap=> Uswap. Uswap= I
+Uswap= [00o
+itmethod utswap= 00-
+(=J
+and method UsayUswap= [*]
+12. We need n-1 Ups,
+& gates withafrom -2 to
+en
+Hadamard controlled St
+In↑ gubit
+2 qubit "
+gates: n gates
+Rotation gates:
+Cn-1) gates
+(n-2) gates
+the last qubit: 0 gate
+total controlled rotation gates: (n-1) +Cn-2) +. ...
+=
+Swap gate total (n/2) gates
+execution timeIn-notedRotation Swaps T
+units
+n +n + Lule)- Oca)n is the number of qubits.
+Eg
+.
+2 qubits: 2+222)+ 11=
+2++ = 4 units.
+14
+.
+11001100 > 10011001
+--- PAGE 4 ---
+15
+.
+A single qubit state with a global phase"dis :
+14 =
+eix
+, 4)=
+e(a(o)+ b(17)
+The expectation value of 22= (6) is :
+< 48p's=
+<Ye* zein (4) = - in ix
+ce <YIEI)
+↑ <Y12/43
+since elideix-1
+The ,
+expectation value the global is phase cancels exactly.
+: < 2)= lal-1612
+which is independent of 2.The global phase has no physical effect
+.
+16. The general state on the Block sphere is:
+it
+IY)= cosElo + e sin #117
+2
+with <82)= cost
+<x)= sinos o
+,
+# Cattle
+d= ): (d)=
+Sin Cite) , <y)= sinsing·
+Cast =
+-1
+Crys= 0
+, (o2= 0.
+,
+This is the -X ,
+pole.
+it
+It= COSI10+ e sinIK= (10)-11)
+It is (f=2
+This is ,
+0=2): thety pole.
+<Gy)= sin <#2) SinCH2)= +, (0x)= 0
+<2)= 0
+.
+,
+Iti)= 1 (lo) + iii)
+E
+1i) (f=He
+This is ,
+the
+0 = -y 3ile): pole.
+(i)= Coy)= sin (H) Sin (e)= - 1 ,<*x)= 0
+,
+<82]= 0.
+110)- i(k)
+--- PAGE 5 ---
+H
+. Using 14)= COSEO)+ eidsin E117.
+Eq(1): < >= sintcosd
+Since2x10)= 11) and (x11)= 10) ;
+(ux)= (10) E100+ esin2)(CoSE1+ = eitossing +singCos
+= cossing Cedtes. 200= e sin
+sinEcl
+Eqce): <Oy>= sinc sind
+Since dylos= ill) and cyl1= -i10):
+[5y> = (cos< + e-sineLicos-iesin
+=- ie' cossing itsingcost
+- icossing ce-id- ed)= i
+.
+sin. Geising
+=
+- sinsing
+18. Step 1 : Verify normalization :
+(2= E + == 2,
+(= += 1 =
+P+ 1= 1
+Step 2 : Extract global phase:
+eit
+X = 1 B = ()
+The global E()=
+-it s
+14)= e
+phase e-itirtevant
+, comparing with cas (12) 10 + edsincl12)/1)
+cose=
+-E= I-
+-
+eidsink= LE+
+-> &= 0
+Block vector (
+, y,
+z)= csicosd
+,
+sinsing ,
+cost)= (V,
+0
+, e)
+The state lies on the x2-plane ,
+tited"from the north pole toward the +xuxis
+--- PAGE 6 ---
+19
+. Ut
+1
+,
+,
+7 = (cosz-eitsin E
+substituting8= H2
+d= 0
+X =:
+,
+,
+Vie
+, 0= (c)(
+20
+. TheHadamandgateactasa rotationbyaboe
+Case 1 : Its E 107
+It =(10) + 11) #H=H
+Se
+On the Block sphere: Its sits at 21
+0
+,
+,
+0)on the traxis.
+After If it moves to 20
+0
+1)
+,
+,
+,
+the north pole Nox
+Case 2 : 11) 1)
+(1) E Hl =(10)- (1)= 1)
+On the Block Sphere: 117 sits 0
+at 20
+,
+,
+-1) on the -zaxis.
+After I it moves to +
+0
+0)
+the -Xaxis
+i
+. e.
+1
+.
+,
+,
+,
+,
+In both cases
+,
+through the the Hadamard plane effectively reflects defined by the the Block (2) E
+rector
+aeis
+,
+exchangingz coordinates
+,

@@ -1,0 +1,60 @@
+DOCUMENT: sources/Assignments/Assignment_8-959373-17743765128674.pdf
+TOTAL_PAGES: 2
+--- PAGE 1 ---
+Assignment8
+.
+1. Given L(Fella)A + (b) =(lasAbA)Cla> B + Ib
+L
+H
+.
+.
+S : / r
+((19)a lo)+ 1bjelo>B)=> 197ala> + (b)+(b) B- 0
+R. H.
+S : -> (Tensor product )
+197A197B + 19) alb> p
++ 1b>ala) + /b) AlbJB-@
+So
+. here L . H. S * R
+.
+A.
+S because 197alb) B and 1b)A lasis
+probability is zero
+Non-clowing theorem survives on the concept of not able to copying
+linear combinations and linearity stands important
+2.a) It= 1 <X107A + B1KA)- O
+R
+We are supposed to be quantum teleportation normalizing the algorithm.
+above it will work as general
+①
+·b) It gate rion2
+He candyti)
+·! !) (
+=
+O
+= (b)u
+-
+==
+2 C As it is Its base
+It
+q= 1 +(0) =(10)+ 113)
+create entanglement& set up the Bell-type measurement
+16*
+) =(100+Nee (
+after (IOH)= 10+
+measuringgo gives
+mcollaptoand leaves It unchanged
+--- PAGE 2 ---
+9.(1000+ B110K+ <101 +B110))
++Ble+E+ IDEQ
+=
+=(x)(i) e(i)e(b))+ B((i)e(b)e(i))+ 1)(b)e(i)e(i))+B((i)e(i)e(b))
+=()))((v)+ B(()e(i))+ a(()(i))+ B)()e(i)
+= /()+ p())=
+6.) Dueto Non-comingtheoremitwon't me as ure alice
+allowed cloningofIna
+,
+2) Entanglement swapping
+3) Default circuit represents Alice to teleport 10) to Bob .
+So
+yes guantum teleportation happens by default.

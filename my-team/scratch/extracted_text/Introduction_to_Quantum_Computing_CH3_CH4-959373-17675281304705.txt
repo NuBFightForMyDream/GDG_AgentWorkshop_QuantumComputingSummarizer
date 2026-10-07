@@ -1,0 +1,484 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH3_CH4-959373-17675281304705.pdf
+TOTAL_PAGES: 14
+--- PAGE 1 ---
+Chapter 3:
+Orthonormal Basis, Bra–Ket Notation,
+and Measurement
+Kamonluk Suksen Ph.D.
+19
+--- PAGE 2 ---
+Orthonormal Basis
+• Each basis has its set of basis vectors, e.g. ො
+𝑥 and ො
+𝑦 span a plane and they form the basis of a 2D plane.
+• Any vector on the 2D plane can be represented by a linear combination of the basis vector, ො
+𝑥 and ො
+𝑦.
+• Vectors are equivalent to the states of a quantum system. So, states are vectors and basis states are basis
+vectors.
+• If we add Ƹ𝑧, then ො
+𝑥,
+ො
+𝑦 and Ƹ𝑧 are the basis vectors and they span the 3D space.
+• Any 3D vector can be represented by a linear combination of ො
+𝑥,
+ො
+𝑦 and Ƹ𝑧.
+• The basis vectors can be labeled as ෞ
+𝑣0 to ෟ
+𝑣𝑛−1 and any vector in this space can be represented as a linear
+combination of ෞ
+𝑣0 to ෟ
+𝑣𝑛−1.
+• An electron’s spin state (vector) must be a linear combination of some basis states (vectors). One of the
+possible sets of a basis vectors are ȁ ۧ
+𝑠𝑝𝑖𝑛 𝑢𝑝 and ȁ ۧ
+𝑠𝑝𝑖𝑛 𝑑𝑜𝑤𝑛 , which its dimension of the spin space is
+2D because it has 2 basis vectors.
+• However, in a real 2D space, the coefficients in the linear combinations are all real numbers. In spin
+space, the coefficient can be complex numbers.
+20
+Chapter 3: Orthonormal Basis, Bra–Ket Notation, and Measurement
+--- PAGE 3 ---
+Orthonormal Basis
+• One type of bases is of particular importance, called the orthonormal basis.
+• An orthonormal basis is defined as:
+where ෝ
+𝑣𝑖 and ෝ
+𝑣𝑗 are any two basis vectors, i and j can be any number from 0 to n – 1, if it is an n-D
+space.
+• E.g. if it is our regular 3D space, we may set ෞ
+𝑣0 = 𝑥,
+ෞ
+𝑣1 = 𝑦,
+ෞ
+𝑣2 = 𝑧. So, ෝ
+𝑣𝑖 and ෝ
+𝑣𝑗 can be x and y, or x
+and z, or y and z, or y and x, or z and x, or z and y, and can also be x and x, or y and y, or z and z.
+• From the above equation, says that if the inner product of every basis vector with itself is one (it is
+normalized, with 𝐿 = 1) and the inner product with other basis vector is zero, then this set of basis
+vectors and the basis formed by this set of basis vectors are orthonormal (orthogonal and normalized).
+• If the basis vectors are orthonormal, it means all of them have no common part.
+• 𝛿𝑖𝑗 is called the Kronecker delta. It is just a notation. It means that if 𝑖 = 𝑗, it is one. If 𝑖 ≠ 𝑗, it is zero.
+ෝ
+𝑣𝑖.
+ෝ
+𝑣𝑗 = ቊ1, 𝑖𝑓 𝑖 = 𝑗
+0, 𝑖𝑓 𝑖 ≠ 𝑗 = 𝛿𝑖𝑗
+21
+Chapter 3: Orthonormal Basis, Bra–Ket Notation, and Measurement
+--- PAGE 4 ---
+Orthonormal Basis
+• Two different sets of basis vectors, orthonormal (left) and non-orthonormal (right).
+•
+Ԧ
+𝑣 can be represented as ȁ ۧ
+Ԧ
+𝑣 = 1ȁ ۧ
+ො
+𝑥 + 1ȁ ۧ
+ො
+𝑦 = 1ȁ ۧ
+ො
+𝑥 + 2ห ൿ
+෡
+𝑦′
+• The ො
+𝑥 and ෡
+𝑦′ basis is very difficult to deal with. In quantum computing, we will always use an
+orthonormal basis.
+• We can check if ො
+𝑥 and ො
+𝑦 are orthogonal by observing their inner product.
+• Since ො
+𝑥 =
+1
+0 and ො
+𝑦 =
+0
+1 , their inner product is:
+￼
+ො
+𝑥.
+ො
+𝑦 = 1 0
+0
+1
+= 1 × 0 + 0 × 1 = 0
+22
+Chapter 3: Orthonormal Basis, Bra–Ket Notation, and Measurement
+--- PAGE 5 ---
+Bra-Ket Notation
+• For every vector 𝑣𝑎 (or this is just the quantum state), we can represent it as 𝑣𝑎, “Vector a”, ȁ ۧ
+𝑣𝑎 , ȁ ۧ
+𝑣𝑎 ,
+ȁ ۧ
+𝑎 , ȁ ۧ
+𝑣𝑒𝑐𝑡𝑜𝑟 𝑎 , etc.
+• If we write it in the form of ȁ ۧ, then it is Dirac’s bra-ket notation. ȁ ۧ is just a vector and we can
+perform any vector operations on it.
+• For example, for 𝑣𝑎 = 𝑣𝑏 + 𝑣𝑐, we can write as ȁ ۧ
+𝑣𝑎 = ห ۧ
+𝑣𝑏 + ȁ ۧ
+𝑣𝑐 or ȁ ۧ
+𝑎 = ȁ ۧ
+𝑏 + ȁ ۧ
+𝑐 .
+• How about the bra? It still represents a vector and it has the form of ۦ ȁ.
+• We can represent 𝑣𝛼 = 𝑣𝛽 + 𝑣𝛾 in the form as ۦ ȁ
+𝑣𝛼 =ൻ ห
+𝑣𝛽 +ൻ ห
+𝑣𝛾.
+• The set of vectors in the bra-representation is the same set of vectors in the ket-representation and they
+form a dual space. Each vector in the ket space can find a corresponding vector in the bra space.
+• The method to find the correspondence is by performing a transpose operation and then complex
+conjugation.
+• E.g.
+• Therefore, 𝑣1. 𝑣2 = ۦ ȁ
+𝑣1 ȁ ۧ
+𝑣2 = 𝑎∗ 𝑏∗ 𝑐
+𝑑
+= 𝑎∗ × 𝑐 + 𝑏∗ × 𝑑
+ȁ ۧ
+𝑣1 = ȁ ۧ1 =
+𝑎
+𝑏
+=
+1 + 2𝑖
+𝑖
+ȁ ۦ →
+𝑣1 = ۦ ȁ1 = (𝑎∗ 𝑏∗) = (1 − 2𝑖 − 𝑖)
+23
+Chapter 3: Orthonormal Basis, Bra–Ket Notation, and Measurement
+--- PAGE 6 ---
+Quantum Mechanical State, Superposition,
+and Measurement
+• Every vector is a state of a physical system. If we have a physical system called electron spin and it has 2
+basis vectors, which are ȁ ۧ
+𝑠𝑝𝑖𝑛 𝑢𝑝 and ȁ ۧ
+𝑠𝑝𝑖𝑛 𝑑𝑜𝑤𝑛 . We can call them ȁ ۧ↑ and ȁ ۧ↓ also.
+• The basis vectors themselves are vectors and also quantum mechanical states. But they have a special
+identity called basis vectors because we choose them to represent other vectors as linear combinations of
+them.
+• We can write the basis state as follows:
+• Any spin state of an electron can be written as ȁ ۧ= 𝛼ȁ ۧ
+↑ + 𝛽ȁ ۧ↓ .
+• Any electron spin state is a superposition, which we have been calling “linear combination” of ȁ ۧ↑ and ȁ ۧ↓ .
+• In quantum mechanics, the spin state ȁ ۧ is a linear combination of ȁ ۧ↑ and ȁ ۧ↓ . But we know that ȁ ۧ↑ and
+ȁ ۧ↓ must be orthogonal and cannot exist at the same time with 100% certainty.
+• As a superposition state, when we perform a measurement, the spin state ȁ ۧ will collapse to one of the
+basis states. The probability of collapsing to ȁ ۧ↑ or ȁ ۧ↓ is proportional to 𝛼 2 and 𝛽 2, respectively.
+ȁ ۧ↑ =
+1
+0 𝑎𝑛𝑑 ȁ ۧ↓ =
+0
+1
+24
+Chapter 3: Orthonormal Basis, Bra–Ket Notation, and Measurement
+--- PAGE 7 ---
+Quantum Mechanical State, Superposition,
+and Measurement
+• The important meaning of the coefficients in the superposition is due to the Born rule which is an essential part
+of the Copenhagen interpretation.
+• For a state ȁ ۧ in an n-D space, which can be represented as
+where ȁ ۧ
+𝑉𝑖 are the basis states, when we perform a measurement, ȁ ۧ will randomly collapse to one of the basis
+states, e.g. ห ൿ
+𝑉𝑗 with a probability proportional to 𝑎𝑗
+2
+.
+• It equals 𝑎𝑗
+∗
+𝑎𝑗, where 𝑎𝑗
+∗ is the complex conjugate of 𝑎𝑗.
+• For example, if 𝑎𝑗 = 1 + 𝑖, then 𝑎𝑗
+∗
+= 1 − 𝑖 and 𝑎𝑗
+∗
+𝑎𝑗 = 1 + 𝑖 1 − 𝑖 = 1 × 1 + 𝑖 × 1 + 1 × −𝑖 + 𝑖 × −𝑖 = 2.
+• The length of 𝑎𝑗 is 2 and thus 𝑎𝑗
+2
+= 2.
+• If a vector is normalized, which will be used throughout quantum computing, it means it has a unit length.
+• The length of a vector is defined by the inner product of itself.
+ȁ ۧ= 𝑎0ȁ ۧ
+𝑉0 + 𝑎1ȁ ۧ
+𝑉1 + ⋯ + 𝑎𝑛−1ȁ ۧ
+𝑉𝑛−1 =
+𝑎0
+𝑎1
+:
+𝑎𝑛−1
+25
+Chapter 3: Orthonormal Basis, Bra–Ket Notation, and Measurement
+--- PAGE 8 ---
+Quantum Mechanical State, Superposition,
+and Measurement
+• For example, the inner product of ȁ ۧ
+𝑉 is
+• 𝑉 𝑉 = 1 because it is normalized. So, the probability that it will collapse to the basis state ȁ ۧ
+𝑉𝑖 is
+proportional to 𝑎𝑖
+2
+.
+• In summary, if a vector (or state) is normalized, the probability that it will collapse to the basis state ȁ ۧ
+𝑉𝑖
+equals to 𝑎𝑖
+2
+.
+• If you are given a vector, ȁ ۧ
+𝑉 , which is not normalized, we need to normalize it first. Since the definition of
+the normalized vector is that the summation of the square of the magnitude of coefficient is equal to one,
+we can just divide the vector by this sum and it will be normalized (with length = 1) as the following:
+𝑉 𝑉 = 𝑎0
+∗ 𝑎1
+∗
+… 𝑎𝑛−1
+∗
+𝑎0
+𝑎1
+:
+𝑎𝑛−1
+= 𝑎0𝑎0
+∗ + 𝑎1𝑎1
+∗ + ⋯ 𝑎𝑛−1𝑎𝑛−1
+∗
+= ෍
+𝑖=0
+𝑛−1
+𝑎𝑖𝑎𝑖
+∗
+= ෍
+𝑖=0
+𝑛−1
+𝑎𝑖
+2 = 1
+ȁ ۧ
+𝑉′ =
+ȁ ۧ
+𝑉
+σ𝑖=0
+𝑛−1 𝑎𝑖 2 26
+Chapter 3: Orthonormal Basis, Bra–Ket Notation, and Measurement
+--- PAGE 9 ---
+Chapter 4:
+Changing Basis, Uncertainty Principle,
+and Bra-Ket Operations
+Kamonluk Suksen Ph.D.
+27
+--- PAGE 10 ---
+Basis and Uncertainty Principle
+• It is important to realize that ȁ ۧ↑ and ȁ ۧ↓ are not real space direction vector like Ƹ𝑧 and − Ƹ𝑧.
+They are not direction vectors.
+• We can also choose another basis with basis vectors as ȁ ۧ
+𝑠𝑝𝑖𝑛 𝑙𝑒𝑓𝑡 and ȁ ۧ
+𝑠𝑝𝑖𝑛 𝑟𝑖𝑔ℎ𝑡.
+We write them as ȁ ۧ← and ȁ ۧ→ . These vectors have nothing to do with ො
+𝑥 and −
+ො
+𝑥.
+ȁ ۧ
+← and ȁ ۧ
+→ are not real space direction vectors.
+• We will also rename the basis vectors. We set ȁ ۧ↑ = ȁ ۧ0 , ȁ ۧ↓ = ȁ ۧ1 , ȁ ۧ
+← = ȁ ۧ
++ , and ȁ ۧ
+→ = ȁ ۧ
+−
+.
+• Therefore, the ȁ ۧ↑ /ȁ ۧ↓ basis becomes the ȁ ۧ0 /ȁ ۧ1 basis and the ȁ ۧ
+← /ȁ ۧ
+→ basis becomes the ȁ ۧ
++ /ȁ ۧ
+− basis.
+• The vector in the spin space could have complex coefficients when they are represented as the linear
+combination of ȁ ۧ0 and ȁ ۧ1 , i.e. ȁ ۧ= 𝛼ȁ ۧ0 + 𝛽ȁ ۧ1 , where 𝛼 and 𝛽 may be complex numbers.
+• Let us assume 𝛼 and 𝛽 are real, and then we can treat them as vectors on a 2D plane.
+• On the 2D plane, we can also have another set of basis vectors which are just equivalent to rotating the
+ȁ ۧ0 /ȁ ۧ1 basis vectors clockwise by 45°. We call them ȁ ۧ
++ /ȁ ۧ− basis as shown in Pic.4.
+• From Pic.4, by observation, we can represent ȁ ۧ
+𝑉1 in the ȁ ۧ0 /ȁ ۧ1 basis, ȁ ۧ
+𝑉1 = 1ห ۧ0 + 0ȁ ۧ1 = ȁ ۧ0 =
+1
+0 ,
+and can represent ȁ ۧ
+𝑉1 in the ȁ ۧ
++ /ȁ ۧ
+− basis, ȁ ۧ
+𝑉1 = 1/ 2(ห ۧ
++ + ȁ ۧ
+− ) = 1/ 2 1
+1.
+￼
+Pic.4 The two bases ȁ ۧ
+0 /ȁ ۧ
+1 and
+ȁ ۧ+ /ȁ ۧ− represented in a 2D
+real space.
+28
+Chapter 4: Changing Basis, Uncertainty Principle, and Bra-Ket Operations
+--- PAGE 11 ---
+Basis and Uncertainty Principle
+• From Pic.4, by observation, we can obtain ȁ ۧ0 with 100% certainty from measurement ȁ ۧ
+𝑉1 in the ȁ ۧ0 /ȁ ۧ1
+basis, but it is completely uncertain to us whether it is spinning left or spinning right in the ȁ ۧ
++ /ȁ ۧ
+− basis.
+• This means that we cannot measure the spin up/down and spin left/right with 100% accuracy
+simultaneously. This is called the Heisenberg Uncertainty Principle.
+• In quantum mechanics, the measurement of momentum and position is incompatible.
+Therefore, we cannot measure the momentum and position of a particle precisely at
+the same time.
+• Note that measurement of the momentum means to collapse the state into a momentum
+basis vector, which happens to be the momentum in our daily experience, and
+measurement of position means to collapse the particle state into a position basis vector,ฅ
+which is the position in our daily experience.
+• There is a valid reason why we cannot measure the momentum and position with
+100% certainty at the same time. The more certain we have on one measurement,
+the less we have on another measurement.
+￼
+Pic.4 The two bases ȁ ۧ
+0 /ȁ ۧ
+1 and ȁ ۧ+ /ȁ ۧ
+−
+represented in a 2D real space.
+29
+Chapter 4: Changing Basis, Uncertainty Principle, and Bra-Ket Operations
+--- PAGE 12 ---
+Basis and Uncertainty Principle
+• ȁ ۧ=
+1
+2 ȁ ۧ0 + 3
+2 ȁ ۧ1 are represented in the ȁ ۧ0 /ȁ ۧ1 basis. Its angle to the horizontal axis is 60°
+.
+How do we represent it in the ȁ ۧ
++ /ȁ ۧ
+− basis?
+• We can use trigonometry, but this is not useful to us when the problem cannot be mapped onto a fictious
+2D plane.
+• The trick is to represent ȁ ۧ0 /ȁ ۧ1 basis vectors as the linear combinations of ȁ ۧ
++ /ȁ ۧ
+− basis vectors
+and then use substitution.
+• Firstly, we can represent ȁ ۧ0 and ȁ ۧ1 as
+• Then we substitute ȁ ۧ0 and ȁ ۧ1 into ȁ ۧ=
+1
+2 ȁ ۧ0 + 3
+2 ȁ ۧ1 and obtain:
+Pic.5 ȁ ۧ in the fictious 2D real space.
+ȁ ۧ0 =
+1
+2 ȁ ۧ+ +
+1
+2 ȁ ۧ− 𝑎𝑛𝑑 ȁ ۧ1 =
+1
+2 ȁ ۧ+ −
+1
+2 ȁ ۧ−
+￼
+ȁ ۧ=
+1
+2
+1
+2 ȁ ۧ
++ +
+1
+2 ȁ ۧ− +
+3
+2
+1
+2 ȁ ۧ
++ −
+1
+2 ȁ ۧ−
+=
+1
+2
+1
+2 +
+3
+2 ȁ ۧ
++ +
+1
+2
+1
+2
+−
+3
+2 ȁ ۧ
+−
+30
+Chapter 4: Changing Basis, Uncertainty Principle, and Bra-Ket Operations
+--- PAGE 13 ---
+More Bra-ket Operations
+• For any vector in the ket space, there is a corresponding vector in the bra space.
+This is called 𝐃𝐮𝐚𝐥 𝐂𝐨𝐫𝐫𝐞𝐬𝐩𝐨𝐧𝐝𝐞𝐧𝐜𝐞.
+• For example, if ȁ ۧ
+𝛼 =
+𝑖
+1 , then ۦ ȁ
+𝛼 = (−𝑖 1)
+• We can scale a vector ȁ ۧ
+𝛼 by a constant (may be complex number) c. And this is still a vector, 𝑐ȁ ۧ
+𝛼 ;
+for example, 2 1
+2
+=
+2
+.4
+• What is the corresponding vector in the bra space? It is equivalent to multiplying the complex conjugate
+of c, i.e. 𝑐∗, to the bra version of ȁ ۧ
+𝛼 , i.e. ۦ ȁ
+𝛼 .
+• Similarly, if we represent a vector ȁ ۧ
+γ , as a linear combination of other vectors in the ket space, we can
+find the corresponding vector in the bra space as:
+𝑐∗ۦ ȁ
+𝑎 𝑐ȁ ۧ
+𝛼
+ȁ ۦ
+𝛾 = 𝑎∗ۦ ȁ
+𝛼 + 𝑏∗ۦ ȁ
+𝛽 ȁ ۧ
+𝛾 = 𝑎ȁ ۧ
+𝛼 + 𝑏ȁ ۧ
+𝛽
+31
+Chapter 4: Changing Basis, Uncertainty Principle, and Bra-Ket Operations
+--- PAGE 14 ---
+More Bra-ket Operations
+• There is another very useful rule and it is about the inner product.
+• An inner product of two vectors is a scalar (pure number). So, there is no dual space for it.
+• However, there is a rule related to the dual space for describing the relationship between ۦαȁβۧ and ۦβȁαۧ.
+.βȁαۧ means the projection of vector α on vector βۦ αȁβۧ means the projection of vector β on vector α andۦ •
+• If ȁ ۧ
+𝛼 =
+𝑎0
+𝑎1
+and ȁ ۧ
+𝛽 =
+𝑏0
+𝑏1
+, then ۦ ȁ
+𝛼 = (𝑎0
+∗ 𝑎1
+∗) and ۦ ȁ
+𝛽 = (𝑏0
+∗ 𝑏1
+∗), and therefore,
+• There is a special case when 𝛼 = 𝛽. This means 𝛼 𝛼 = 𝛼 𝛼 ∗
+.
+• This is just the inner product of vector α to itself and it says that the result equals its complex conjugate. Since
+only a real number equals its complex conjugate, it means the inner product of any vector to itself must be real.
+• If two vectors are orthogonal to each other, their inner product is zero, 𝛼 𝛽 = 0.
+• If a vector is normalized, its inner product is 1, 𝛼 𝛼 = 1.
+32
+Chapter 4: Changing Basis, Uncertainty Principle, and Bra-Ket Operations
+𝛼 𝛽 = 𝑎0
+∗ 𝑏0 + 𝑎1
+∗𝑏1
+𝛽 𝛼 = 𝑏0
+∗𝑎0 + 𝑏1
+∗𝑎1

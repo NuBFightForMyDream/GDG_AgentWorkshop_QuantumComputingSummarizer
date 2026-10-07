@@ -1,0 +1,1337 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH15_CH16_CH17-959373-17713811184543.pdf
+TOTAL_PAGES: 37
+--- PAGE 1 ---
+Chapter 15:
+SWAP, Phase Shift, and CCNOT (Toffoli)
+Gates
+Kamonluk Suksen Ph.D.
+40
+--- PAGE 2 ---
+SWAP Gate
+• A SWAP gate, as its name implies, swaps the numbers in the basis states of a 2-qubit register. If we
+consider only the basis states, it is equivalent to swapping the states of two electrons. The definition is
+where 𝑎 and 𝑏 are just the numbers of the first and the second qubits in the basis states, respectively.
+They can be either 0 or 1. All the basis states can be applied:
+Therefore, only ȁ ۧ01 and ȁ ۧ10 are changed (to each other) under the SWAP operation. For ȁ ۧ
+00 and ȁ ۧ
+11 ,
+they are unchanged because swapping “0” and “0” or “1” and “1” is equivalent to doing nothing.
+𝑼𝑺𝑾𝑨𝑷ȁ ۧ
+𝑎𝑏 = ȁ ۧ
+𝑏𝑎
+𝑼𝑺𝑾𝑨𝑷ȁ ۧ00 = ȁ ۧ00
+𝑼𝑺𝑾𝑨𝑷ȁ ۧ01 = ȁ ۧ
+10
+𝑼𝑺𝑾𝑨𝑷ȁ ۧ10 = ȁ ۧ
+01
+𝑼𝑺𝑾𝑨𝑷ȁ ۧ11 = ȁ ۧ11
+41
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 3 ---
+Matrix for SWAP Gate
+• The matrix of 𝑼𝑺𝑾𝑨𝑷 is
+We can understand it in this way. Since this is a 2-qubit gate for operating on a vector in the four-
+dimensional ℂ4 space, the matrix (operator) must be 4 × 4. Moreover, it only swaps the second and the
+third basis states.
+• Therefore, only the second and the third rows are different from the identity matrix. Let us try a
+numerical example:
+This is because |10ۧ is the third basis state and thus it is
+0
+0
+1
+0
+and |01ۧ is
+0
+1
+0
+0
+.
+𝑼𝑺𝑾𝑨𝑷 =
+1 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 1
+𝑼𝑺𝑾𝑨𝑷ȁ ۧ10 =
+1 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 1
+0
+0
+1
+0
+=
+0
+1
+0
+0
+= ȁ ۧ01
+42
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 4 ---
+Circuit and Properties
+• In general, for a 2-qubit vector, ห ۧ
+𝜓 = 𝛼ȁ ۧ00 + 𝛽ȁ0 ۧ1 + 𝛾ȁ1 ۧ0 + 𝛿ȁ1 ۧ1 , we have
+As expected, the coefficients of the second and the third basis states are swapped.
+• Pic. 14 shows the circuit of a SWAP operation. Note that again the bottom qubit is the MSB.
+• However, a quantum circuit represents a flow of time not a flow of signal. Therefore, unlike the classical
+swap operation, the implementation of a SWAP gate is complicated and is not as simple as how the
+circuit shows.
+• To perform a SWAP operation, we need to apply some correct
+external pulses so that the states of two electron spins are swapped.
+𝑼𝑺𝑾𝑨𝑷ȁ ۧ
+𝜓 =
+1 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 1
+𝛼
+𝛽
+𝛾
+𝛿
+=
+𝛼
+𝛾
+𝛽
+𝛿
+= 𝛼ȁ0 ۧ0 + 𝛾ȁ0 ۧ1 + 𝛽ȁ1 ۧ0 + 𝛿ȁ1 ۧ1
+Pic.14 SWAP gate and its circuit
+￼
+43
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 5 ---
+Phase Shift Gate
+• The phase shift gate, which is also called the P-gate or the phase gate, is a 1-qubit gate that shifts the
+relative phase between the two basis vectors. It is defined as the following:
+where 𝜙 is the phase and 𝑒𝑖𝜙 is the phase factor. When the phase shift gate is applied to the basis vector
+ȁ ۧ0 , it performs nothing. But when it is applied to the basis vector ȁ ۧ1 , it adds an additional phase to it.
+Adding an additional phase means that the vector is multiplied by 𝑒𝑖𝜙
+.
+• Why do we only apply the additional phase to the second basis?
+• What is the meaning of shifting the relative phase between the two basis vectors?
+• It is easier to understand if we look at its matrix form and observe how it evolves a general vector.
+𝑼𝑷𝑺,𝝓ȁ ۧ0 = ȁ ۧ0
+𝑼𝑷𝑺,𝝓ȁ ۧ1 = 𝑒𝑖𝜙ȁ ۧ1
+44
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 6 ---
+Matrix for Phase Shift Gate
+• The matrix of 𝑼𝑷𝑺,𝝓 is
+When we apply the phase shift gate to the second basis:
+𝑼𝑷𝑺,𝝓 =
+1 0
+0 𝑒𝑖𝜙
+𝑼𝑷𝑺,𝝓ȁ ۧ1 =
+1 0
+0 𝑒𝑖𝜙
+0
+1=
+0
+𝑒𝑖𝜙
+= 𝑒𝑖𝜙 0
+1= 𝑒𝑖𝜙ȁ ۧ1
+45
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 7 ---
+Circuit and Properties
+• In general, for a 1-qubit vector, ห ۧ
+𝜓 = 𝛼ȁ ۧ0 + 𝛽ȁ ۧ1 , we have
+• In the original vector 𝛼 and 𝛽, which are complex numbers in general, can be represented as the product
+of a phase factor and their magnitude. For example, 𝛼 = 𝑒𝑖𝜃1 𝛼 and 𝛽 = 𝑒𝑖𝜃2 𝛽 , where 𝜃1 and 𝜃2 are
+the phases of 𝛼 and 𝛽, respectively. Therefore, their phase difference is 𝜃1− 𝜃2.
+• Due to the phase shift gate, the phase of 𝛼 is unchanged but the phase of 𝛽 is changed to 𝝓 + 𝜃2.
+Therefore, their relative phase is changed by 𝝓. This also explains why the phase shift is only applied to
+the second basis state to be meaningful. If it is applied to both, there will be no change in the phase
+difference.
+• 𝝓 is a parameter of the phase shift gate. When 𝝓 = 𝝅, the gate becomes 1 0
+0 𝑒𝑖𝜋
+=
+1 0
+0 −1
+because 𝑒𝑖𝜋 = cos 𝜋 + 𝑖 sin 𝜋 = −1. And this is just the 𝜎𝑧 matrix, it is also called the Z-gate.
+• The phase shift gate shifts the relative phase of |0ۧ and |1ۧ by 𝝓. And thus the Z-gate shifts the relative
+phase by π. This makes the Z-gate turns out that in the |+ۧ / |−ۧ basis. E.g. 𝑼𝑷𝑺,𝝅ȁ ۧ
++ = 𝑼𝒛ȁ ۧ
++ = ȁ ۧ
+−
+.
+𝑼𝑷𝑺,𝝓ȁ ۧ
+𝜓 =
+1 0
+0 𝑒𝑖𝜙
+𝛼
+𝛽
+=
+𝛼
+𝑒𝑖𝜙𝛽
+= 𝛼ȁ ۧ0 + 𝑒𝑖𝜙𝛽ȁ ۧ1
+46
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 8 ---
+Circuit and Properties
+• We see that the Z-gate does convert |+ۧ to |−ۧ. So, the Z-gate will add a phase shift of 𝜋 to the coefficient
+of the second basis state (i.e. |1ۧ). It just multiply -1 to |1ۧ.
+• Pic. 15 shows the circuit of a phase shift gate and Z-gate.
+Pic.15 Phase shift gate circuits. Top: 1-bit phase shift gate.
+Middle: Z-gate. Bottom: controlled-PS gate
+￼
+47
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 9 ---
+Controlled Phase Shift Gate
+• Since Z-gate is the NOT gate in the |+ۧ / |−ۧ basis, it is then natural that there may be a “controlled-Z-
+gate,” which is a CNOT gate in the |+ۧ / |−ۧ basis. And in general, there must be a controlled phase shift
+gate. Indeed, we can define a 2-qubit controlled phase shift gate as the following:
+where 𝑎 and 𝑏 are just the numbers of the first and the second qubits in the basis states, respectively.
+They can be either 0 or 1. Here “.” means the classical logic AND operation. Therefore, 𝑎. 𝑏 equals 1
+only when both a and b are 1. How it changes the basis states:
+• Therefore, only ȁ ۧ
+11 is changed with an extra phase. When the first qubit is 1, a phase shift gate is
+applied. So, the first qubit is the control qubit and the second qubit is the target qubit in this controlled
+phase shift gate. the phase shift is only applied to the second basis state. Therefore, only |11ۧ gets the
+extra phase shift.
+𝑼𝑪𝑷𝑺,𝝓ȁ ۧ
+𝑎𝑏 = 𝑒𝑖(𝑎.𝑏)𝜙ȁ ۧ
+𝑎𝑏
+𝑼𝑪𝑷𝑺,𝝓ȁ ۧ00 = 𝑒𝑖(0.0)𝜙ȁ ۧ00 = ȁ ۧ00
+𝑼𝑪𝑷𝑺,𝝓ȁ ۧ01 = 𝑒𝑖(0.1)𝜙ȁ ۧ01 = ȁ ۧ
+01
+𝑼𝑪𝑷𝑺,𝝓ȁ ۧ10 = 𝑒𝑖(1.0)𝜙ȁ ۧ10 = ȁ ۧ10
+𝑼𝑪𝑷𝑺,𝝓ȁ ۧ11 = 𝑒𝑖(1.1)𝜙ȁ ۧ11 = 𝑒𝑖𝜙ȁ ۧ11
+48
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 10 ---
+Matrix for Controlled Phase Shift Gate
+• The matrix of 𝑼𝑪𝑷𝑺,𝝓 is
+Since this is a 2-qubit gate for operating on a vector in the four-dimensional ℂ4 space, the matrix
+(operator) must be 4 × 4. And as discussed, only |11ۧ gains an extra phase after this gate. Therefore, it is
+almost like an identity matrix except the last row. Let us try a numerical example.
+𝑼𝑪𝑷𝑺,𝝓 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 𝑒𝑖𝜙
+𝑼𝑪𝑷𝑺,𝝓ȁ ۧ
+11 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 𝑒𝑖𝜙
+0
+0
+0
+1
+=
+0
+0
+0
+𝑒𝑖𝜙
+= 𝑒𝑖𝜙
+0
+0
+0
+1
+= 𝑒𝑖𝜙ȁ ۧ
+11
+49
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 11 ---
+Circuit and Properties
+• In general, for a 2-qubit vector, ห ۧ
+𝜓 = 𝛼ȁ ۧ00 + 𝛽ȁ0 ۧ1 + 𝛾ȁ1 ۧ0 + 𝛿ȁ1 ۧ1 , we have
+Therefore, a controlled phase shift gate only adds a phase to the |11ۧ component.
+• Pic. 15 shows the circuit of a controlled phase shift gate operation. Note that again the bottom qubit is the
+MSB.
+𝑼𝑪𝑷𝑺,𝝓ȁ ۧ
+𝜓 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 𝑒𝑖𝜙
+𝛼
+𝛽
+𝛾
+𝛿
+=
+𝛼
+𝛽
+𝛾
+𝑒𝑖𝜙𝛿
+= 𝛼ȁ0 ۧ0 + 𝛾ȁ0 ۧ1 + 𝛽ȁ1 ۧ0 + 𝑒𝑖𝜙𝛿ȁ1 ۧ1
+50
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+￼
+Pic.15 Phase shift gate circuits. Top: 1-bit phase shift gate.
+Middle: Z-gate. Bottom: controlled-PS gate
+--- PAGE 12 ---
+Toffoli (CCNOT) Gate
+• A Toffoli gate is a 3-qubit gate. It is also known as the CCNOT gate, which stands for Controlled-
+Controlled-NOT gate. When a CCNOT gate is applied to the basis states of ℂ8 (a 3-qubit space), it will
+apply a NOT operator to the third qubit if both the first and the second qubit (the control qubits) are 1.
+The definition is:
+T is the unitary operator of the Toffoli gate. ȁ ۧ
+𝑎𝑏𝑐 is the basis state of a ℂ8 space, which is formed by the
+tensor products of three ℂ2 spaces due to three qubits. a and b are either 0 or 1. ȁ ۧ
+𝑎𝑏𝑐 can be any of the 8
+basis states running from ȁ ۧ000 , ȁ ۧ001 , to ȁ ۧ111 .
+• After applying T to ȁ ۧ
+𝑎, 𝑏, 𝑐 , the basis state becomes ȁ ۧ
+𝑎, 𝑏, (𝑎. 𝑏)⨁𝑐 . This means the value of the first 2
+qubits remain unchanged. But the last qubit value becomes (𝑎. 𝑏)⨁𝑐. So, it is only one when both a and
+b are one. ⊕ is the classical XOR operation.
+• Again 0⨁0 = 0, 0⨁1 = 1, 1⨁0 = 1, and 1⨁1 = 0.
+𝑻ȁ ۧ
+𝑎𝑏𝑐 = 𝑻ȁ ۧ
+𝑎 ⨂ȁ ۧ
+𝑏 ⨂ȁ ۧ
+𝑐 = 𝑻ȁ ۧ
+𝑎, 𝑏, 𝑐 = ȁ𝑎, ۧ
+𝑏, (𝑎. 𝑏)⨁𝑐
+51
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 13 ---
+Toffoli (CCNOT) Gate
+• Therefore, this is a controlled-controlled-NOT gate with the first and the second qubits being the control
+qubits.
+We see that T keeps the basis vectors intact except swaps the last two basis vectors because only the last
+two basis vectors have both the first and the second qubit values being one to enable the NOT operation
+on the last qubit value
+𝑻ȁ ۧ
+0, 0, 0 = ȁ0, ۧ
+0, (0.0)⨁0 = ȁ0, ۧ
+0,0
+𝑻ȁ ۧ
+0, 0, 1 = ȁ0, ۧ
+0, (0.0)⨁1 = ȁ0, ۧ
+0,1
+𝑻ȁ ۧ
+0, 1, 0 = ȁ0, ۧ
+1, (0.1)⨁0 = ȁ0, ۧ
+1,0
+𝑻ȁ ۧ
+0, 1, 1 = ȁ0, ۧ
+1, (0.1)⨁1 = ȁ0, ۧ
+1,1
+𝑻ȁ ۧ
+1, 0, 0 = ȁ1, ۧ
+0, (1.0)⨁0 = ȁ1, ۧ
+0,0
+𝑻ȁ ۧ
+1, 0, 1 = ȁ1, ۧ
+0, (1.0)⨁1 = ȁ1, ۧ
+0,1
+𝑻ȁ ۧ
+1, 1, 0 = ȁ1, ۧ
+1, (1.1)⨁0 = ȁ1, ۧ
+1,1
+𝑻ȁ ۧ
+1, 1, 1 = ȁ1, ۧ
+1, (1.1)⨁1 = ȁ1, ۧ
+1,0
+52
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 14 ---
+Matrix for Toffoli (CCNOT) Gate
+• The matrix of 𝑻 is
+Since the Toffoli gate is a 3-qubit gate in the eight-dimensional ℂ8 space, the matrix (operator) must be
+8 × 8. Moreover, it only swaps the last two basis states. Therefore, it is different from an identity matrix
+only in the last two rows, which has the NOT gate matrix embedded. Let us try a numerical example.
+𝑻 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+𝑻ȁ ۧ
+111 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+0
+0
+0
+0
+0
+0
+0
+1
+=
+0
+0
+0
+0
+0
+0
+1
+0
+= ȁ ۧ
+110
+53
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 15 ---
+Circuit and Properties
+• In general, for a 3-qubit vector, ห ۧ
+𝜓 = 𝛼ȁ ۧ
+000 + 𝛽ȁ00 ۧ1 + 𝛾ȁ01 ۧ0 + 𝛿ȁ01 ۧ1 + 𝜖ȁ10 ۧ0 + 𝜁ȁ10 ۧ1 +
+𝜂ȁ11 ۧ0 + 𝜃ȁ11 ۧ1 , we have
+• As expected, the coefficients of the last two basis states are swapped.
+= 𝛼ȁ ۧ
+000 + 𝛽ȁ00 ۧ1 + 𝛾ȁ01 ۧ0 + 𝛿ȁ01 ۧ1 + 𝜖ȁ10 ۧ0 + 𝜁ȁ10 ۧ
+1 + 𝜃ȁ11 ۧ0 + 𝜂ȁ11 ۧ1
+𝑻ȁ ۧ
+𝜓 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+𝛼
+𝛽
+𝛾
+𝛿
+𝜖
+𝜁
+𝜂
+𝜃
+=
+𝛼
+𝛽
+𝛾
+𝛿
+𝜖
+𝜁
+𝜃
+𝜂
+= 𝛼ȁ ۧ0 + 𝛽ȁ ۧ1 + 𝛾ȁ ۧ2 + 𝛿ȁ ۧ
+3 + 𝜖ȁ ۧ4 + 𝜁ȁ ۧ5 + 𝜃ȁ ۧ6 + 𝜂ȁ ۧ7
+54
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 16 ---
+Circuit and Properties
+• Pic. 16 shows the circuit of a CCNOT operation. Note that again the bottom qubit is the MSB and the
+two most significant qubits act as the control qubits.
+• We can make a Toffoli gate to act as a classical AND gate by setting 𝑐 = 0. In this case,
+This is because any number XOR with 0 is unchanged. Therefore, the third qubit value equals a AND b
+and thus it can act as a classical AND gate, with the first two qubits as the inputs and the third qubit as
+the output. Similarly, if we set a = 1 and b = 1, we have
+This is because 1⨁𝑐 =
+ത
+𝒄, where ത
+𝒄 is the negation of c.
+• Since any classical logic can be implemented with a combination of the AND and NOT gates, thus, the
+Toffoli gate is a universal gate for classical logic.
+Pic.16 Toffoli (CCNOT) gate circuit. The swapped coefficients are highlighted
+￼
+𝑻ȁ ۧ
+𝑎𝑏𝑐 = 𝑻ȁ ۧ
+𝑎𝑏0 = ȁ𝑎, ۧ
+𝑏, (𝑎. 𝑏)⨁0 = ȁ𝑎, ۧ
+𝑏, 𝑎. 𝑏
+𝑻ȁ ۧ
+𝑎𝑏𝑐 = 𝑻ȁ ۧ
+11𝑐 = ȁ1, ۧ
+1, (1.1)⨁𝑐 = ȁ1, ۧ
+1,1⨁𝑐 = ȁ1, ۧ
+1,
+ത
+𝒄
+55
+Chapter 15: SWAP, Phase Shift, and CCNOT (Toffoli) Gates
+--- PAGE 17 ---
+Chapter 16:
+Walsh–Hadamard Gate and Its
+Properties
+Kamonluk Suksen Ph.D.
+56
+--- PAGE 18 ---
+Walsh–Hadamard Gate
+• The Walsh–Hadamard gate is commonly called the Hadamard gate.
+• The symbol of a Hadamard gate is H.
+• Hadamard gate is so special because it has no classical counterpart. The Hadamard gate is a 1-qubit gate,
+but, of course, we can also form a multi-qubit Hadamard gate through the tensor products of 1-qubit
+Hadamard gates.
+• When the Hadamard gate is applied to the basis vectors ȁ ۧ0 and ȁ ۧ1 , they are rotated to a superposition of
+the basis vectors.
+• Note that when the quantum gates are applied to the basis vectors (e.g. NOT gate to |0ۧ), the basis vectors
+are only transformed (rotated) to other basis vectors (e.g. 𝑼𝑵𝑶𝑻ȁ ۧ0 = ȁ ۧ1 ).
+• Since the basis vectors have a one-to-one correspondence to classical logic binary values, those gates
+have their classical counterpart (e.g. 𝑁𝑂𝑇 0 = 1). However, there is no classical counterpart for the
+Hadamard gate because it is impossible to find a classical gate that gives “ 1
+2 (0 + 1)” as “0 + 1” is
+meaningless in the classical Boolean logic.
+𝑯ȁ ۧ0 =
+1
+2 ȁ ۧ0 + ȁ ۧ1 = ȁ ۧ
++
+𝑯ȁ ۧ1 =
+1
+2 ȁ ۧ0 − ȁ ۧ1 = ȁ ۧ
+−
+57
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 19 ---
+Walsh–Hadamard Gate
+• The Hadamard gate also equivalently transforms ȁ ۧ0 and ȁ ۧ1 to ȁ ۧ
++ and ȁ ۧ
+− , respectively.
+• Let’s remark that ȁ ۧ0 and ȁ ۧ1 are the eigenvectors of 𝝈𝒛 and ȁ ۧ
++ and ȁ ۧ
+− are the eigenvectors of 𝝈𝒙 and
+they can be represented as the superpositions of the others.
+• We used a fake real-2D plane to illustrate this idea and repeat this in the inset of Pic. 17.
+• While the fake 2D plane illustration is incomplete, the equations derived turned out to be correct.
+For example, using vector addition, we can easily show that ȁ ۧ
++ =
+1
+2 (ȁ ۧ0 + ȁ ۧ1 ) and ȁ ۧ
+− =
+1
+2 (ȁ ۧ0 − ȁ ۧ1 ).
+Pic.17 Hadamard gate circuits. The inset shows the relationship between the |+ۧ / |−ۧ basis
+and the |0ۧ / |1ۧ basis on a fake real 2D plane.
+￼
+58
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 20 ---
+Matrix for Walsh–Hadamard Gate
+• The matrix of 𝑯 is
+Since this is a 1-qubit gate for operating on a vector in the two-dimensional ℂ2 space, the matrix
+(operator) must be 2 × 2. And we can easily prove that this is correct by doing the numerical
+substitutions.
+Because we are working on the basis formed by the eigenvectors of 𝝈𝒛 when we write the operator and
+the vectors in their matrix and column form, respectively. Therefore, ȁ ۧ0 =
+1
+0 and ȁ ۧ1 =
+0
+1.
+𝑯 =
+1
+2
+1 1
+1 −1
+𝑯ȁ ۧ0 =
+1
+2
+1 1
+1 −1
+1
+0
+=
+1
+2
+1
+1
+=
+1
+2 (ȁ ۧ0 + ȁ ۧ1 )
+𝑯ȁ ۧ1 =
+1
+2
+1 1
+1 −1
+0
+1
+=
+1
+2
+1
+−1
+=
+1
+2 (ȁ ۧ0 − ȁ ۧ1 )
+59
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 21 ---
+Circuit
+• In general, for a 1-qubit vector, ห ۧ
+𝜓 = 𝛼ȁ ۧ0 + 𝛽ȁ ۧ1 , we have
+This is the final expression easily by recalling how H rotates the basis states. That is, it will transform ȁ ۧ0
+to ȁ ۧ
++ and ȁ ۧ1 to ȁ ۧ
+− , respectively.
+𝑯ȁ ۧ
+𝜓 =
+1
+2
+1 1
+1 −1
+𝛼
+𝛽
+=
+1
+2
+𝛼 + 𝛽
+𝛼 − 𝛽
+= 𝛼ȁ ۧ
++ + 𝛽ȁ ۧ
+−
+60
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 22 ---
+Properties of the Hadamard Gate
+• Inverse of Hadamard Gate
+The inverse of the Hadamard gate (𝑯−1) equals the Hadamard gate itself, i.e.
+This is a special property that we will use in some quantum computing algorithms. Since for any matrix, when it is multiplied by
+its inverse, it becomes an identity matrix. Therefore, we have
+This means that if you apply the Hadamard gate twice, the input state vector is unchanged!
+The construction of the inverse of a general matrix is fair cumbersome and we will not discuss it here. But we will try to do so
+for a 2 × 2 matrix as it is relatively easy. The inverse of a 2 × 2 matrix, 𝑼 =
+𝑎 𝑏
+𝑐 𝑑 is
+𝑯 = 𝑯−1
+𝑯𝑯−1 = 𝑰
+𝑯𝑯 = 𝑰
+𝑼−1 =
+1
+𝑎𝑑 − 𝑐𝑏
+𝑑 −𝑏
+−𝑐 𝑎
+61
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 23 ---
+Properties of the Hadamard Gate
+• Inverse of Hadamard Gate
+For a Hadamard gate, 𝑎 = 𝑏 = 𝑐 =
+1
+2
+and 𝑑 = −
+1
+2 , therefore,
+𝑯−1 =
+1
+1
+2
+−1
+2
+−
+1
+2
+1
+2
+−1
+2
+−1
+2
+−1
+2
+1
+2
+=
+1
+−1
+2
+−
+1
+2
+−1
+2
+−1
+2
+−1
+2
+1
+2
+=
+1
+2
+1 1
+1 −1
+= 𝑯
+62
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 24 ---
+Properties of the Hadamard Gate
+• Multiple-Qubit Hadamard Gate
+Multiple-qubit Hadamard gate is just a simple tensor product of 1-qubit Hadamard gates. Therefore, for an n-qubit Hadamard gate,
+denoted by 𝑯⨂𝑛, it is found by:
+For example, when 𝑛 = 2, a 2-qubit Hadamard gate is
+𝑯⨂𝑛 = 𝑯⨂𝑯 ⋯ ⨂𝑯
+=
+1
+2
+1 1
+1 −1 ⨂
+1
+2
+1 1
+1 −1 ⨂ ⋯ ⨂
+1
+2
+1 1
+1 −1
+𝑯⨂2 = 𝑯⨂𝑯
+=
+1
+2
+1 1
+1 −1 ⨂
+1
+2
+1 1
+1 −1
+=
+1
+2
+1 1 1
+1 −1 1 1 1
+1 −1
+1 1 1
+1 −1
+−1 1 1
+1 −1
+=
+1
+2
+1 1
+1 −1
+1 1
+1 −1
+1 1
+1 −1
+−1 −1
+−1 1
+63
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 25 ---
+Properties of the Hadamard Gate
+• Multiple-Qubit Hadamard Gate
+When it is applied to ȁ ۧ00 , i.e. the first basis vector of the ℂ4 space formed by two qubits, we get
+It creates an equal superposition of all the basis vectors in the ℂ4 space like in the 1-qubit case for the ℂ2
+space.
+We have used the fact that each 1-qubit Hadamard gate is only applied to the vector in the corresponding
+space. It shows that, by applying the Hadamard gate to any state, we only need to replace |0ۧ by |+ۧ and
+|1ۧ by |−ۧ.
+𝑯⨂2ȁ ۧ00 =
+1
+2
+1 1
+1 −1
+1 1
+1 −1
+1 1
+1 −1
+−1 −1
+−1 1
+1
+0
+0
+0
+=
+1
+2
+1
+1
+1
+1
+=
+1
+2 (ȁ ۧ00 + ห ۧ
+01 + ȁ ۧ
+10 + ȁ ۧ11 )
+64
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 26 ---
+Properties of the Hadamard Gate
+• Properties of n-Qubit Hadamard Gate
+when an n-qubit Hadamard gate (𝑯⨂𝑛) is applied to ȁ ۧ0 𝑛, it will create an equal superposition of all basis
+vectors in the 2𝑛
+-dimensional space (the ℂ2𝑛 space). ȁ ۧ0 𝑛 is the first basis vector in the 2𝑛
+-D space. It is
+formed by the tensor product of 𝑛 ȁ ۧ0 ′
+s in the subspaces.
+Applying an n-qubit Hadamard gate to ȁ ۧ0 𝑛, we have
+An n-qubit Hadamard gate can be just n copies of such pulses applying to n electrons in parallel. So,
+ȁ ۧ0 𝑛
+= ȁ ۧ
+00 ⋯ 0 = ȁ ۧ0 ⊗ ȁ ۧ0 ⊗ ⋯ ⊗ ȁ ۧ
+0
+𝑯⨂𝑛ȁ ۧ0 𝑛
+= 𝑯⨂𝑛ȁ ۧ0 ⊗ ȁ ۧ0 ⊗ ⋯ ⊗ ȁ ۧ
+0
+= (𝑯 ⊗ 𝑯 ⊗ ⋯ ⊗ 𝑯)ȁ ۧ0 ⊗ ȁ ۧ0 ⊗ ⋯ ⊗ ȁ ۧ0
+= (𝑯ȁ ۧ0 ) ⊗ (𝑯ȁ ۧ0 ) ⊗ ⋯ ⊗ (𝑯ȁ ۧ0 )
+𝑯⨂𝑛ȁ ۧ0 𝑛
+= (
+1
+2 (ȁ ۧ0 + ȁ ۧ1 )) ⊗ (
+1
+2 (ȁ ۧ0 + ȁ ۧ
+1 )) ⊗ ⋯ ⊗ (
+1
+2 (ȁ ۧ0 + ȁ ۧ1 ))
+=
+1
+2𝑛 (ȁ ۧ
+0 + ȁ ۧ1 ) ⊗ (ȁ ۧ0 + ȁ ۧ1 ) ⊗ ⋯ ⊗ (ȁ ۧ0 + ȁ ۧ1 ) 65
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 27 ---
+Properties of the Hadamard Gate
+• Properties of n-Qubit Hadamard Gate
+What happen if the 𝑯⨂𝑛 is applied to an arbitrary basis vector ȁ ۧ
+𝑦. ȁ ۧ
+𝑦 can be represented in a binary (e.g.
+ȁ ۧ00101 ) or decimal (e.g. ȁ ۧ5 ) form. It really does not matter how it is represented as long as we know
+how many qubits are being used. So, we will first represent y in its binary form.
+Since 𝑦𝑛−1𝑦𝑛−2⋯ 𝑦1 𝑦0 is a string of numbers representing the value 𝑦𝑛−1 × 2𝑛−1 + 𝑦𝑛−2 × 2𝑛−2
+⋯ 𝑦0 ×
+20. Each H only applies to the corresponding qubit. However, the qubit may be ȁ ۧ0 or ȁ ۧ1 . And it
+becomes 1
+2 (ȁ ۧ0 + ȁ ۧ1 ) and 1
+2 (ȁ ۧ0 − ȁ ۧ1 ), respectively, after applying the Hadamard gate.
+𝑯⨂𝑛ȁ ۧ0 𝑛
+= (
+1
+2 (ȁ ۧ0 + ȁ ۧ1 )) ⊗ (
+1
+2 (ȁ ۧ0 + ȁ ۧ1 )) ⊗ ⋯ ⊗ (
+1
+2 (ȁ ۧ0 + ȁ ۧ1 ))
+=
+1
+2𝑛 (ȁ ۧ0 + ȁ ۧ1 ) ⊗ (ȁ ۧ
+0 + ȁ ۧ1 ) ⊗ ⋯ ⊗ (ȁ ۧ0 + ȁ ۧ1 )
+=
+1
+2𝑛 (ȁ ۧ
+00 ⋯ 00 + ȁ ۧ
+00 ⋯ 01 + ȁ ۧ
+00 ⋯ 10 + ȁ ۧ
+00 ⋯ 11 + ⋯ + ȁ ۧ
+11 ⋯ 11 )
+=
+1
+2𝑛 (ȁ ۧ0 + ȁ ۧ1 + ȁ ۧ2 + ȁ ۧ3 + ⋯ + ȁ ۧ
+2𝑛
+− 1 )
+=
+1
+2𝑛 σ𝑥=0
+2𝑛
+−1ȁ ۧ
+𝑥
+ȁ ۧ
+𝑦 = ȁ ۧ
+𝑦𝑛−1𝑦𝑛−2⋯ 𝑦1 𝑦0
+66
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 28 ---
+Properties of the Hadamard Gate
+• Properties of n-Qubit Hadamard Gate
+This is equivalent to
+because (−1)𝑦𝑖 = 1 and (−1)𝑦𝑖 = −1 for 𝑦𝑖 = 0 and 𝑦𝑖 = 1, respectively. Therefore,
+𝑯ȁ ۧ
+𝑦𝑖 =
+1
+2 (ȁ ۧ0 + (−1)𝑦𝑖 ȁ ۧ1 )
+𝑯⨂𝑛ȁ ۧ
+𝑦 = 𝑯⨂𝑛ȁ ۧ
+𝑦𝑛−1𝑦𝑛−2⋯ 𝑦1 𝑦0
+= (𝑯ȁȁ ۧ
+𝑦𝑛−1 ) ⊗ (𝑯ȁȁ ۧ
+𝑦𝑛−2 ) ⊗ ⋯ ⊗ (𝑯ȁȁ ۧ
+𝑦0 )
+= ( 1
+2 ȁ ۧ0 + −1 𝑦𝑛−1 ȁ ۧ1 ) ⊗ ( 1
+2 ȁ ۧ0 + −1 𝑦𝑛−2 ȁ ۧ1 )
+⊗ ⋯ ⊗ 1
+2 ȁ ۧ0 + −1 𝑦0 ȁ ۧ1
+=
+1
+2𝑛/2 ȁ ۧ0 + −1 𝑦𝑛−1 ȁ ۧ1 ⊗ ȁ ۧ0 + −1 𝑦𝑛−2 ȁ ۧ1 ⊗ ⋯ ⊗
+ȁ ۧ0 + −1 𝑦0 ȁ ۧ1
+=
+1
+2𝑛/2 ෍
+𝑥=0
+2𝑛
+−1
+(−1)𝑥.𝑦ȁ ۧ
+𝑥 67
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 29 ---
+Properties of the Hadamard Gate
+• Properties of n-Qubit Hadamard Gate
+For example, calculate 𝑯⨂2ȁ ۧ
+3
+For 𝑛 = 2, we have 010 = 002, 110 = 012, 210 = 102, and 310 = 112. Therefore,
+Therefore,
+𝑯⨂2ȁ ۧ3 =
+1
+22/2 ෍
+𝑥=0
+22
+−1
+(−1)𝑥.3ȁ ۧ
+𝑥 =
+1
+2 ෍
+𝑥=0
+3
+(−1)𝑥.3ȁ ۧ
+𝑥
+=
+1
+2 ( −1 0.3ȁ ۧ0 + −1 1.3ȁ ۧ1 + −1 2.3ȁ ۧ2 + −1 3.3ȁ ۧ3 )
+0.3 = 0𝐴𝑁𝐷1 ⨁ 0𝐴𝑁𝐷1 = 0⨁0 = 0
+1.3 = 0𝐴𝑁𝐷1 ⨁ 1𝐴𝑁𝐷1 = 0⨁1 = 1
+2.3 = 1𝐴𝑁𝐷1 ⨁ 0𝐴𝑁𝐷1 = 1⨁0 = 1
+3.3 = 1𝐴𝑁𝐷1 ⨁ 1𝐴𝑁𝐷1 = 1⨁1 = 0
+𝑯⨂2ȁ ۧ3 =
+1
+2 (ȁ ۧ0 − ȁ ۧ1 − ȁ ۧ2 + ȁ ۧ3 )
+68
+Chapter 16: Walsh–Hadamard Gate and Its Properties
+--- PAGE 30 ---
+Chapter 17:
+Two Quantum Circuit Examples
+Kamonluk Suksen Ph.D.
+Chaper 1 69
+--- PAGE 31 ---
+Quantum Circuit for Rotating Basis
+• The standard ℂ2 basis vectors are ȁ ۧ
+00 , ȁ ۧ01 , ȁ ۧ10 , and ȁ ۧ11 . They can be written in the column form as:
+For example, |00ۧ is 100% of the zeroth basis vector, i.e. |00ۧ.
+• The Bell states are given as follows:
+ȁ ۧ
+00 =
+1
+0
+0
+0
+, ȁ ۧ
+01 =
+0
+1
+0
+0
+, ȁ ۧ
+10 =
+0
+0
+1
+0
+, ȁ ۧ11 =
+0
+0
+0
+1
+ȁ ۧ
+𝜙+ =
+1
+2
+1
+0
+0
+1
+, ȁ ۧ
+𝜙−
+=
+1
+2
+1
+0
+0
+−1
+, ȁ ۧ
+𝜓+ =
+1
+2
+0
+1
+1
+0
+, ȁ ۧ
+𝜓−
+=
+1
+2
+0
+1
+−1
+0
+Chapter 17: Two Quantum Circuit Examples
+70
+--- PAGE 32 ---
+Quantum Circuit for Rotating Basis
+• Find the matrix representation of 𝑼𝑋𝑂𝑅(𝑯 ⊗ 𝑰).
+• Show 𝑼𝑋𝑂𝑅 𝑯 ⊗ 𝑰 ȁ ۧ
+01 = ȁ ۧ
+𝜓+
+.
+𝑼𝑋𝑂𝑅𝑯 ⊗ 𝑰 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+1
+2
+1 1
+1 −1 ⊗ 1 0
+0 1
+=
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+1
+2
+1 1 0
+0 1 1 1 0
+0 1
+1 1 0
+0 1
+−1 1 0
+0 1
+=
+1
+2
+1 0
+0 1
+1 0
+0 1
+0 1
+1 0
+0 −1
+−1 0
+𝑼𝑋𝑂𝑅𝑯 ⊗ 𝑰ȁ ۧ01 =
+1
+2
+1 0
+0 1
+1 0
+0 1
+0 1
+1 0
+0 −1
+−1 0
+0
+1
+0
+0
+=
+1
+2
+0
+1
+1
+0
+= ȁ ۧ
+𝜓+
+71
+Chapter 17: Two Quantum Circuit Examples
+--- PAGE 33 ---
+Quantum Circuit for Rotating Basis
+• How to construct a quantum circuit for this? We should note that in matrix operations, the states evolve
+from the right to the left in the equation, but in a quantum circuit, the states evolve from the left to the
+right in the circuit diagram.
+• Therefore, we should put the 𝑯 ⊗ 𝑰 gate on the left and the 𝑼𝑋𝑂𝑅 on the right in the circuit diagram.
+• Pic. 18 shows the corresponding quantum circuit. The state evolves from left to right in the circuit.
+Pic.18 The quantum circuits for rotating regular ℂ4 basis vectors to Bell states. The top one is
+the convention we have been using (IBM-Q) with MSB at the bottom and the bottom one is
+the other version often seen in other books. Both are using little-endian convention
+￼
+72
+Chapter 17: Two Quantum Circuit Examples
+--- PAGE 34 ---
+Quantum Circuit for Rotating Basis
+• Here shows that 𝑼𝑋𝑂𝑅 𝑯 ⊗ 𝑰 𝛼ȁ ۧ
+00 + 𝛽ȁ ۧ
+01 + 𝛾ȁ ۧ
+10 + 𝛿ȁ ۧ11 = 𝛼ȁ ۧ
+𝜙+ + 𝛽ȁ ۧ
+𝜓+ + 𝛾ȁ ۧ
+𝜙− + 𝛿ȁ ۧ
+𝜓−
+.
+• For the left-hand side, we have
+• For the right-hand side, we have
+𝑼𝑋𝑂𝑅 𝑯 ⊗ 𝑰 𝛼ȁ ۧ00 + 𝛽ȁ ۧ
+01 + 𝛾ȁ ۧ
+10 + 𝛿ȁ ۧ11
+=
+1
+2
+1 0
+0 1
+1 0
+0 1
+0 1
+1 0
+0 −1
+−1 0
+𝛼
+𝛽
+𝛾
+𝛿
+=
+1
+2
+𝛼 + 𝛾
+𝛽 + 𝛿
+𝛽 − 𝛿
+𝛼 − 𝛾
+𝛼ȁ ۧ
+𝜙+ + 𝛽ȁ ۧ
+𝜓+ + 𝛾ȁ ۧ
+𝜙− + 𝛿ȁ ۧ
+𝜓−
+=
+𝛼
+2
+1
+0
+0
+1
++ 𝛽
+2
+0
+1
+1
+0
++ 𝛾
+2
+1
+0
+0
+−1
++
+𝛿
+2
+0
+1
+−1
+0
+=
+1
+2
+𝛼 + 𝛾
+𝛽 + 𝛿
+𝛽 − 𝛿
+𝛼 − 𝛾
+73
+Chapter 17: Two Quantum Circuit Examples
+--- PAGE 35 ---
+Quantum Circuit for Implementing a SWAP
+Gate
+• The definition of SWAP gate is 𝑼𝑺𝑾𝑨𝑷ȁ ۧ
+𝑎𝑏 = ȁ ۧ
+𝑏𝑎 .
+• And one might think it is as simple as just crossing over two wires in a classical circuit. So maybe it is as
+easy as just swapping two electrons physically. We want electron 1 to acquire the state of electron 2 and
+electron 2 to acquire the state of electron 1 after swapping. Sometimes we may get confused and argue
+that the electrons are indistinguishable.
+• Assume the situation that the electrons are in two different atoms or in two different quantum, which is
+usually the case in a real quantum computer. In this case, they are distinguishable.
+• How do we swap the states of the electrons in two different atoms? This is not easy technically,
+especially if it is a larger system with many other electrons involved. Therefore, we need to implement a
+quantum circuit to perform the SWAP operation.
+• Pic. 19 shows the implementation of a SWAP gate using CNOT gates.
+Pic.19 Implementation of a SWAP gate using CNOT gates.
+The purple ket’s on top shows an example of
+how a single basis vector evolves in the circuit
+￼
+Chaper 1 74
+--- PAGE 36 ---
+Quantum Circuit for Implementing a SWAP
+Gate
+• The circuit in Pic.19 is composed of 3 CNOT(𝑼𝑿𝑶𝑹) gates.
+• The first one on the left has the bottom (MSB) as the control qubit and the top (LSB) as the target qubit.
+This means, for the basis vectors, if the control qubit is 0, it will do nothing to them. If the control qubit
+is 1, it will flip the LSB. Therefore, |00ۧ and |01ۧ will not be changed, but |10ۧ will become |11ۧ and |11ۧ
+will become |10ۧ. This is equivalent to swapping the coefficients of |10ۧ and |11ۧ in a general vector.
+• Therefore, for a general input, |Ψۧ = α |00ۧ + β |01ۧ + γ |10ۧ + δ |11ۧ, and after the first CNOT gate, it
+becomes ȁ ۧ
+𝜙1 = α |00ۧ + β |01ۧ + δ |10ۧ + γ |11ۧ as δ and γ are swapped.
+• For the second CNOT gate, the control qubit is LSB. Therefore, it means |00ۧ and |10ۧ will not be
+changed because the LSB is 0. |01ۧ will become |11ۧ and |11ۧ will become |01ۧ because the LSB is 1 and
+it will flip the MSB. Therefore, for a general vector, it will swap the
+coefficients of |01ۧ and |11ۧ. So the β and γ in | 𝜙1 ۧ are swapped and
+it becomes ȁ ۧ
+𝜙2 = α |00ۧ + γ |01ۧ + δ |10ۧ + β |11ۧ.
+• Finally, the rightmost CNOT gate swaps the coefficients of |10ۧ and |11ۧ
+just as the leftmost CNOT gate. So the β and δ in | 𝜙2 ۧ are swapped
+and it becomes |𝜙ۧ = α |00ۧ + γ |01ۧ + β |10ۧ + δ |11ۧ.
+Pic.19 Implementation of a SWAP gate using CNOT gates.
+The purple ket’s on top shows an example of
+how a single basis vector evolves in the circuit
+￼
+Chaper 1 75
+--- PAGE 37 ---
+Quantum Circuit for Implementing a SWAP
+Gate
+• We know that a CNOT gate swaps the coefficients of |10ۧ and |11ۧ if the MSB is the control qubit and it
+swaps the coefficients of |01ۧ and |11ۧ if the LSB is the control qubit. Both of them involve |11ۧ.
+Therefore, we can treat |11ۧ as a “middleman” or a “buffer” to complete the swapping using only CNOT
+gates.
+• For example, 𝑼𝑋𝑂𝑅,𝑟𝑖𝑔ℎ𝑡𝑼𝑋𝑂𝑅,𝑐𝑒𝑛𝑡𝑒𝑟𝑼𝑋𝑂𝑅,𝑙𝑒𝑓𝑡, where “right,” “center,” and “left” indicate the locations
+of the CNOT gate in the circuit in Pic. 19. The matrix representation of the circuit is:
+Again, in an equation, the input vector evolves from the right to the left. Therefore, the matrix of the
+leftmost CNOT in the circuit appears at the rightmost position of the equation.
+𝑼𝑋𝑂𝑅,𝑟𝑖𝑔ℎ𝑡𝑼𝑋𝑂𝑅,𝑐𝑒𝑛𝑡𝑒𝑟𝑼𝑋𝑂𝑅,𝑙𝑒𝑓𝑡 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+1 0
+0 0
+0 0
+0 1
+0 0
+0 1
+1 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+=
+1 0
+0 0
+0 0
+0 1
+0 1
+0 0
+0 0
+1 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+=
+1 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 1
+= 𝑼𝑺𝑾𝑨𝑷
+Chaper 1 76

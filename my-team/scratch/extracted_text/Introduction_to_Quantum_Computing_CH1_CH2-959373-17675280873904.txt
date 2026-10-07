@@ -1,0 +1,429 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH1_CH2-959373-17675280873904.pdf
+TOTAL_PAGES: 18
+--- PAGE 1 ---
+Introduction to
+Quantum Computing
+Kamonluk Suksen Ph.D.
+Part I Linear Algebra for Quantum Computing
+--- PAGE 2 ---
+Chapter 1:
+What is Quantum Computing?
+Kamonluk Suksen Ph.D.
+2
+--- PAGE 3 ---
+What is Quantum Computing?
+• In a classical computer, a bit is represented by a physical quantity with two states to represent 0 and 1.
+▪ It can be the voltage in a circuit (states, 5 V for 1 and 0 V for 0).
+▪ It can be the magnetization direction in a magnetic drive (e.g. up for 1 and down for 0).
+▪ It can be the charge density in the charge storage layer in the flash memory (e.g. low for 1 and high
+for 0).
+• In a quantum computer, the information is represented by qubits.
+• Each qubit still has two distinct states, “0” and “1” and they are orthogonal to each other because they
+cannot exist with 100% certainty at the same time.
+• We also call them the basis vectors or basis states.
+• A qubit may also have many other states which are the superposition of the two basis states.
+• The two orthogonal basis states are allowed to exist at the same time with <100% certainty.
+3
+Chapter 1: What is Quantum Computing
+--- PAGE 4 ---
+What is Quantum Computing?
+• Superposition is one of the fundamental operation principles in quantum computing.
+• Superposition allows us to perform a calculation on multiple basis states at the same time.
+• We learned superposition in wave theory in which two wavelets can superimpose on each other.
+• In electromagnetism, light can be polarized in any direction. Any linear polarization is just a linear
+combination of horizontal and vertical polarization.
+• If we represent the horizontal polarization as a horizontal vector and the vertical polarization as a vertical
+vector, any linear polarization, 𝑉 is just a linear combination of the two vectors.
+• where α and β are just some numbers (coefficients) and ෡
+𝑉𝑥 and ෡
+𝑉𝑦 are the horizontal and vertical polarization
+unit vectors, respectively.
+• We can write in the Dirac bra–ket notation:
+𝑉 = ෡
+𝑉𝑥 + ෡
+𝑉𝑦
+ȁ ۧ
+𝑉 = ȁ ۧ
+𝑉𝑥 + ห ൿ
+𝑉𝑦
+4
+Chapter 1: What is Quantum Computing
+--- PAGE 5 ---
+What is Quantum Computing?
+Classical Computing Quantum Computing
+Representation of Information 0, 1, (bit) (voltage level) a|0>+b|1> (qubit) (superposition of
+basis states)
+Operation Principles Classical Boolean Algebra Superposition, Entanglement,
+Interference
+Logic Gate Usually, non-reversible Unitary, reversible
+Robustness Very robust, immune to noise even at
+400K
+Very sensitive to noise, operating at
+mK, low fault tolerance.
+Measurement Can copy, deterministic No-cloning, statistical
+Hardware Transistor Trapped Ions, Josephson Junction,
+Topological Insulator, Photonics,
+Defect Center, Electron spin, Neutral
+Atoms,
+Information size Process 1 n-bit state at a time May process 2n n-bit state at a time
+5
+Chapter 1: What is Quantum Computing
+--- PAGE 6 ---
+What is Quantum
+Computing?
+• Classical gates (left) are usually
+non-reversible, but quantum
+gates (right) have 1-to-1
+correspondence between the
+output and input.
+￼
+Chapter 1: What is Quantum Computing 6
+--- PAGE 7 ---
+What is Quantum Computing?
+• Reversible Computing:
+▪ In classical computing, logic gates are non-reversible.
+▪ In quantum computing, every operation has to be reversible (except measurement).
+▪ Quantum mechanics requires nature to evolve in a “unitary” way, and as a result, every quantum gate has to be unitary
+and thus reversible.
+▪ We can also regard every quantum gate as a rotation operator for a vector.
+• Robustness:
+▪ A classical computer is very robust against noise. We can have billions of transistors working well even at 400 K.
+▪ However, a quantum computer is very sensitive to noise. Most of them need to work in the mK range. 1 mK is 1/1000 K.
+▪ Liquid helium (L-He) temperature is 4.2 K. This means that the quantum computer chip needs to operate in an
+environment a hundred times cooler than the L-He.
+▪ This is because the thermal noise is smaller at a lower temperature. Thermal noise is proportional to temperature.
+▪ Qubits are usually implemented with a physical qubit with small state energy separation (e.g. the separation of a spin
+qubit’s up and down is about 0.2 meV).
+▪ Therefore, low temperature is needed so that the thermal energy (noise) is much less than the state separation energy.
+▪ To further mitigate the impact of noise, error correction and signal processing are very important in quantum computing.
+7
+Chapter 1: What is Quantum Computing
+--- PAGE 8 ---
+What is Quantum Computing?
+• Measurement and Collapse:
+▪ For a classical measurement, you still copy it to a register or memory.
+▪ In quantum computing, there is a theory called the No Cloning Theory. It prevents us from cloning all quantum states.
+▪ Therefore, we cannot copy a quantum state from one place to another place.
+▪ We can also regard every quantum gate as a rotation operator for a vector.
+▪ Teleportation, it seems that we can “copy” something from one place to another in no time.
+▪ But in quantum teleportation, when we “copy” a state, we need to destroy the state at the source. So actually, it is not a copy action and that is why it is called teleportation.
+▪ When measure a superposition state, the state will collapse to one of the basis states (0 or 1) and this is completely random.
+▪ Then how a quantum computer is going to be useful if even the measurement is random?
+▪ In some algorithms, we design it so that eventually it will give us a certain basis state for sure.
+• Implementation of Qubits:
+▪ In a quantum computer, we need something small so that quantum phenomena can exhibit.
+▪ It also needs to have two distinguishable quantum states as the basis states (0 and 1).
+▪ We can use spin up to represent 0 and spin down to represent 1.
+▪ According to quantum mechanics, the electron can be in a superposition of spin up and spin down.
+▪ Therefore, the spin of an electron under an external magnetic field can be used to implement a qubit.
+▪ There are other possible qubit implementations such as trapped ions, superconducting qubit using Josephson Junction,
+topological insulator, photons, defect centers in diamond or silicon carbide.
+▪ There are trade-offs between them such as the size of the device, the speed, the coherence time, and scalability. 8
+Chapter 1: What is Quantum Computing
+--- PAGE 9 ---
+What is Quantum Computing?
+• Information Size:
+▪ The power of superposition is the amount of information that can be stored when we have more than 1 qubit.
+▪ How many possible states can we store with n physical bits in a classical computer?
+▪ It is 2𝑛 states. Of course, we can only store one of them at a time. For example, with 2 physical bits, we can
+store either the state 3 (11 in binary), 2 (10 in binary), 1 (01 in binary), or 0 (00 in binary).
+▪ For quantum computers, each of the classical states becomes the basis state and they are orthogonal to each
+other. So, you have 2𝑛 basis states if you have n qubits.
+▪ The n-qubit system can also be in a superposition state of the 2𝑛 basis states. For example, if there are two
+photon polarization qubits:
+▪ where α, β, γ, and δ are just some numbers and 𝑉𝑥1, 𝑉𝑦1, 𝑉𝑥2, and 𝑉𝑦2 are the horizontal and vertical
+polarization vectors of the first and the second photons, respectively.
+▪ We have four basis vectors now, ȁ ۧ
+𝑉𝑥1𝑉𝑥2 , ห ൿ
+𝑉𝑥1𝑉𝑦2 , ห ൿ
+𝑉𝑦1𝑉𝑥2 , ห ൿ
+𝑉𝑦1𝑉𝑦2
+▪ For 100 qubits, we can form a system of 2100 basis vectors. If we can process the 100 qubits at the same
+time, we are processing the 2100 coefficients at once. This is the so-called quantum parallelism.
+ȁ ۧ
+𝑉 = ȁ ۧ
+𝑉𝑥1𝑉𝑥2 + ห ൿ
+𝑉𝑥1𝑉𝑦2 + ห ൿ
+𝑉𝑦1𝑉𝑥2 + ห ൿ
+𝑉𝑦1𝑉𝑦2
+9
+Chapter 1: What is Quantum Computing
+--- PAGE 10 ---
+Chapter 2:
+Basis, Basis Vectors, and Inner Product
+Kamonluk Suksen Ph.D.
+10
+--- PAGE 11 ---
+A Romantic Story
+• Once upon a time, there was a boy who liked a girl. But he did not know if the girl liked him. The girl
+treated him patience, but he was not sure if she just treated him as a good friend or she did like him.
+The boy had heard about quantum mechanics but did not understand too well. For him, the state of the
+girl was:
+• Definitely, ȁ ۧ
+𝑌𝑒𝑠 (she likes him) and ȁ ۧ
+𝑁𝑜 (she does not like him) are two orthogonal basis vectors that
+never occur at the same time. For the boy, the girl is in a state which is a superposition of ȁ ۧ
+𝑌𝑒𝑠 and
+ȁ ۧ
+𝑁𝑜 .
+• The boy dared not ask because asking is a measurement. If it collapses to ȁ ۧ
+𝑁𝑜 , that would be the end of
+the world for him.
+• After waiting for months, the boy lost his patience, and he decided to ask (which is a measurement by
+asking “do you like me?”). Unfortunately, the state collapsed to ȁ ۧ
+𝑁𝑜 ! The problem is once the answer is
+“No,” it is “No” forever.
+• Fortunately, the boy did not collapse psychologically. He turned his attention to study and understood
+quantum mechanics better. He realized that in a quantum system, even if the state has collapsed to a
+basis state of a certain basis, when you measure in another basis, it will collapse to a basis state of the
+new basis, which is a superposition of the old basis states.
+ȁ ۧ
+𝑆𝑡𝑎𝑡𝑒 𝑜𝑓 𝑡ℎ𝑒 𝑔𝑖𝑟𝑙 = ȁ ۧ
+𝑌𝑒𝑠 + ȁ ۧ
+𝑁𝑜
+11
+Chapter 2: Basis, Basis Vectors, and Inner Product
+--- PAGE 12 ---
+A Romantic Story
+• For him, the old basis was formed by
+• where ȁ ۧ
+𝑌𝑒𝑠𝐿 and ȁ ۧ
+𝑁𝑜𝐿 are the answers to the question “Do you like me?”
+• The girl’s state can also be expressed as a superposition of the basis states on another basis.
+• For example, the new basis can have the basis states ȁ ۧ
+𝑌𝑒𝑠 and ȁ ۧ
+𝑁𝑜 to the question “Do you want to
+work on a project with me?”. The new basis states can be labeled as ȁ ۧ
+𝑌𝑒𝑠𝑃 and ȁ ۧ
+𝑁𝑜𝑃
+• This is because a girl who does not like him may or may not want to work on a project with him. So
+ȁ ۧ
+𝑁𝑜𝐿 can coexist with ȁ ۧ
+𝑌𝑒𝑠𝑃 or ȁ ۧ
+𝑁𝑜𝑃 . There are not orthogonal to each other.
+• Therefore, after a measurement in the new basis, the state may collapse to ȁ ۧ
+𝑌𝑒𝑠𝑃 is not orthogonal to
+ȁ ۧ
+𝑌𝑒𝑠𝐿 or ȁ ۧ
+𝑁𝑜𝐿 , we may have:
+• What if he tried again to measure in the old basis, i.e. ask her if she likes him, there is a chance he will
+get ȁ ۧ
+𝑌𝑒𝑠𝐿 !
+ȁ ۧ
+𝑆𝑡𝑎𝑡𝑒 𝑜𝑓 𝑡ℎ𝑒 𝑔𝑖𝑟𝑙 = ȁ ۧ
+𝑌𝑒𝑠𝐿 + ȁ ۧ
+𝑁𝑜𝐿
+ȁ ۧ
+𝑌𝑒𝑠𝑃 = ȁ ۧ
+𝑌𝑒𝑠𝐿 + ȁ ۧ
+𝑁𝑜𝐿
+12
+Chapter 2: Basis, Basis Vectors, and Inner Product
+--- PAGE 13 ---
+Vectors in Quantum Computing
+• Quantum computing is just a manipulation of vectors through operations in the vector space.
+• We prepare many vectors in a special way and manipulate them through special quantum gates
+(operations) and we get the answer we want.
+• These operations are also just rotations of vectors in hyperspaces.
+• On a 2D plane, we know a vector can be described by its x and y.
+• For example, in Pic. 1, we have a vector Ԧ
+𝑣 = 3 ො
+𝑥 + 2 ො
+𝑦 =
+3
+2 where ො
+𝑥 and ො
+𝑦 are the unit vectors in the 𝑥
+and 𝑦 directions. ො
+𝑥 and ො
+𝑦 are just the basis vectors.
+• In quantum computing, vector and state are the same. We can also write Ԧ
+𝑣 in Dirac’s bra-ket notation, as
+well:
+• We can also choose another set of basis vectors, ෡
+𝑥′ and ෡
+𝑦′.
+ො
+𝑥 and ො
+𝑦 are only half
+of the lengths of ෡
+𝑥′ and ෡
+𝑦′, respectively. So that we can represent Ԧ
+𝑣 as follow:
+ȁ ۧ
+Ԧ
+𝑣 = 3ȁ ۧ
+ො
+𝑥 + 2ȁ ۧ
+ො
+𝑦
+￼
+ȁ ۧ
+Ԧ
+𝑣 = 3ȁ ۧ
+ො
+𝑥 + 2ȁ ۧ
+ො
+𝑦 = 3 2ห ൿ
+෡
+𝑥′ + 2 2ห ൿ
+෡
+𝑦′
+= 6ห ൿ
+෡
+𝑥′ + 4ห ൿ
+෡
+𝑦′
+=
+6
+4 Pic 1: Representations of ȁ ۧ
+Ԧ
+𝑣 in two different bases. 13
+Chapter 2: Basis, Basis Vectors, and Inner Product
+--- PAGE 14 ---
+Vectors Space
+• All vectors on a plane can be expressed as a linear combination of the basis vectors ො
+𝑥 and ො
+𝑦 with the
+form Ԧ
+𝑣 = 3 ො
+𝑥 + 2 ො
+𝑦 =
+3
+2 . We say that the basis vectors form or span that vector space.
+• For a vector that is out of the plane, it can’t be expressed as a linear combination of ො
+𝑥 and ො
+𝑦.
+We say that this out-of-plane vector is in another vector space.
+• For example, you bought a dozen eggs. You say you have 12 1-eggs. The basis vector is 1-egg and it
+spans the whole vector space of eggs.
+• Any number of eggs can be represented as a linear combination of 1-egg (here we only have 1 basis
+vector).
+• If you have a dozen apples, you cannot say you have 12 1-eggs because 1-egg does not span the vector
+space of apples.
+• Basically, we are saying we do not have the same vector space and we are not in the same universe.
+14
+Chapter 2: Basis, Basis Vectors, and Inner Product
+--- PAGE 15 ---
+Inner Products of Vectors
+• Vector and state are equivalent. So, we can represent every physical system state as a vector.
+• The inner product is an important operation of vectors, which is also called the “dot product” or “scalar product’’, the physical meaning of the inner product is projection.
+• Projection is an important concept in quantum mechanics.
+• In every measurement, we can say we try to do an operation to project a superposition state to one of the basis
+states.
+• For example, when the boys asked (a measurement) the girl if she liked him and she answered no, the wavefunction is collapsed (projected) into the ȁ ۧ
+𝑁𝑜𝐿 basis state.
+• The angle between 𝑣1 and the 𝑥-axis (which has the same direction as ො
+𝑥) is 30°
+.
+• The angle between 𝑣2 and the 𝑥-axis is 45°. So, the angle between 𝑣1 and 𝑣2 is 15°
+.
+• From trigonometry, the inner product of the two vectors is 𝑣1. 𝑣2 = 𝑣1 𝑣2 cos 15°
+,
+where 𝑣1 and 𝑣2 are the magnitudes (lengths) of 𝑣1 and 𝑣2, respectively.
+• Using the Pythagorean theorem, 𝑣1 = 3
+2
++ 12 = 2 and 𝑣2 = 12 + 12 = 2.
+• Therefore, 𝑣1. 𝑣2 = 𝑣1 𝑣2 cos 15° = 2 2 cos 15° ≈ 2.732. This is the length
+if we project 𝑣1 onto 𝑣2 and scaled by 𝑣2.
+• The inner product is telling us how much the two vectors have in common after being scaled by their magnitudes (lengths). We can only use it if the basis vectors
+are orthonormal.
+Pic 2: Graphical representations of the
+inner product of 𝑣1 and 𝑣2. The final
+result needs to be scaled by 𝑣2.
+￼
+15
+Chapter 2: Basis, Basis Vectors, and Inner Product
+--- PAGE 16 ---
+Inner Products of Vectors
+• Since we can write all vectors in the column form if the basis vectors are known.
+• For example:
+• To perform the dot product of 𝑣1. 𝑣2, firstly, we have to rotate the column form of the first vector anti-
+clockwise by 90°, so that it becomes a row vector. And then we can perform matrix multiplication.
+• The answer is exactly the same as 𝑣1. 𝑣2 = 𝑣1 𝑣2 cos 15°
+.
+• In general, if 𝑣1 =
+𝑎
+𝑏 and 𝑣2 =
+𝑐
+𝑑 , we have 𝑣1. 𝑣2 = 𝑎∗ 𝑏∗ 𝑐
+𝑑
+= 𝑎∗ × 𝑐 + 𝑏∗ × 𝑑
+where 𝑎∗ and 𝑏∗ are the complex conjugate of 𝑎 and 𝑏, respectively.
+• The coefficients in the linear combination of basis vectors can be complex numbers.
+ȁ ۧ
+𝑣1 = 3ȁ ۧ
+ො
+𝑥 + 1ȁ ۧ
+ො
+𝑦 =
+3
+1
+ȁ ۧ
+𝑣2 = 1ȁ ۧො
+𝑥 + 1ȁ ۧො
+𝑦 =
+1
+1
+𝑣1. 𝑣2 = 3 1
+1
+1
+= 3 × 1 + 1 × 1 = 3 + 1 ≈ 2.732
+16
+Chapter 2: Basis, Basis Vectors, and Inner Product
+--- PAGE 17 ---
+Higher Dimensional Vector Space
+• When there are two basis vectors, it spans a two-dimensional (2D) vector space, just like ො
+𝑥 and ො
+𝑦 span a
+plane.
+• If we add Ƹ𝑧, the third basis vector in the height direction, they then span a 3D space.
+• If we have n basis vectors, we expect they will span an n-D space.
+• Any vector 𝑣𝑎 must be a linear combination of the n basis vectors.
+where 𝑎0 to 𝑎𝑛−1 are the n coefficients and ෞ
+𝑣0 to ෟ
+𝑣𝑛−1 are the n basis vectors. The coefficients may be
+complex numbers.
+• And for another vector,
+where 𝑏0 to 𝑏𝑛−1 are the n coefficients which can be real or complex.
+• The inner product of the two vectors is
+𝑣𝑎 = 𝑎0
+ෞ
+𝑣0 + 𝑎1
+ෞ
+𝑣1 + 𝑎2ෞ
+𝑣2 + ⋯ + 𝑎𝑛−1
+ෟ
+𝑣𝑛−1
+𝑣𝑏 = 𝑏0
+ෞ
+𝑣0 + 𝑏1
+ෞ
+𝑣1 + 𝑏2ෞ
+𝑣2 + ⋯ + 𝑏𝑛−1
+ෟ
+𝑣𝑛−1
+𝑣𝑎. 𝑣𝑏 = 𝑎0
+∗ 𝑎1
+∗
+… 𝑎𝑛−1
+∗
+𝑏0
+1
+:
+𝑏𝑛−1
+= 𝑎0
+∗ × 𝑏0 + 𝑎1
+∗ × 𝑏1 + ⋯ + 𝑎𝑛−1
+∗ × 𝑏𝑛−1
+17
+Chapter 2: Basis, Basis Vectors, and Inner Product
+--- PAGE 18 ---
+Summary
+• Vectors are states and vectors are linear combinations of basis vectors.
+• The basis vectors can be something very abstract (e.g. spin up) or absurd (1-apple).
+• The coefficients in the linear combination can be complex numbers.
+• We also reviewed the meaning and methodology of calculating the inner product of two vectors.
+• All these concepts apply to higher dimensions.
+18
+Chapter 2: Basis, Basis Vectors, and Inner Product

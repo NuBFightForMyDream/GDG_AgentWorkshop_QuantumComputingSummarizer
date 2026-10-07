@@ -1,0 +1,1169 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH12_CH13_CH14-959373-17687470988170.pdf
+TOTAL_PAGES: 39
+--- PAGE 1 ---
+Introduction to
+Quantum Computing
+Kamonluk Suksen Ph.D.
+Part II Quantum Computing: Gates and Algorithms
+--- PAGE 2 ---
+Chapter 12:
+Quantum Register and Data Processing,
+Entanglement, the Bell States, and EPR
+Paradox
+Kamonluk Suksen Ph.D.
+2
+--- PAGE 3 ---
+Quantum Register
+• In a classical computer, a register is a memory to store the classical bits of information.
+• The size of the register determines the number of bits it can store. For example, a 4-bit register can store 4
+bits of information, such as (1001)2.
+• The bit on the left is called the Most Significant Bit (MSB) and the bit on the right is called the Least
+Significant Bit (LSB).
+• The MSB represents 1 × 23 = 8 and the least significant bit represents 1 × 20 = 1. The decimal value of
+this representation is 1 × 23 + 0 × 22 + 0 × 21 + 1 × 20 = 9.
+• We can easily imagine how to implement an n-bit classical register physically even not knowing its
+physical implementation. Similarly, we can discuss and use quantum register in quantum algorithm
+without knowing how to implement a quantum register.
+• Most of the time, a quantum register is only a grouping of qubits and it is not necessarily a memory as in
+the classical case. A quantum register is treated as a convenient way to group the qubits.
+• A quantum register is just a natural extension of the concept of a classical register. An n-bit classical
+register stores n-bit of information while an n-qubit quantum register stores n-qubit of information.
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+3
+--- PAGE 4 ---
+Quantum Register
+• For a 1-qubit register, it stores 1-qubit of information that represents a vector in the ℂ2 spaces. We can
+write it as ȁ ۧ
+𝑎 = ȁ ۧ0 + ȁ ۧ1 , which is a linear combination of the basis vectors, ȁ ۧ0 and ȁ ۧ1 .
+• We see that when ȁ ۧ
+𝑎 = 0 or ȁ ۧ
+𝑎 = 1, the quantum register stores exactly the same information as the
+classical one.
+• If the quantum register is only allowed to store the basis states, it is the same as a classical register!
+• As mentioned, a quantum register is just a grouping of qubits, all the knowledge we learned earlier is
+directly applicable to the qubits stored in a quantum register. For a 4-qubit quantum register, it stores the
+information of 4 qubits, which is a vector in the ℂ24
+= ℂ16 space. This is obtained by performing the
+tensor products of 4 individual qubits, each from a ℂ2 space.
+• The vector or state, ȁ ۧ
+𝜓 that can be stored in a 4-qubit register is therefore a linear combination of the
+basis states.
+4
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 5 ---
+Quantum Register
+• Here we see the power of the quantum register. Instead of being able to store only the basis states (which is
+equivalent to the capability of a classical register), it can store the linear combination of the basis states.
+And the number of basis states, thus the dimension of the Hilbert space, grows exponentially with the
+number of qubits!
+• Relationship between storable values in a 4-bit classical register and the basis states in a 4-qubit quantum
+register as following:
+• For an n-qubit register, it stores a vector in the 2𝑛 dimensional space.
+Value can be stored in a
+classical register
+Basis states in a quantum register
+(0000)2= 0 ȁ ۧ0 ⨂ȁ ۧ0 ⨂ȁ ۧ0 ⨂ȁ ۧ0 = ȁ ۧ0 ȁ ۧ0 ȁ ۧ0 ȁ ۧ0 = ȁ ۧ
+0000 = ȁ ۧ0 10
+(0001)2= 1 ȁ ۧ0 ⨂ȁ ۧ0 ⨂ȁ ۧ0 ⨂ȁ ۧ1 = ȁ ۧ0 ȁ ۧ0 ȁ ۧ0 ȁ ۧ1 = ȁ ۧ
+0001 = ȁ ۧ1 10
+(0010)2= 2 ȁ ۧ0 ⨂ȁ ۧ0 ⨂ȁ ۧ1 ⨂ȁ ۧ0 = ȁ ۧ0 ȁ ۧ0 ȁ ۧ1 ȁ ۧ0 = ȁ ۧ
+0010 = ȁ ۧ2 10
+⋮ ⋮
+(1111)2= 15 ȁ ۧ1 ⨂ȁ ۧ1 ⨂ȁ ۧ1 ⨂ȁ ۧ1 = ȁ ۧ1 ȁ ۧ1 ȁ ۧ1 ȁ ۧ1 = ȁ ۧ
+1111 = ȁ ۧ15 10
+5
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 6 ---
+Quantum Register
+• The basis states in the 2𝑛
+-dimensional vector space are orthonormal to each other. This is because for two
+basis states ȁ ۧ
+𝑎 = ȁ ۧ
+𝑎𝑛−1𝑎𝑛−2… 𝑎0 and ȁ ۧ
+𝑏 = ȁ ۧ
+𝑏𝑛−1𝑏𝑛−2… 𝑏0 where 𝑎𝑖 and 𝑏𝑖 can only take either “0” or
+“1”. So,
+• 𝑎 𝑏 must be 0 if 𝑎 ≠ 𝑏 as they are different in at least one binary digit or 1 if 𝑎 = 𝑏.
+• A 2-qubit register stores a state in the ℂ4 Hilbert space which is a tensor product space of two 1-qubit
+systems (ℂ2⨂ℂ2). A vector example in this space is,
+• In binary form they are ȁ ۧ
+00 , ȁ ۧ
+01 , ȁ ۧ
+10 , and ȁ ۧ11 which are the tensor products of the basis states of two
+ℂ2 spaces, i.e. ȁ ۧ0 ⨂ȁ ۧ0 , ȁ ۧ0 ⨂ȁ ۧ1 , ȁ ۧ1 ⨂ȁ ۧ0 , and ȁ ۧ1 ⨂ȁ ۧ1 . The probability of finding the wavefunction to
+collapse to ȁ ۧ2 is 0.52 = 0.25.
+• But what is the physical meaning of this? It is the same as finding the system to collapse to ȁ ۧ1 ⨂ȁ ۧ0 .
+𝑎 𝑏 = 𝑎𝑛−1𝑎𝑛−2… 𝑎0 𝑏𝑛−1𝑏𝑛−2… 𝑏0 = 𝑎𝑛−1 𝑏𝑛−1 𝑎𝑛−2 𝑏𝑛−2… 𝑎0 𝑏0
+ȁ ۧ
+𝜓 = 0.5ȁ ۧ0 + 0.5ȁ ۧ1 + 0.5ȁ ۧ2 + 0.5ȁ ۧ3
+6
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 7 ---
+Quantum Data Processing
+• Here is a fake example to show the power of quantum data processing.
+• If we want to calculate a function, 𝑓(𝑥), for 𝑥 = 0, 1, 2, 3 in a classical computer. We need to do it 4 times by
+calculating 𝑓(0), 𝑓(1), 𝑓(2), and 𝑓(3). We also need to store 𝑥 = 0, 1, 2, 3 in 4 registers before calculation.
+• In quantum computing, we just need to form a vector ȁ ۧ
+𝜓 , which is a linear superposition of ȁ ۧ0 , ȁ ۧ1 , ȁ ۧ2 , and ȁ ۧ3
+and store it in one 2-qubit quantum register. And try to find a mechanism with a linear property so that we get
+Then all the computations can be done at once!
+• In summary, the power of quantum computing has two folds.
+• Firstly, it only requires n-qubit to store a 2𝑛
+-dimensional space vector. If 𝑛 = 100 , we only need, for example,
+100 electrons. But in a classical computer, to store a 2100
+-dimensional space vector, we need to store its 2100
+complex coefficients. This requires way more than the amount of classical memory we can imagine.
+• Secondly, with the linearity of quantum mechanics, we can perform the calculation of the basis states
+simultaneously. If 𝑛 = 100, we can perform 2100 calculations at one shot but this may take forever in a classical
+computer. This is the famous quantum parallelism. This is due to the linearity and superposition properties in
+quantum mechanics.
+𝑓(ȁ ۧ
+𝜓 ) = 𝑓 0.5ȁ ۧ0 + 0.5ȁ ۧ1 + 0.5ȁ ۧ2 + 0.5ȁ ۧ3
+= 0.5𝑓(ȁ ۧ0 ) + 0.5𝑓(ȁ ۧ1 ) + 0.5𝑓(ȁ ۧ2 ) + 0.5𝑓(ȁ ۧ3 )
+7
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 8 ---
+Quantum Data Processing
+• In most important quantum algorithms, we utilize these two properties to perform gigantic calculations
+without the need for an enormous amount of hardware and by exploiting quantum parallelism.
+• However, we should also realize that even we can store 2𝑛 coefficients and perform 2𝑛 computations
+easily in a quantum computer, it is difficult to read them due to wavefunction collapse after a single
+measurement.
+• So, most quantum algorithms exploit the interference between the basis states to obtain the desired
+results.
+8
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 9 ---
+Entanglement and Bell States
+• Besides superposition and interference, entanglement is also a very heavily used concept and property in
+quantum computing algorithms.
+• We know that every higher dimensional Hilbert spaces, e.g. ℋ3, can be constructed by the tensor
+products of some lower-dimensional spaces, e.g. ℋ2 and ℋ1. For example, ℂ4 = ℂ2⨂ℂ2
+.
+• Any vector in the higher-dimensional space, e.g. ȁ ۧ
+ℎ , can be expressed as the linear combination of the
+tensor products of lower-dimensional space vectors. The equation is repeated here:
+• It is possible that for some higher-dimensional vectors, they can be expressed as just one single tensor
+product of two lower-dimensional vectors, each from a lower-dimensional space. That is
+• In this case, n equals 1. These vectors are unentangled, which is not special. They are called separable
+or product states. However, there are some higher-dimensional vectors cannot be expressed as a single
+product of two lower dimensional vectors and must be expressed as the linear combination of them.
+Then we say the lower-dimensional vectors are entangled, which means that they cannot be separated.
+ȁ ۧ
+ℎ = ȁ ۧ
+𝑓 ⨂ȁ ۧ
+𝑔
+ȁ ۧ
+ℎ = ෍
+𝑗=1
+𝑛
+ห ൿ
+𝑓𝑗 ⨂ ห ൿ
+𝑔𝑗
+= ȁ ۧ
+𝑓1 ⨂ȁ ۧ
+𝑔1 + ȁ ۧ
+𝑓2 ⨂ȁ ۧ
+𝑔2 + ⋯ + ȁ ۧ
+𝑓𝑛 ⨂ȁ ۧ
+𝑔𝑛
+9
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 10 ---
+Entanglement and Bell States
+• Let’s try an example in the ℂ4 = ℂ2⨂ℂ2 space. Firstly, try to construct a vector in ℂ4 using the tensor
+product of two vectors in the ℂ2 spaces. Let ȁ ۧ
+𝑓 =
+1
+2 (ȁ ۧ0 +ȁ ۧ1 ) and ȁ ۧ
+𝑔 =
+1
+2 (ȁ ۧ0 −ȁ ۧ1 ), we can
+construct
+Is the vector ȁ ۧ
+ℎ =
+1
+2 (ȁ ۧ00 − ȁ ۧ01 + ȁ ۧ
+10 − ȁ ۧ11 ) entangled? No, because we just showed that it can be
+expressed as a single tensor product of two lower-dimensional vectors ȁ ۧ
+𝑓 and ȁ ۧ
+𝑔.
+ȁ ۧ
+ℎ = ȁ ۧ
+𝑓 ⨂ȁ ۧ
+𝑔
+=
+1
+2 (ȁ ۧ0 +ȁ ۧ1 )⨂ 1
+2 (ȁ ۧ0 −ȁ ۧ1 )
+=
+1
+2 (1 × 1ȁ ۧ0 ⨂ ฬ ۧ0 + 1 × −1 ቚ ۧ0 ⨂ห ۧ1 + 1 × 1ȁ ۧ1 ⨂ ȁ ۧ0 + 1 × −1ȁ ۧ1 ⨂ȁ ۧ1 )
+=
+1
+2 (ȁ ۧ00 − ȁ ۧ01 + ȁ ۧ
+10 − ȁ ۧ
+11 )
+10
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 11 ---
+Entanglement and Bell States
+• How about the vector ȁ ۧ
+𝜙+ =
+1
+2 (ȁ0 ۧ0 +ȁ ۧ11 )? This is also a vector in the ℂ4 space. If we write out all basis,
+it is ȁ ۧ
+𝜙+ =
+1
+2
+1ȁ0 ۧ0 +0ȁ0 ۧ1 + 0ȁ1 ۧ0 +1ȁ ۧ11 =
+1
+2
+1
+0
+0
+1
+.
+• Can we express it as a tensor product of two vectors from the ℂ2 spaces? We will assume it can and ȁ ۧ
+𝜙+ =
+ȁ ۧ
+𝑚 ⨂ȁ ۧ
+𝑛 , where ȁ ۧ
+𝑚 =𝑎0ȁ ۧ0 + 𝑎1ȁ ۧ1 and ȁ ۧ
+𝑛 =𝑏0ȁ ۧ0 + 𝑏1ȁ ۧ1 , then
+• But ȁ ۧ
+𝜙+ =
+1
+2
+1ȁ0 ۧ0 +0ȁ0 ۧ1 + 0ȁ1 ۧ0 +1ȁ ۧ11 , so the coefficients of the corresponding basis must be the
+same as those in above equation. Therefore
+• From the above equation, either 𝑎0 or 𝑏1 needs to be 0. Then it means either 𝑎0𝑏0 = 0 or 𝑎1𝑏1 = 0 which
+contradicts the first or the fourth equations. That means our assumption that ȁ ۧ
+𝜙+ = ȁ ۧ
+𝑚 ⨂ȁ ۧ
+𝑛 is wrong and it
+is impossible to find ȁ ۧ
+𝑚 and ȁ ۧ
+𝑛 such that their tensor product is ȁ ۧ
+𝜙+ . Therefore, ȁ ۧ
+𝜙+ is entangled.
+ȁ ۧ
+𝜙+ = ȁ ۧ
+𝑚 ⨂ȁ ۧ
+𝑛
+= (𝑎0ȁ ۧ0 + 𝑎1ȁ ۧ1 )⨂(𝑏0ȁ ۧ0 + 𝑏1ȁ ۧ
+1 )
+= 𝑎0𝑏0ȁ ۧ00 + 𝑎0𝑏1ȁ ۧ01 + 𝑎1𝑏0ȁ ۧ
+10 + 𝑎1𝑏1ȁ ۧ
+11 )
+𝑎0𝑏0 = 1
+𝑎0𝑏1 = 0
+𝑎1𝑏0 = 0
+𝑎1𝑏1 = 1
+11
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 12 ---
+Entanglement and Bell States
+• ȁ ۧ
+𝜙+ is special and it is also one of the four Bell states. In the ℂ4 space, since it is 4-dimensional, it has
+four basis states. If we think of it as the space of two electron spins, it is natural to construct the basis to
+be ȁ ۧ
+↑↑ , ȁ ۧ
+↑↓ , ȁ ۧ
+↓↑ , and ȁ ۧ
+↓↓ or in other words, ȁ ۧ00 , ȁ ۧ01 , ȁ ۧ
+10 , and ȁ ۧ11 .
+• We can also create a new basis using the so-called Bell states. The Bell states are all entangled
+• and are very useful in certain applications. The Bells states are
+ȁ ۧ
+𝜙+ =
+1
+2
+1
+0
+0
+1
+; ȁ ۧ
+𝜙−
+=
+1
+2
+1
+0
+0
+−1
+ȁ ۧ
+𝜓+ =
+1
+2
+0
+1
+1
+0
+; ȁ ۧ
+𝜓−
+=
+1
+2
+0
+1
+−1
+0
+12
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 13 ---
+Entanglement and Bell States
+• Let’s explore a special property of an entangled state. Suppose we have two electron spins and they form
+an entangled state, 𝜙+, in a system at time 𝑡 = 0 year on the Earth. We then send one of the electrons to
+our alien friend 100 light-years away (i.e. it is so far that it takes the light 100 years to reach there) and
+we assume the state is not destroyed and the two electrons are still entangled. Let’s say we are able to
+send the electron at half of the speed of the light. So after 200 years, at 𝑡 = 200 year, our friend receives
+the electron. At 𝑡 = 201 year, we decide to measure the spin of my electron by applying a magnetic field
+in the Ƹ𝑧 direction and then measure its energy. What will we get?
+• Of course, we will get either ȁ ۧ↑ or ȁ ۧ↓ because these are the two eigenstates of the system with the
+external magnetic field. And we know that after a measurement, it will randomly collapse to either ȁ ۧ↑ or
+ȁ ۧ↓ . However, ȁ ۧ
+𝜙+ =
+1
+2 (ȁ ۧ
+↑↑ + ȁ ۧ
+↓↓ ). If our electron’s wave function collapses to ȁ ۧ↑ or ȁ ۧ↓ , the whole
+system must collapse to ȁ ۧ
+↑↑ or ȁ ۧ
+↓↓ , respectively.
+• This also means that our friend’s electron wavefunction will collapse to the same spin state as our
+electron even our alien friend does not do the measurement and even it takes the light 100 years to tell
+the other electron what happened to our electron.
+• This looks like we can transmit information instantaneously and at a speed faster than light. This is
+related to the Einstein–Podolsky–Rosen (EPR) paradox.
+13
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 14 ---
+Einstein–Podolsky–Rosen (EPR) Paradox
+• Albert Einstein who won his Nobel prize due to photon quantization (to explain the photoelectric effect)
+does not believe in quantum mechanics. He thinks God does not play dice. The randomness in quantum
+mechanics makes him very uncomfortable. With Podolsky and Rosen, they came up with a paradox to
+show that quantum mechanics is either wrong or incomplete.
+• This is related to the entanglement experiment we just did with our alien friend.
+• After we sent an electron in the entangled pair of ȁ ۧ
+𝜙+ =
+1
+2 (ȁ ۧ
+↑↑ + ȁ ۧ
+↓↓ ) to our alien friend in the hotel,
+we measure our electron in the |0ۧ / |1ۧ basis. We assume we get |0ۧ. Then the state of the two-electron
+system becomes |00ۧ. We call our friend and say we got |0ۧ. Our friend then knows with a 100%
+certainty that the electron in the hotel must be |0ۧ due to entanglement. Then, our friend decides to
+perform a measurement on the hotel electron in the |+ۧ / |−ۧ basis. We know ȁ ۧ0 =
+1
+2 (ȁ ۧ
++ + ȁ ۧ
+− ). So the
+electron must collapse to either |+ۧ or |−ۧ. Assume it collapses to |+ۧ. Now our friend also knows with a
+100% certainty that the electron is in the |+ۧ state. So our friend knows with 100% certainty that the
+electron is in the |+ۧ and |0ۧ states.
+• But is not that due to the Heisenberg Uncertainty principle, we cannot measure |+ۧ and |0ۧ states with a
+100% certainty as these two bases are incompatible. That means either the quantum mechanics is wrong
+or incomplete (with hidden variables we still have not discovered).
+14
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 15 ---
+Einstein–Podolsky–Rosen (EPR) Paradox
+• Einstein is thus not convinced that quantum mechanics is correct. There are experiments related to this
+(which is to prove the so-called Bell’s Inequality) and they show that quantum mechanics “looks”
+correct.
+• It only looks correct because there is a possibility that the experiment is not 100% well controlled.
+However, the technology has been improving that the chance that it is not well controlled becomes
+smaller and smaller which gives us more and more confidence that quantum mechanics is correct.
+15
+Chapter 12: Quantum Register and Data Processing, Entanglement, the Bell States, and EPR Paradox
+--- PAGE 16 ---
+Chapter 13:
+Concepts Review, Density Matrix,
+and Entanglement Entropy
+Kamonluk Suksen Ph.D.
+16
+--- PAGE 17 ---
+Concepts Review Using Entanglement
+• Here, we will use an example of entanglement to review some of the most critical concepts and skills we
+have learned before moving to the next “steps.”
+• The question is that if there is a Bell state on a certain basis, is it possible to express it on another basis
+so that it is not entangled? Or if it is entangled in a certain basis, is it always entangled no matter how
+you change the basis?
+• For example, ȁ ۧ
+𝜓−
+=
+1
+2
+0
+1
+−1
+0
+. This is a 4-dimensional space vector. We are using the basis formed by
+|00ۧ/|01ۧ/|10ۧ/|11ۧ in the ℂ4 Hilbert space, which are the tensor product of two ℂ2 space with the basis
+vectors, ȁ ۧ0 and ȁ ۧ1 . Therefore, we can also write
+• We already proved in the Problems in the last chapter that ȁ ۧ
+𝜓− is an entangled state and cannot be
+expressed as a single tensor product of two vectors from the ℂ2 spaces. However, is it possible to have a
+Bell state on another basis (let’s call it {αβ}), which is entangled, such that it is not entangled in the {01}
+basis?
+ȁ ۧ
+𝜓−
+{01}=
+1
+2
+0ȁ ۧ00 + 1ȁ ۧ
+01 − 1ȁ ۧ
+10 + 0ȁ ۧ11
+=
+1
+2 (ȁ ۧ
+01 − ȁ ۧ10 )
+17
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 18 ---
+Concepts Review Using Entanglement
+• ℂ2 is a 2D space with complex coefficients. we can use a real 2D plane to illustrate how to change the
+basis as shown in Pic. 9. This picture is wrong but is intended to give us a relevant idea.
+• In general, the new basis vectors |αۧ and |βۧ can be expressed as the linear combinations (superposition)
+of the old basis vectors, |0ۧ and |1ۧ:
+where 𝑎, 𝑏, 𝑐, and 𝑑 are complex numbers. The basis vectors need to be orthonormal.
+Therefore, 𝛼 𝛼 = 𝛽 𝛽 = 1 and 𝛼 𝛽 = 𝛽 𝛼 = 0. ȁ ۧ
+𝛽 has two complex numbers.
+To determine ȁ ۧ
+𝛽 , we need to fix 4 values (real and imaginary parts of the two complex numbers).
+Equations 𝛽 𝛼 = 0 and 𝛽 𝛽 = 1 help us fix two of them and it still has two
+numbers undetermined (i.e. still has two degrees of freedom).
+One of them can be captured as the overall phase factor, which is immaterial
+because when we calculate any physical quantities,
+both the bra and ket versions of the vector are involved
+and the global phase factors in the bra and ket cancel each other.
+ȁ ۧ
+𝛼 = 𝑎ȁ ۧ0 + 𝑏ȁ ۧ1
+ȁ ۧ
+𝛽 = 𝑐ȁ ۧ0 + 𝑑ȁ ۧ1
+Pic.9 Changing basis states in the C2 space using a
+fake real 2D space illustration
+￼
+18
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 19 ---
+Concepts Review Using Entanglement
+• Therefore, if ȁ ۧ
+𝛼 is given, there is only one value left to be determined in ȁ ۧ
+𝛽 . We may express ȁ ۧ
+𝛽 as
+let’s check if it is normalized.
+Now let’s check if |βۧ is orthogonal to |αۧ.
+Therefore, the equation ȁ ۧ
+𝛽 is a correct representation of ȁ ۧ
+𝛽 when ȁ ۧ
+𝛼 is given and ȁ ۧ
+𝛽 and ȁ ۧ
+𝛼 form a
+pair of orthonormal basis from which we will construct the new ȁ ۧ
+𝜙−
+.
+ȁ ۧ
+𝛽 = 𝑒𝑖𝜃 𝑏∗ȁ ۧ0 − 𝑎∗ȁ ۧ1 =
+𝑒𝑖𝜃𝑏∗
+−𝑒𝑖𝜃𝑎∗
+𝛽 𝛽 = (𝑒−𝑖𝜃𝑏 − 𝑒−𝑖𝜃𝑎)
+𝑒𝑖𝜃𝑏∗
+−𝑒𝑖𝜃𝑎∗
+= 𝑒𝑖𝜃𝑏𝑒𝑖𝜃𝑏∗ + −𝑒𝑖𝜃𝑎 −𝑒𝑖𝜃𝑎∗
+= 𝑏𝑏∗ + 𝑎𝑎∗
+= 1
+𝛽 α = (𝑒−𝑖𝜃𝑏 − 𝑒−𝑖𝜃𝑎)
+𝑎
+𝑏
+= 𝑒𝑖𝜃𝑏𝑎 + −𝑒𝑖𝜃𝑎 𝑏 = 0
+19
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 20 ---
+Concepts Review Using Entanglement
+• Now we have two different bases in ℂ2 space, namely, {01} and {αβ}. They are related to each other.
+We can then construct a ℂ4 space using either two {01} spaces or two {αβ} spaces. The new space will
+have four basis vectors. The straightforward sets are |00ۧ/|01ۧ/|10ۧ/|11ۧ if it is formed by {01} basis or
+|ααۧ/|αβۧ/|βαۧ/|ββۧ if it is formed by {αβ} basis.
+• Note that they are the same space but just have a different basis or they are “viewed” at different angles.
+• We represent them in column forms if we are using |00ۧ/|01ۧ/|10ۧ/|11ۧ,
+• How about in the |ααۧ/|αβۧ/|βαۧ/|ββۧ basis? It is the same, except different basis label to avoid confusion.
+Thery are the same because each element in the column form represents how much the corresponding
+basis vector it has.
+ȁ ۧ00 =
+1
+0
+0
+0 {01}
+; ȁ ۧ
+01 =
+0
+1
+0
+0 {01}
+; ȁ ۧ
+10 =
+0
+0
+1
+0 {01}
+; ȁ ۧ11 =
+0
+0
+0
+1 {01}
+ȁ ۧ
+𝛼𝛼 =
+1
+0
+0
+0 {𝛼𝛽}
+; ȁ ۧ
+𝛼𝛽 =
+0
+1
+0
+0 {𝛼𝛽}
+; ȁ ۧ
+𝛽𝛼 =
+0
+0
+1
+0 {𝛼𝛽}
+; ȁ ۧ
+𝛽𝛽 =
+0
+0
+0
+1 {𝛼𝛽}
+20
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 21 ---
+Concepts Review Using Entanglement
+• Therefore, ȁ ۧ
+𝜓−
+{𝛼𝛽}=
+1
+2 ȁ ۧ
+𝛼𝛽 − ȁ ۧ
+𝛽𝛼 =
+0
+1
+−1
+0 {𝛼𝛽}
+• We want to know if this entangled ȁ ۧ
+𝜓−
+{𝛼𝛽} state is still entangled when it is represents in the {01} basis.
+• By using the distribution rule and making sure not to swap the orders of the ket’s in the tensor products
+during this process, some terms are canceled, and we have
+Note that −𝑒𝑖𝜃 is just an overall phase factor and we can ignore it as discussed earlier. Therefore, the Bell
+state is still Bell state even after rotations or being represented on another basis. And, thus, it is still
+entangled.
+ȁ ۧ
+𝜓−
+{𝛼𝛽}= −𝑒𝑖𝜃ȁ ۧ
+𝜓−
+{01}
+21
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 22 ---
+Pure State, Mixed State, and Density Matrix
+• In this class, we will only deal with pure states. However, to introduce the concept of entanglement
+measurement, it is necessary to discuss the density matrix, which inherently involves mixed states.
+• A pure state is just a state (i.e. vector) in a space. For example, an electron spin of |0ۧ is a pure state. But
+an electron spin of 0.7|0ۧ+ 0.3|1ۧ is also a pure state.
+• A pure state is just a state in a space so it is not limited to the basis states. It can be any linear
+combination of the basis states. If we perform a measurement on the given pure state, there is a
+probability of 0.7 that we will get |0ۧ and 0.3 that we will get |1ۧ, which are obtained by finding the
+square of the magnitude of the corresponding coefficient.
+• However, it is often that we do not have complete information about the state. For example, there might
+be 100 electrons and we only know that 70% of them are |0ۧ and 30% of them are |1ۧ. So each of the
+electron is in a pure state (either |0ۧ or |1ۧ), but we do not know which one is at |0ۧ or |1ۧ.
+• Then we say the electrons are in mixed states. If we perform a measurement, there is still a probability of
+0.7 that we will get |0ۧ and 0.3 that we will get |1ۧ just because we know that 70% of them are |0ۧ and
+30% of them are |1ۧ. Or in other words, we know for each electron, there is a 70% chance to be in |0ۧ and
+30% chance to be in |1ۧ.
+22
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 23 ---
+Pure State, Mixed State, and Density Matrix
+• We use density matrix to represent the mixed state mathematically. Density matrix of an ensemble
+(either mixed or pure) is defined as:
+where we assume there are n different pure states, ห ൿ
+𝜓𝑗 , each has the portion of 𝑝𝑗. Therefore, sum of 𝑝𝑗
+is 1 and it also represents the probability of finding an electron in state ห ൿ
+𝜓𝑗.
+• For the system with pure state ȁ ۧ
+𝜓 = 0.7|0ۧ+ 0.3|1ۧ, it only has one pure state (ห ۧ
+𝜓0 = ȁ ۧ
+𝜓 ) and the
+density matrix is
+𝑝 = ෍
+𝑗=0
+𝑛−1
+𝑝𝑗 ቚ ൿ
+𝜓𝑗 ൻ ห
+𝜓𝑗
+𝑝 = ห ۧ
+𝜓 ۦ ȁ
+𝜓 =
+0.7
+0.3 0.7 0.3
+=
+0.21 0.7
+0.3 0.21
+23
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 24 ---
+Pure State, Mixed State, and Density Matrix
+• For the system with the mixed state, we have
+where ቚ ۧ
+𝜓0 = ȁ ۧ0 , ห ۧ
+𝜓1 = ȁ ۧ1 , 𝑝0 = 0.7, and 𝑝1 = 0.3.
+• We see that although the given pure and mixed states have the same probabilistic measurement outcomes,
+their density matrices are different.
+𝑝 = 0.7ห ۧ0 ۦ ȁ0 + 0.3ห ۧ1 ۦ ȁ1
+0.7 =
+1
+0.3 + 0 1 0
+0
+1 0 1
+0 1 0.7 =
+0 0 0.3 + 0 0
+1 0
+=
+0 0.7
+0.3 0
+24
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 25 ---
+Measurement of Entanglement
+• To check if a pure state is an entangled state, we need to find its entanglement entropy. If it is 1, it is
+maximally entangled. If it is 0, it is a pure product state.
+• Entanglement entropy is defined as
+𝑇𝑟(𝜌) is the trace of a matrix. The trace of a matrix is simply the sum of its diagonal elements. Therefore,
+• For example, the trace of density matrix for the pure state ȁ ۧ
+𝜓 = 0.7|0ۧ+ 0.3|1ۧ and the mixed state are
+both 𝜌0,0 + 𝜌1,1 = 0.7 + 0.3 = 1. But what is 𝑇𝑟𝐴 or 𝑇𝑟𝐵? This is called the partial trace in which the
+sum is only performed over the index of A or B subspaces, respectively. Since we are talking about
+entanglement. So, the space must be at least a tensor product of two subspaces (e.g. ℂ4 = ℂ2⨂ℂ2).
+• Let’s consider ȁ ۧ
+𝜙− . We know it is an entangled state. To what degree it is entangled?
+𝑆𝐴 = −𝑇𝑟𝐵(𝜌𝐵 log2 𝜌𝐵) where 𝜌𝐵 = 𝑇𝑟𝐵(𝜌)
+𝑇𝑟 𝜌 = ෍
+𝑖=0
+𝑛−1
+𝜌𝑖,𝑖
+25
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 26 ---
+Measurement of Entanglement
+• ȁ ۧ
+𝜙− is a pure vector in the ℂ4 space, which is a tensor product of two ℂ2 spaces and let’s call them space
+A and space B and thus ℂ4 = ℂ2
+𝐴⨂ℂ2
+𝐵.
+• Firstly, evaluate the density matrix of ȁ ۧ
+𝜙−
+.
+Now let’s compute 𝜌𝐵 = 𝑇𝑟𝐴(𝜌), it is just 0 + 1 + 1 + 0 = 2 by
+tracing over both the first and the second spaces (i.e. A and B).
+However, if we only want to trace over space A, which is the
+first space in the tensor product, we need to keep space B
+indices intact. Pic. 10 shows the methodology. Like regular tracing,
+we only care about the elements with row index of space A equal to
+the column index of space A. Since we are only tracing A, there are
+2 blocks and 8 elements that meet this criterion.
+𝜌 = ȁ ۧ
+𝜙− ۦ ȁ
+𝜙−
+=
+1
+2
+0
+1
+1−
+0
+1
+)0 1 − 1 0( 2
+=
+1
+2
+0 0
+1 0
+0 0
+0 1−
+1− 0
+0 0
+0 1
+0 0
+￼
+Pic.10 Illustrations on how to do a partial tracing.
+Left: tracing only the first qubit. Right: tracing only
+the second qubit. Those with the same colors will
+be added during tracing
+26
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 27 ---
+Measurement of Entanglement
+• The following shows the indices and the corresponding values.
+• Since we need to keep the B index intact during the partial trace calculation, we will add the elements
+with the same B index and therefore, the partial trace over A is a 2 × 2 matrix.
+• For example, 𝜌 𝟎0 ,{𝟎0} is added to 𝜌 𝟏0 ,{𝟏0} because it has the same B index (i.e. 00). Therefore,
+where 𝜌𝐵 is the reduced density matrix of space B because its element still depends on the B indices.
+1
+2
+𝜌 𝟎0 ,{𝟎0} 𝜌 𝟎0 ,{𝟎1}
+𝜌 𝟎1 ,{𝟎0} 𝜌 𝟎1 ,{𝟎1}
+𝜌 00 ,{10} 𝜌 00 ,{11}
+𝜌 01 ,{10} 𝜌 01 ,{11}
+𝜌 10 ,{00} 𝜌 10 ,{01}
+𝜌 11 ,{00} 𝜌 11 ,{01}
+𝜌 𝟏0 ,{𝟏0} 𝜌 𝟏0 ,{𝟏1}
+𝜌 𝟏1 ,{𝟏0} 𝜌 𝟏1 ,{𝟏1}
+=
+1
+2
+0 0
+0 1
+1 0
+0 0
+𝜌𝐵 =
+0 0
+0
+1
+2
++
+1
+2 0
+0 0
+=
+1
+2 0
+0
+1
+2
+27
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 28 ---
+Measurement of Entanglement
+• We can then calculate the entanglement entropy accordingly.
+• Therefore the entanglement entropy of ȁ ۧ
+𝜙− is 1, which means that the entanglement is maximal.
+• Since the trace of a matrix does not change when the basis is changed, we can just work in the basis
+formed by the eigenvectors of 𝜌𝐵.
+𝑆𝐴 = −𝑇𝑟𝐵(𝜌𝐵 log2 𝜌𝐵)
+= −𝑇𝑟𝐵 𝜌𝐵 log2
+1
+2
+0
+0 1
+2
+= −𝑇𝑟𝐵 𝜌𝐵
+log2
+1
+2
+0
+0 log2
+1
+2
+= −𝑇𝑟𝐵 𝜌𝐵
+−1 0
+0 −1
+= −𝑇𝑟𝐵
+1
+2
+0
+0 1
+2
+−1 0
+0 −1
+= −𝑇𝑟𝐵
+−
+1
+2
+0
+0 −
+1
+2
+= 1
+28
+Chapter 13: Concepts Review, Density Matrix, and Entanglement Entropy
+--- PAGE 29 ---
+Chapter 14:
+Quantum Gate Introduction: NOT
+and CNOT Gates
+Kamonluk Suksen Ph.D.
+29
+--- PAGE 30 ---
+Basic Quantum Gate Properties
+• What is quantum computing? In short, it is just a series of rotations of a high dimensional vector in a
+high-dimensional space. This high-dimensional space is the tensor product of many lower dimension
+spaces. For what we are interested in here, the basic low-dimensional space is the ℂ2 Hilbert space where
+the qubit vectors reside.
+• For example, in a 4-qubit quantum algorithm, the vector of interest is a 16-dimensional vector in the
+ℂ16 space, which may be constructed by grouping four electron spins together.
+• At the end of the rotations, we then perform a measurement to obtain the answer we are looking for as
+Pic. 11.
+Pic.11 Overview of quantum computing. 𝑼1 and 𝑼1
+−1, etc. are quantum gates, which are unitary
+￼
+30
+Chapter 14: Quantum Gate Introduction: NOT and CNOT Gates
+--- PAGE 31 ---
+Basic Quantum Gate Properties
+• We need to perform meaningful rotations, so that we obtain the result we want. Besides that, the rotation
+needs to be unitary as we have discussed before.
+• A unitary matrix, 𝑼, obeys 𝑼−𝟏 = 𝑼†. The most important property of a unitary matrix is that it preserves
+the inner product of vectors and this is required in the laws of physics. Since it is unitary, it means its
+inverse exists.
+• This is another requirement of the quantum gate. This is because quantum mechanics requires that every
+evolution (rotation) of the wavefunction is reversible. This is natural if we think about the operations as
+the rotations in a hyperspace. For a rotation, it is always possible to rotate it backwards if we are given
+the result (the output) and the nature of the rotation (the type of the gate).
+• Every step in quantum computing is unitary and reversible. However, at the measurement, this is no
+longer true.
+• A quantum gate is a gate that performs a unitary operation. In a classical computer, in general, the
+electrical signals flow through some physical gates (e.g. a NAND gate formed by 4 transistors) in the
+space. In quantum computing, usually, the qubit and its “signal” do not flow in the space. Instead, we
+apply operations such as microwave or laser pulses to operate/manipulate/change the qubit.
+• Therefore, the flow of a quantum algorithm usually represents the flow of time instead of a physical
+layout in the space.
+31
+Chapter 14: Quantum Gate Introduction: NOT and CNOT Gates
+--- PAGE 32 ---
+Basic Quantum Gate Properties
+• The qubits are usually stationary (except that in a trapped-ion quantum computer, the trapped ions are
+moved around but this still does not completely resemble the flow of signals in a classical computer).
+• When the external pulses or fields are applied to a physical qubit, this is just physics and we know that it
+creates a system in which the qubit state will evolve accordingly. In physics, how the state changes
+depends on the total energy landscape of the system. The total energy is called the Hamiltonian.
+• The law that describes how the state in the system evolves is called the Schrödinger equation, which is
+equivalent to Newton’s Laws in classical mechanics. Schrödinger equation is written as
+where ℏ is the reduced Planck’s constant, H is the Hamiltonian, and ȁ ۧ
+𝜓 is the state (vector) of the system.
+The left-hand side of the equation is the rate of change of the state. The right-hand size tells us that the
+rate of the change of the state can be obtained by multiplying the Hamiltonian on the state. This is as
+simple as Newton’s 𝐹 = 𝑚𝑎!
+• ȁ ۧ
+𝜓 is a vector and can be expressed in a column form. H is an operator and, thus, is a matrix.
+• From the Schrödinger equation, the solution is: . Therefore, , the wavefunction (or
+the state vector) at time 𝑡, ȁ ۧ
+𝜓(𝑡) , is just equal to 𝑒
+−𝑖𝐻𝑡
+ℏ multiplied by the initial wavefunction at time 0,
+ȁ ۧ
+𝜓(0).
+𝑖ℏ
+𝜕ȁ ۧ
+𝜓
+𝜕𝑡
+= 𝑯ȁ ۧ
+𝜓
+ȁ ۧ
+𝜓(𝑡) = 𝑒
+−𝑖𝐻𝑡
+ℏ ȁ ۧ
+𝜓(0)
+32
+Chapter 14: Quantum Gate Introduction: NOT and CNOT Gates
+--- PAGE 33 ---
+Basic Quantum Gate Properties
+• ȁ ۧ
+𝜓(𝑡) , and ȁ ۧ
+𝜓(0) are vectors and, thus, 𝑒
+−𝑖𝐻𝑡
+ℏ must be a matrix (it can also be a scalar, but it is not in
+this case). How do we compute 𝑒
+−𝑖𝐻𝑡
+ℏ ? In other words, how do we exponentiate a matrix?
+• If the matrix is diagonal, we just need to exponentiate the diagonal elements. If not, we need to
+diagonalize it first.
+• Let’s assume we are working in the basis formed by the eigenvectors of H so that H is diagonal. By
+substituting as following:
+Therefore, 𝑒
+−𝑖𝐻𝑡
+ℏ is a general expression of any quantum gate and let us call it U. Let’s check if it is
+unitary. Before that we need to recognize that H, which is the operator for energy, is Hermitian because
+energy is an observable. Therefore, 𝑯 = 𝑯†. We have
+𝑖ℏ
+𝜕𝑒
+−𝑖𝐻𝑡
+ℏ ȁ ۧ
+𝜓(0)
+𝜕𝑡 = 𝑯𝑒
+−𝑖𝐻𝑡
+ℏ ȁ ۧ
+𝜓(0)
+𝑖ℏ
+−𝑖𝐻
+ℏ 𝑒
+−𝑖𝐻𝑡
+ℏ ȁ ۧ
+𝜓(0) = 𝑯𝑒
+−𝑖𝐻𝑡
+ℏ ȁ ۧ
+𝜓(0)
+𝑯𝑒
+−𝑖𝐻𝑡
+ℏ ȁ ۧ
+𝜓(0) = 𝑯𝑒
+−𝑖𝐻𝑡
+ℏ ȁ ۧ
+𝜓(0)
+𝑼𝑼† = 𝑒
+−𝑖𝐻𝑡
+ℏ 𝑒
+−𝑖𝐻𝑡
+ℏ
+†
+= 𝑒
+−𝑖𝐻𝑡
+ℏ 𝑒
+𝑖𝐻†𝑡
+ℏ = 𝑒
+−𝑖𝐻𝑡
+ℏ 𝑒
+𝑖𝐻𝑡
+ℏ = 𝑰
+33
+Chapter 14: Quantum Gate Introduction: NOT and CNOT Gates
+--- PAGE 34 ---
+NOT (X) Gate
+• The NOT gate is called X gate. Since every quantum gate is a unitary gate, we will label its matrix as
+𝑼𝑵𝑶𝑻. It is called the NOT gate because it is defined in this way:
+• It is exactly the same as the classical NOT gate if we just treat the basis states as the classical values.
+• To achieve the above function, we found that
+Since a qubit state is in the two-dimensional ℂ2 space, the matrix (operator) must be 2 × 2.
+and
+𝑼𝑵𝑶𝑻ȁ ۧ0 = ȁ ۧ1
+𝑼𝑵𝑶𝑻ȁ ۧ1 = ȁ ۧ0
+𝑼𝑵𝑶𝑻 =
+0 1
+1 0
+𝑼𝑵𝑶𝑻ȁ ۧ0 =
+0 1
+1 0 ȁ ۧ0
+=
+0 1
+1 0
+1
+0
+=
+0
+1
+= ȁ ۧ1
+𝑼𝑵𝑶𝑻ȁ ۧ1 =
+0 1
+1 0 ȁ ۧ1
+=
+0 1
+1 0
+0
+1
+=
+1
+0
+= ȁ ۧ0
+34
+Chapter 14: Quantum Gate Introduction: NOT and CNOT Gates
+--- PAGE 35 ---
+Circuit and Properties
+• Just like the power of a quantum register is that it can store the superpositions of the basis states, the
+power of the quantum gates is that they can process the superpositions of the basis states. If 𝑼𝑵𝑶𝑻 is
+applied to a general state ห ۧ
+𝜓 = 𝛼ȁ ۧ0 + 𝛽ȁ ۧ1 .
+Therefore, we can also understand 𝑼𝑵𝑶𝑻 as a gate that will swap the coefficients of the basis states (i.e. 𝛼
+becomes 𝛽 and vice versa).
+• The NOT gate is also called an X gate because the matrix 𝑼𝑵𝑶𝑻 is just 𝝈𝒙 . Pic. 12 shows the NOT
+operation and its circuits.
+𝑼𝑵𝑶𝑻ȁ ۧ
+𝜓 =
+0 1
+1 0 ȁ ۧ
+𝜓
+=
+0 1
+1 0
+𝛼
+𝛽= 𝛽
+𝛼
+= 𝛽ȁ ۧ0 + 𝛼ȁ ۧ1
+Pic.12 NOT gate and its circuits. Top: 1-qubit NOT gate.
+Bottom: 2-qubit NOT gate. Note the bottom qubit is the MSB
+￼
+35
+Chapter 14: Quantum Gate Introduction: NOT and CNOT Gates
+--- PAGE 36 ---
+Circuit and Properties
+• We can also construct a two-qubit or n-qubit NOT gate. We just need to perform a tensor product of two
+one-qubit NOT gate to obtain a two-qubit NOT gate because a two-qubit vector resides in a ℂ4 space,
+which is a tensor product of two ℂ2 spaces. Therefore,
+• When apply the 2-qubit NOT gate to a general vector ห ۧ
+𝜓 = 𝛼ȁ ۧ
+00 + 𝛽ȁ0 ۧ1 + 𝛾ȁ1 ۧ0 + 𝛿ȁ1 ۧ1 .
+• Note that we will follow IBM-Q qiskit’s convention to assign the lower bit in the circuit diagram to be
+the most significant bit (MSB). The MSB means that qubit is written on the left in a tensor product form.
+For example, the qubit 𝑎0ȁ ۧ0 + 𝑏0ȁ ۧ1 is the MSB in ȁ ۧ
+𝜓 = (𝑎0ȁ ۧ0 + 𝑏0ȁ ۧ1 )⨂(𝑎1ȁ ۧ0 + 𝑏1ȁ ۧ1 ), while
+𝑎1ȁ ۧ0 + 𝑏1ȁ ۧ1 is the least significant bit (LSB).
+𝑼𝑵𝑶𝑻𝟐 = 𝑼𝑵𝑶𝑻⨂𝑼𝑵𝑶𝑻 =
+0 1
+1 0 ⨂ 0 1
+1 0
+=
+0 0 1
+1 0 1 0 1
+1 0
+1 0 1
+1 0 0 0 1
+1 0
+=
+0 0
+0 0
+0 1
+1 0
+0 1
+1 0
+0 0
+0 0
+𝑼𝑵𝑶𝑻𝟐ȁ ۧ
+𝜓 =
+0 0
+0 0
+0 1
+1 0
+0 1
+1 0
+0 0
+0 0
+𝛼
+𝛽
+𝛾
+𝛿
+=
+𝛿
+𝛾
+𝛽
+𝛼
+36
+Chapter 14: Quantum Gate Introduction: NOT and CNOT Gates
+--- PAGE 37 ---
+XOR (CNOT) Gate
+• In classical logic, the XOR gate is a 2-input gate. Similarly, an XOR quantum gate is 2-qubit. It is more
+commonly known as the CNOT gate, which stands for Controlled-NOT gate for an obvious reason to be
+explained soon. An XOR quantum gate is defined as
+• ȁ ۧ
+𝑎𝑏 is a vector in the ℂ4 space and a and b are either 0 or 1. ȁ ۧ
+𝑎𝑏 can be any of the basis states, namely,
+|00ۧ, |01ۧ, |10ۧ, and |11ۧ.
+• After the XOR gate is applied to one of the basis states, it will become another basis state
+ȁ𝑎 ۧ
+𝑎 ⊕ 𝑏 . ȁ𝑎 ۧ
+𝑎 ⊕ 𝑏 is just ȁ𝑎, ۧ
+𝑎 ⊕ 𝑏 or becomes 𝑎 ⊕ 𝑏, where ⊕ is the classical exclusive or (XOR)
+logical operation. Let’s see how it changes the individual basis state.
+We see that 𝑼𝑿𝑶𝑹 swaps the third and the fourth basis and keeps the rest unchanged.
+𝑼𝑿𝑶𝑹ȁ ۧ
+𝑎𝑏 = ȁ𝑎 ۧ
+𝑎 ⊕ 𝑏
+𝑼𝑿𝑶𝑹ȁ ۧ00 = ȁ ۧ
+0, 0 ⊕ 0 = ȁ ۧ
+0, 0 = ȁ ۧ00
+𝑼𝑿𝑶𝑹ȁ ۧ01 = ȁ ۧ
+0, 0 ⊕ 1 = ȁ ۧ
+0, 1 = ȁ ۧ
+01
+𝑼𝑿𝑶𝑹ȁ ۧ10 = ȁ ۧ
+1, 1 ⊕ 0 = ȁ ۧ
+1, 1 = ȁ ۧ11
+𝑼𝑿𝑶𝑹ȁ ۧ11 = ȁ ۧ
+1, 1 ⊕ 1 = ȁ ۧ
+1, 0 = ȁ ۧ
+10
+37
+Chapter 14: Quantum Gate Introduction: NOT and CNOT Gates
+--- PAGE 38 ---
+Matrix for XOR (CNOT) Gate
+• The matrix of 𝑼𝑿𝑶𝑹 is
+since this is a 2-qubit gate for operating on a vector in the four-dimensional ℂ4 space, the matrix
+(operator) must be 4 × 4. Moreover, it only swaps the third and the fourth basis states. Therefore, this is
+an appropriate construction. Let us try a numerical example:
+This is because |10ۧ is the third basis state and thus it is
+0
+0
+1
+0
+and |11ۧ is
+0
+0
+0
+1
+.
+𝑼𝑿𝑶𝑹 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+𝑼𝑿𝑶𝑹ȁ ۧ10 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+0
+0
+1
+0
+=
+0
+0
+0
+1
+= ȁ ۧ
+11
+38
+Chapter 14: Quantum Gate Introduction: NOT and CNOT Gates
+--- PAGE 39 ---
+Circuit and Properties
+• The output depends on 𝑎 ⊕ 𝑏, where 𝑎 is the value of the first qubit and 𝑏 is the value of the second
+qubit in the basis state. It is also called Controlled-NOT. Whether we will apply NOT to the second qubit
+depends on 𝑎 (i.e. controlled by 𝑎).
+• The first qubit is called the control qubit and the second one is called the target qubit.
+• In general, for a 2-qubit vector, ห ۧ
+𝜓 = 𝛼ȁ ۧ00 + 𝛽ȁ0 ۧ1 + 𝛾ȁ1 ۧ0 + 𝛿ȁ1 ۧ1 , we have
+As expected, the coefficients of the last two basis states are swapped.
+Pic. 13 shows the circuit of a CNOT operation. Note that again
+the bottom qubit is the MSB and that qubit acts as the control qubit.
+𝑼𝑿𝑶𝑹ȁ ۧ
+𝜓 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+𝛼
+𝛽
+𝛾
+𝛿
+=
+𝛼
+𝛽
+𝛿
+𝛾
+= 𝛼ȁ0 ۧ0 + 𝛽ȁ0 ۧ1 + 𝛾ȁ1 ۧ0 + 𝛿ȁ1 ۧ1
+Pic.13 CNOT gate and its circuit
+￼
+39
+Chapter 14: Quantum Gate Introduction: NOT and CNOT Gates

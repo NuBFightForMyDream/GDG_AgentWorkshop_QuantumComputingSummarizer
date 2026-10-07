@@ -1,0 +1,1483 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH21_CH22_CH23-959373-17725928551124.pdf
+TOTAL_PAGES: 36
+--- PAGE 1 ---
+Chapter 21:
+Quantum Oracles and Construction
+of Quantum Gate Matrices
+Kamonluk Suksen Ph.D.
+111
+--- PAGE 2 ---
+Quantum Oracle
+• Since it is an oracle, very often we do not know how it is implemented. We only know that its behavior
+has some correlations to the problem that we try to solve.
+• The problem we are solving usually is related to a function 𝑓 𝑥 (such as the 𝑓 𝑥 , which we want to
+know if it is constant or balanced in the Deutsch algorithm).
+• It can be as simple as a p-qubit identity gate (𝐼⨂𝑝). But usually, it is complex, and we can use some
+physical systems to implement it.
+• We will create an equivalent oracle when we need to test the circuit. But most of the time, we can just
+treat it as a black box.
+• There are two types of quantum oracles. One is called the XOR quantum oracle while the other is called
+the phase quantum oracle.
+• A quantum oracle is just a quantum gate. Therefore, it must be unitary and reversible. So, it is
+represented as 𝑼𝑓, which is a unitary operator corresponding to the function 𝑓 𝑥 .
+112
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 3 ---
+Quantum Oracle
+• XOR Quantum Oracle
+▪ For any function 𝑓(𝑥), it maps n bits of inputs to m bits of outputs. Mathematically, it is written as 𝑓: {0, 1}𝑛→ {0, 1}𝑚
+.
+▪ For example, in the Deutsch problem, we have 𝑛 = 𝑚 = 1. That is, both input and output have 1-qubit.
+▪ In general, 𝑛 ≠ 𝑚, we can build a classical gate to map the n-bit inputs to the m-bit outputs. But we cannot do this in quantum
+computing because every quantum gate needs to be reversible. And this is only possible if 𝑛 = 𝑚.
+▪ For example, for 𝑛 > 𝑚, many different inputs can produce the same output. Then for a given output, we cannot find the
+corresponding input in the reverse direction. Or an n-qubit input m-qubit output matrix is not square (it is 𝑚 × 𝑛) and thus it
+cannot be unitary.
+▪ This issue can be solved by implementing an XOR quantum oracle. It has (𝑛 + 𝑚)-qubit input and output as in Pic. 26.
+Pic. 26 A general XOR quantum oracle. The top one is the convention we have been using
+(IBM-Q) with MSB at the bottom and the bottom one is the other version often seen in other
+books. Both are using the little-endian convention. Note that ȁ ۧ
+𝑥 𝑛 ȁ ۧ
+𝑦 𝑚 are basis vectors
+￼
+113
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 4 ---
+Quantum Oracle
+• XOR Quantum Oracle
+▪ Like for other quantum gates, we define the XOR quantum oracle by describing how it transforms a basis vector to other basis
+vectors.
+▪ The XOR quantum oracle is (𝑛 + 𝑚) × (𝑛 + 𝑚). If 𝑓 𝑥 has n-bit inputs and m-bit outputs, we denote the input basis vector as
+ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 𝑚 (i.e. the n MSB are denoted as |xۧ and the m LSB are denoted as ȁ ۧ
+𝑦 𝑚). Here ȁ ۧ
+𝑥 𝑛 is the query, which represents the
+input to 𝑓 𝑥 and ȁ ۧ
+𝑦 𝑚 are the auxiliary qubits. It is natural to add the m auxiliary bits because we need to store the result 𝑓 𝑥
+somehow.
+▪ An XOR quantum oracle is defined as that it will keep the n MSB unchanged but the m LSB will be changed to 𝑦 ⨁𝑓 𝑥 . So,
+the output becomes ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 ⨁𝑓 𝑥
+𝑚. Note that 𝑦 ⨁𝑓 𝑥 is a classical bit-wise XOR operator. We can represent its behavior as
+where ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 𝑚 is a basis vector in the ℂ2(𝑛+𝑚)
+space.
+▪ For example, 𝑛 = 3, 𝑚 = 2, and let 𝑥 = 3 and 𝑓(3) = 3, find the corresponding input and output basis vectors of the XOR
+quantum oracle corresponding to 𝑓(𝑥).
+▪ We assume the m LSB part of the input is ȁ ۧ
+0 𝑚. So, the input basis vector is ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 𝑚
+= ȁ ۧ
+3 3ȁ ۧ
+0 2 where we substituted the
+decimal values of x, n, and m. This can be written as ȁ ۧ
+011 ȁ ۧ
+00 = ȁ ۧ
+01100 , which is a 5-qubit input.
+▪ The output vector is also a basis vector and can be found as
+𝑼𝑓ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 𝑚
+= ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 ⨁𝑓 𝑥
+𝑚
+𝑼𝑓ȁ ۧ
+3 3ȁ ۧ
+0 2
+= ȁ ۧ
+3 3ȁ ۧ
+0 ⨁𝑓 3 2
+= ȁ ۧ
+3 3ȁ ۧ
+0 ⨁3 2
+= ȁ ۧ
+011 ȁ ۧ
+(00 ⨁(11)
+= ȁ ۧ
+011 ȁ ۧ
+11
+= ȁ ۧ
+01111 114
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 5 ---
+Quantum Oracle
+• XOR Quantum Oracle
+▪ Now, let us prove that the XOR quantum oracle is indeed reversible. We first apply 𝑼𝑓 twice to the input.
+Where we use the fact that 𝑓 𝑥 ⨁𝑓 𝑥 = 0 and 𝑦⨁0 = 𝑦 because anything XOR with itself results in 0 and anything
+XOR with 0 is still itself. Therefore, 𝑼𝑓𝑼𝑓 = 𝐼⨂(𝑛+𝑚) (i.e. an (𝑛 + 𝑚)-dimensional identity matrix). But we know that
+𝑼𝑓𝑼𝑓
+−1
+= 𝐼⨂(𝑛+𝑚), where 𝑼−1 is the inverse of 𝑼𝑓. Therefore, 𝑼𝑓 = 𝑼𝑓
+−1. This also means that the inverse of 𝑼𝑓 exits.
+So, 𝑼𝑓 is reversible.
+𝑼𝑓𝑼𝑓ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 𝑚
+= 𝑼𝑓ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 ⨁𝑓 𝑥
+𝑚
+= ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 ⨁𝑓 𝑥 ⨁𝑓 𝑥
+𝑚
+= ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 ⨁0 𝑚
+= ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 𝑚
+= 𝐼⨂(𝑛+𝑚) ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 𝑚
+115
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 6 ---
+Quantum Oracle
+• Phase Quantum Oracle
+▪ In some applications, we encode 𝑓 𝑥 so that it changes the phase of the input basis vector based on 𝑓 𝑥 and uses it as an
+output.
+▪ In this case, we only need n qubits for both the input and the output. The phase quantum oracle matrix has a dimension of
+𝑛 × 𝑛. The phase quantum oracle is just a quantum gate and it is defined by how it transforms the basis vectors.
+where ȁ ۧ
+𝑥 𝑛 is an n-qubit basis vector.
+▪ In the phase quantum oracle, we see that if 𝑓 𝑥 is even, the output is the same as the input. And if 𝑓 𝑥 is odd, the output
+is the same as the input with a phase shift of π. The phase shift is π because 𝑒𝑖𝜋 = cos 𝜋 + 𝑖 sin 𝜋 = −1.
+▪ At this point, a quantum oracle can be used to “express” the effect of 𝑓 𝑥 (i.e. the answer to our query) in any form as
+long as it can help us achieve the final goal.
+▪ In a phase quantum oracle, 𝑓 𝑥 only affects the phase of the output (therefore, less information is retained).
+▪ Similar to the XOR quantum oracle, a phase quantum oracle needs to be reversible and unitary. To show that it is
+reversible, we again apply it twice to the input.
+𝑼𝑓𝑼𝑓ȁ ۧ
+𝑥 𝑛
+= 𝑼𝑓(−1)𝑓(𝑥)ȁ ۧ
+𝑥 𝑛
+= (−1)𝑓(𝑥)𝑼𝑓ȁ ۧ
+𝑥 𝑛
+= (−1)𝑓(𝑥)(−1)𝑓(𝑥)ȁ ۧ
+𝑥 𝑛
+= (−1)2𝑓(𝑥)ȁ ۧ
+𝑥
+𝑛
+= ȁ ۧ
+𝑥 𝑛
+= 𝐼⨂𝑛 ȁ ۧ
+𝑥 𝑛
+𝑼𝑓ȁ ۧ
+𝑥 𝑛
+= (−1)𝑓(𝑥)ȁ ۧ
+𝑥 𝑛
+116
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 7 ---
+Quantum Oracle
+• Phase Quantum Oracle
+▪ Therefore, it is reversible because its inverse exists (and equals to the oracle itself) by using the reasoning we used in the
+XOR quantum oracle case. It is also unitary.
+▪ Pic. 27 shows the phase quantum oracle.
+▪ We will show that the set of the basis vectors is still orthonormal after being transformed by the phase quantum oracle and
+thus the phase quantum oracle is unitary.
+▪ For any two basis vectors, |aۧ and |bۧ, their inner product is ⟨a|bۧ. If they are transformed by a phase quantum oracle, they
+become (−1)𝑓(𝑎)ȁ ۧ
+𝑎 and (−1)𝑓(𝑏)ȁ ۧ
+𝑏 , respectively. The inner product of the transformed basis vector is
+(−1)(𝑓 𝑎 ∗+𝑓(𝑏) 𝑎 𝑏 . But note, 𝑓(𝑎) and 𝑓(𝑏) are real numbers, because they are the outputs of the mapping 𝑓: {0, 1}𝑛→
+{0, 1}𝑚 and are just real binary numbers.
+▪ If 𝑎 = 𝑏, then (−1)(𝑓 𝑎 ∗+𝑓(𝑏)= (−1)𝑓 𝑎 +𝑓 𝑏 = −1 2𝑓 𝑎 = 1 and the inner product is still the same (i.e. 𝑎 𝑎 = 1).
+▪ If 𝑎 ≠ 𝑏, then the inner product is still 0 as 𝑎 𝑏 = 0. So, the phase quantum oracle keeps the inner products of the basis
+vectors unchanged (so still orthonormal) and, thus, it is unitary.
+Pic. 27 A general phase quantum oracle. Note that ȁ ۧ
+𝑥 𝑛 is a basis vector
+￼
+117
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 8 ---
+Construction of Quantum Gates and Oracles
+• How to systematically construct the matrix for a quantum gate?
+• As each quantum gate is defined by how it transforms the basis vectors. Since every basis vector has
+only 1 non-zero entry in its column form, how it is transformed defines the corresponding row of the
+matrix.
+• For example, the 2nd basis vector (we count from 0th) in a 4-dimensional space has the form
+0
+0
+1
+0
+.
+When it is transformed by a matrix of a quantum gate, it only affects the output through the 2nd row of
+the matrix. So, we can guess the equation for a quantum gate construction. For a quantum gate, U, with
+a dimension of 𝑁 × 𝑁,
+where ȁ ۧ
+𝑖 and ȁ ۧ
+𝑗 are the basis vectors. ȁ ۧ
+𝑗 ⟨ ȁ
+𝑖 is the outer product to define the location of the element in
+the matrix (𝑗 − 𝑡ℎ row i−𝑡ℎ column). 𝑗 𝑼 𝑖 tells us how much of ȁ ۧ
+𝑖 will contribute to the formation
+of ȁ ۧ
+𝑗 after the transformation.
+𝑼 = ෍
+𝑖=0
+𝑁−1
+෍
+𝑗=0
+𝑁−1
+𝑗 𝑼 𝑖 ȁ ۧ
+𝑗 ⟨ ȁ
+𝑖
+118
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 9 ---
+Construction of Quantum Gates and Oracles
+• For example, construct the matrix for a 1-bit NOT-gate with only 2 basis vectors.
+𝑼𝑵𝑶𝑻 = ෍
+𝑖=0
+2−1
+෍
+𝑗=0
+2−1
+𝑗 𝑼𝑵𝑶𝑻 𝑖 ȁ ۧ
+𝑗 ⟨ ȁ
+𝑖
+= 0 𝑼𝑵𝑶𝑻 0 ȁ ۧ
+0 ⟨ ȁ
+0 + 1 𝑼𝑵𝑶𝑻 0 ȁ ۧ
+1 ⟨ ȁ
+0 +
+0 𝑼𝑵𝑶𝑻 1 ȁ ۧ
+0 ⟨ ȁ
+1 + 1 𝑼𝑵𝑶𝑻 1 ȁ ۧ
+1 ⟨ ȁ
+1
+= ⟨ ȁ
+0 ȁ ۧ
+1 ห ۧ
+0 ⟨ ȁ
+0 + ⟨ ȁ
+1 ȁ ۧ
+1 ห ۧ
+1 ⟨ ȁ
+0 + ⟨ ȁ
+0 ȁ ۧ
+0 ห ۧ
+0 ⟨ ȁ
+1 + ⟨ ȁ
+1 ȁ ۧ
+0 ห ۧ
+1 ⟨ ȁ
+1
+= ห ۧ
+1 ⟨ ȁ
+0 + ห ۧ
+0 ⟨ ȁ
+1
+=
+0
+1 1 0 + 1
+1 0 1
+=
+0 0
+1 0 + 0 1
+0 0
+=
+0 1
+1 0
+119
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 10 ---
+Construction of Quantum Gates and Oracles
+• For example, construct the matrix for a 1-bit Hadamard gate with only 2 basis vectors.
+𝑯 = ෍
+𝑖=0
+2−1
+෍
+𝑗=0
+2−1
+𝑗 𝐻 𝑖 ȁ ۧ
+𝑗 ⟨ ȁ
+𝑖
+= 0 𝑯 0 ȁ ۧ
+0 ⟨ ȁ
+0 + 1 𝑯 0 ȁ ۧ
+1 ⟨ ȁ
+0 +
+0 𝑯 1 ȁ ۧ
+0 ⟨ ȁ
+1 + 1 𝑯 1 ȁ ۧ
+1 ⟨ ȁ
+1
+= ⟨ ȁ
+0 ( 1
+2 ห ۧ
+0 + ȁ ۧ
+1 ) ห ۧ
+0 ⟨ ȁ
+0 + ⟨ ȁ
+1 ( 1
+2 (ห ۧ
+0 + ȁ ۧ
+1 )ห ۧ
+1 ⟨ ȁ
+0 +
+⟨ ȁ
+0 ( 1
+2 (ห ۧ
+0 − ȁ ۧ
+1 )ห ۧ
+0 ⟨ ȁ
+1 + ⟨ ȁ
+1 ( 1
+2 (ห ۧ
+0 − ȁ ۧ
+1 )ห ۧ
+1 ⟨ ȁ
+1
+=
+1
+2 (ห ۧ
+0 ⟨ ȁ
+0 + ห ۧ
+1 ⟨ ȁ
+0 + ห ۧ
+0 ⟨ ȁ
+1 − ห ۧ
+1 ⟨ ȁ
+1 )
+=
+1
+2
+1
+0 1 0 + 0
+1 1 0 + 1
+0 0 1 −
+0
+1 0 1
+=
+1
+2
+1 1
+1 −1
+120
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 11 ---
+Construction of Quantum Gates and Oracles
+• Find the matrix of a XOR quantum oracle in the Deutsch algorithm corresponding to 𝑓𝐵. Then construct the
+oracle using fundamental quantum gate(s) and simulate on IBM-Q.
+• Therefor, the quantum oracle transforms the basis as
+where we substituted 𝑓 0 = 0 and 𝑓 1 = 1. This is the definition of this oracle.
+• In this case, 𝑁 = 4 with 4 basis vectors (ȁ ۧ00 , ȁ ۧ01 , ȁ ۧ10 , and ȁ ۧ11 .) and there are 4 × 4 = 16 elements in
+the matrix, only these 4 terms are non-zero.
+𝑓𝐵 0 = 0 and 𝑓𝐵 1 = 1
+𝑼𝑓ȁ ۧ0 ȁ ۧ0 = ȁ ۧ0 ȁ ۧ
+0 ⊕ 𝑓(0) = ȁ ۧ0 ȁ ۧ
+0 ⊕ 0 = ȁ ۧ0 ȁ ۧ0
+𝑼𝑓ȁ ۧ0 ȁ ۧ1 = ȁ ۧ0 ȁ ۧ
+1 ⊕ 𝑓(0) = ȁ ۧ0 ȁ ۧ
+1 ⊕ 0 = ȁ ۧ0 ȁ ۧ1
+𝑼𝑓ȁ ۧ1 ȁ ۧ0 = ȁ ۧ1 ȁ ۧ
+0 ⊕ 𝑓(1) = ȁ ۧ1 ȁ ۧ
+0 ⊕ 1 = ȁ ۧ1 ȁ ۧ1
+𝑼𝑓ȁ ۧ1 ȁ ۧ1 = ȁ ۧ1 ȁ ۧ
+1 ⊕ 𝑓(1) = ȁ ۧ1 ȁ ۧ
+1 ⊕ 1 = ȁ ۧ1 ȁ ۧ0
+⟨ ȁ0 ⟨ ȁ0 𝑼𝑓ȁ ۧ0 ȁ ۧ0 = ⟨ ȁ0 ⟨ ȁ0 ȁ ۧ0 ȁ ۧ0 = ⟨ ȁ
+00 ȁ0 ۧ0 = 1
+⟨ ȁ0 ⟨ ȁ1 𝑼𝑓ȁ ۧ0 ȁ ۧ1 = ⟨ ȁ0 ⟨ ȁ1 ȁ ۧ0 ȁ ۧ1 = ⟨ ȁ
+01 ȁ0 ۧ1 = 1
+⟨ ȁ1 ⟨ ȁ1 𝑼𝑓ȁ ۧ1 ȁ ۧ0 = ⟨ ȁ1 ⟨ ȁ1 ȁ ۧ1 ȁ ۧ1 = ⟨ ȁ11 ȁ1 ۧ1 = 1
+⟨ ȁ1 ⟨ ȁ0 𝑼𝑓ȁ ۧ1 ȁ ۧ1 = ⟨ ȁ1 ⟨ ȁ0 ȁ ۧ1 ȁ ۧ0 = ⟨ ȁ
+10 ȁ1 ۧ0 = 1
+121
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 12 ---
+Construction of Quantum Gates and Oracles
+• Therefore, the oracle is :
+• This is just a CNOT gate. So, we can implement the Deutsch algorithm for this type of function by using
+the CNOT gate as the oracle.
+𝑼𝑓 = ⟨ ȁ0 ⟨ ȁ0 (𝑼𝑓ȁ ۧ0 ȁ ۧ0 )ȁ0 ۧ0 ⟨ ȁ00 + ⟨ ȁ0 ⟨ ȁ1 (𝑼𝑓ȁ ۧ0 ȁ ۧ1 )ȁ0 ۧ1 ⟨ ȁ
+01 + ⟨ ȁ1 ⟨ ȁ1 (𝑼𝑓ȁ ۧ1 ȁ ۧ0 )ȁ1 ۧ1 ⟨ ȁ10 + ⟨ ȁ1 ⟨ ȁ0 (𝑼𝑓ȁ ۧ1 ȁ ۧ1 )ȁ1 ۧ0 ⟨ ȁ11
+= ȁ0 ۧ0 ⟨ ȁ00 + ȁ0 ۧ1 ⟨ ȁ
+01 + ȁ1 ۧ1 ⟨ ȁ
+10 + ȁ1 ۧ0 ⟨ ȁ11
+=
+1
+0
+0
+0
+1 0 0 0 +
+0
+1
+0
+0
+0 1 0 0 +
+0
+0
+0
+1
+0 0 1 0 +
+0
+0
+1
+0
+0 0 0 1
+=
+1 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
++
+0 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
++
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+1 0
++
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 1
+0 0
+=
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 1
+1 0
+122
+Chapter 21: Quantum Oracles and Construction of Quantum Gate Matrices
+--- PAGE 13 ---
+Chapter 22:
+Grover’s Algorithm: I
+Kamonluk Suksen Ph.D.
+123
+--- PAGE 14 ---
+Grover’s Algorithm
+• Computational Complexity
+▪ Grover’s algorithm is a quantum search algorithm. It provides a quadratic speedup over the classical one.
+▪ A computation problem usually takes more time as its size increases.
+▪ For example, assume we do addition by adding each pair of single digits in a step. To do a 1-digit addition (e.g. 3 + 4), it might take
+you 1 second. For a 2-digit addition (e.g. 13 + 24), it will take you about 2 seconds.
+▪ If your computation efficiency does not decrease as the number of digits increases, it takes you about N seconds to compute an N-
+bit addition. We say the computational complexity of this problem is 𝒪(𝑁). This means that the computation time goes up linearly
+with the size of the problem (𝑁).
+▪ If we find a method in which the computational complexity becomes 𝒪(𝑙𝑜𝑔𝑁), then the new algorithm achieves an exponential
+speedup over the original one.
+▪ The Deutsch–Jozsa Algorithm provides an exponential speedup over the classical algorithm. And its computational complexity is
+just 𝒪 1 , which means it is independent of the size of the problem!
+▪ However, not all quantum algorithms can provide an exponential speedup.
+▪ Grover’s algorithm is such an algorithm that provides a quadratic speedup over the classical one.
+▪ In reality, just comparing the algorithm speedup is incomplete. We also need to compare the amount of hardware required.
+124
+Chapter 22: Grover’s Algorithm: I
+--- PAGE 15 ---
+Grover’s Algorithm
+• The Problem
+▪ Assume we have an unstructured database of N entries.
+▪ We have no additional knowledge on how the data are stored besides we know that the data we are looking for is somewhere
+in the database.
+▪ Since it is unstructured, we need to search from the beginning to the end. If we are lucky, the first entry might be the one we
+are looking for. Then it will take us only 1 unit of time. If we are unlucky, the target entry might be at the end of the database
+and it will take us N units of time. On average, it will take us 𝑁
+2 units of time to find a target entry.
+▪ Therefore, the complexity in a classical search is 𝒪(𝑁
+2)~𝒪(𝑁). Note that in complexity calculation, the constant coefficients
+are usually not important.
+▪ Pic. 28 illustrates the searching process. Any search is related to the computation of a function 𝑓 𝑥 , where x is the index of an
+entry in the database. The content of each entry is a function of the index. Therefore, 𝑓 𝑥 completely describes the complex
+computation process. Our goal is to search for the entry that matches certain criteria. The criteria as f (x) = 1 if x is the index
+of the entry we are searching for.
+Pic. 28 Illustration of a searching process in a database with N entries.
+A function 𝑓(𝑥) is used to determine the target is located at entry x.
+￼
+Then, 𝑓 𝑎 = 1. And 𝑓 𝑥 = 0 if 𝑥 ≠ 𝑎.
+125
+Chapter 22: Grover’s Algorithm: I
+--- PAGE 16 ---
+Grover’s Algorithm
+• An Overview of Grover’s Algorithm
+▪ We will first discuss the general idea of Grover’s algorithm. Assume what we are searching resides in entry with index 𝑥 = 𝑎.
+For simplicity, we assume 𝑁 = 2𝑛, and 𝑥 is between 0 and 2𝑛
+− 1.
+▪ Firstly, we need to encode x for quantum computation. We will encode it as the basis vectors. This is called basis encoding.
+▪ Therefore, we only need n-qubit for the encoding. In this process, the index of the target entry, i.e. a, is encoded as the basis
+vector ȁ ۧ
+𝑎 . ȁ ۧ
+𝑎 is the first important vector in Grover’s algorithm.
+▪ E.g. If there are 13 entries to search and the target is at entry 9, how should we encode the problem for quantum computing?
+Since there are 13 entries, we can use 4 qubits that have basis vectors from |0000ۧ to |1111ۧ. The target is encoded in the basis
+vector |1001ۧ.
+▪ The second important vector in Grover’s algorithm is theȁ ۧ
+𝑎⊥ . This is a vector formed by the equal linear superposition of
+all basis vectors except ȁ ۧ
+𝑎 . So, it is orthogonal (perpendicular) to ȁ ۧ
+𝑎 and it has a zero inner product with ȁ ۧ
+𝑎 . It is expressed
+as:
+▪ Note that the coefficient is 1
+2𝑛−1 (instead of 1
+2𝑛) because there are only
+2𝑛
+− 1 terms after excluding ȁ ۧ
+𝑎 . Pic. 29 illustrates the Grover’s algorithm.
+Note that ȁ ۧ
+𝑎 is drawn perpendicular to ȁ ۧ
+𝑎⊥ in the 2D plane.
+ȁ ۧ
+𝑎⊥ =
+1
+2𝑛 − 1 ෍
+𝑥=0(𝑥≠𝑎)
+2𝑛
+−1
+ȁ ۧ
+𝑥
+Pic. 29 Illustration of the Grover’s algorithm. The first two steps are shown. Applying V to ȁ ۧ
+𝜙 rotates ȁ ۧ
+𝜙
+to its mirror image aboutȁ ۧ
+𝑎⊥ . Applying W to the new vector rotates it to its mirror image about ȁ ۧ
+𝜙 . This
+effectively rotates ȁ ۧ
+𝜙 by 2𝜃 closer to the solution ȁ ۧ
+𝑎 . This is repeated until it aligns with the solution ȁ ۧ
+𝑎 .
+￼
+126
+Chapter 22: Grover’s Algorithm: I
+--- PAGE 17 ---
+Grover’s Algorithm
+• An Overview of Grover’s Algorithm
+▪ Each x is the decimal form of the basis vector from 0 to 2𝑛
+− 1 and the corresponding basis vectors in binary form are from |00 ··· 00ۧ
+to |11 ··· 11ۧ with n qubits.
+▪ Note that ȁ ۧ
+𝑎⊥ , ȁ ۧ
+𝑎 , and ȁ ۧ
+𝜙 are drawn on the same plane as illustrated in Pic. 29 because ȁ ۧ
+𝜙 is a linear combination of ȁ ۧ
+𝑎⊥ and ȁ ۧ
+𝑎 .
+▪ The idea in the Grover’s algorithm is to reflect ȁ ۧ
+𝜙 about ȁ ۧ
+𝑎⊥ . If the initial angle between ȁ ۧ
+𝜙 and ȁ ۧ
+𝑎⊥ is 𝜃, this is equivalent to
+rotating ȁ ۧ
+𝜙 clockwise by 2𝜃. We assume this can be accomplished by a matrix V. Then we further reflect the new vector (𝑽ȁ ۧ
+𝜙 ) about
+ȁ ۧ
+𝜙. We assume we can find a matrix W to perform this operation. The final vector becomes 𝑾𝑽ȁ ۧ
+𝜙, which is equivalent to rotating
+ȁ ۧ
+𝜙 by 2𝜃 closer to ȁ ۧ
+𝑎 . This process is repeated many times.
+▪ Each time after 𝑾𝑽 is applied, the vector will be rotated by 2𝜃 closer to ȁ ۧ
+𝑎 and eventually, we hope that it will align with ȁ ۧ
+𝑎 . In this
+case, the wavefunction contains only ȁ ۧ
+𝑎 and we have found the entry.
+▪ Therefore, the idea of Grover’s algorithm is to begin with a wavefunction in an equal superposition of all basis vectors and then
+transform it gradually by suppressing the non-solution. Eventually, we have 100% certainty to get our solution when we perform a
+measurement as the final wavefunction is composed of only ȁ ۧ
+𝑎 .
+▪ It is obvious that the function 𝑓(𝑥) needs to be a part of this algorithm. It will be embedded in a quantum oracle. Moreover, the fact
+(or requirement) that 𝑓 𝑎 = 1 must be embedded in 𝑽 because ȁ ۧ
+𝑎⊥ is the vector about which 𝑽 reflects the vectors.
+127
+Chapter 22: Grover’s Algorithm: I
+--- PAGE 18 ---
+Grover’s Algorithm
+• Implementation of Grover’s Algorithm
+▪ We can use the Hadamard gate to create an equal superposition of all basis states.
+▪ Properties of 𝜽 and Algorithm Complexity: If the problem we care about has many entries (i.e. N is large), then we
+expect 𝜃 to be small. This is because 𝜃 is the angle between ȁ ۧ
+𝑎⊥ (which is a linear superposition of all basis vectors except
+ȁ ۧ
+𝑎 ) and ȁ ۧ
+𝜙 (which is a linear superposition of all basis vectors). Their inner product must be close to 1 when the
+dimension is high as they only have a difference in 1 basis vector among N. We note that the inner product of two
+normalized vectors on a 2D plane is cos 𝜃.
+𝐻⊗𝑛ȁ ۧ0 𝑛
+=
+1
+2
+𝑛
+2 ෍
+𝑥=0
+2𝑛
+−1
+ȁ ۧ
+𝑥 = ȁ ۧ
+𝜙
+cos 𝜃 = ⟨ ȁ
+𝜙 ȁ ۧ
+𝑎⊥ = (
+1
+2
+𝑛
+2 ෍
+𝑥=0
+2𝑛
+−1
+⟨ ȁ
+𝑥 )(
+1
+2𝑛 − 1 ෍
+𝑦=0 𝑦≠𝑎
+2𝑛
+−1
+ȁ ۧ
+𝑥 )
+=
+1
+2
+𝑛
+2
+1
+2𝑛−1(2𝑛
+− 1)
+=
+2𝑛−1
+2
+𝑛
+2 128
+Chapter 22: Grover’s Algorithm: I
+--- PAGE 19 ---
+Grover’s Algorithm
+• Implementation of Grover’s Algorithm
+▪ Then, using the orthonormality of the basis vectors, there are only 2𝑛
+− 1 terms left after expanding the first line.
+▪ Using the identity, sin2 𝜃 + cos2 𝜃 = 1, we find that
+▪ When 𝑁 = 2𝑛 is large, this is a small number. We know that sin 𝜃 ≈ 𝜃 when 𝜃 is small. Therefore, for a large N,
+▪ Since 𝜃 is small, the angle between ȁ ۧ
+𝜙 and ȁ ۧ
+𝑎 is 𝜋
+2
+− 𝜃 ≈
+𝜋
+2
+. Each 𝑾𝑽 operation rotates ȁ ۧ
+𝜙 by 2𝜃 towards ȁ ۧ
+𝑎 . Therefore,
+the number of 𝑾𝑽 operation required to rotate ȁ ۧ
+𝜙 to ȁ ۧ
+𝑎 is
+This explains why the complexity of Grover’s algorithm is 𝒪 𝑁 , where we assume each 𝑾𝑽 is a significant
+computation in this problem like the single-digit addition in the addition problem.
+sin 𝜃 =
+1
+2
+𝑛
+2
+𝜃 ≈
+1
+2
+𝑛
+2
+𝜋
+2
+2𝜃
+=
+𝜋 2𝑛
+4
+=
+𝜋
+4 𝑁
+129
+Chapter 22: Grover’s Algorithm: I
+--- PAGE 20 ---
+Grover’s Algorithm
+• Implementation of Grover’s Algorithm
+▪ Implementation of V As shown in Pic. 29, the V operation reflects ȁ ۧ
+𝜙 about ȁ ۧ
+𝑎⊥. V must be a quantum gate or a set of
+quantum gates and, thus, it is defined by telling how it transforms basis vectors, ȁ ۧ
+𝑥 . The following is the given definition:
+It is obvious that 𝑽 keeps all basis vector unchanged except when 𝑥 = 𝑎, where 𝑓(𝑎) = 1, it adds a phase shift of 𝜋 to ȁ ۧ
+𝑎
+(i.e. the coefficient is multiplied by −1 = 𝑒𝑖𝜋). Then apply V to an arbitrary vector ȁ ۧ
+𝛽 , which can be ȁ ۧ
+𝜙 or the rotated
+ȁ ۧ
+𝜙. ȁ ۧ
+𝛽 can be expressed as a linear combination of the basis vectors.
+where 𝛽𝑖’s are the complex coefficients and ȁ ۧ
+𝑖 ’s are the basis vectors. Then
+𝑽ȁ ۧ
+𝑥 𝑛
+= (−1)𝑓(𝑥)ȁ ۧ
+𝑥 𝑛
+ȁ ۧ
+𝛽 = ෍
+𝑖=0
+2𝑛
+−1
+𝛽𝑖ȁ ۧ
+𝑖
+𝑽ȁ ۧ
+𝛽 = 𝑽 ෍
+𝑖=0
+2𝑛
+−1
+𝛽𝑖ȁ ۧ
+𝑖
+= ෍
+𝑖=0
+2𝑛
+−1
+𝛽𝑖𝑽ȁ ۧ
+𝑖 = ෍
+𝑖=0
+2𝑛
+−1
+(−1)𝑓(𝑖)𝛽𝑖ȁ ۧ
+𝑖
+= ( ෍
+𝑖=0,𝑖≠𝑎
+2𝑛
+−1
+𝛽𝑖ห ۧ
+𝑖 ) − 𝛽𝑎 ȁ ۧ
+𝑎
+130
+Chapter 22: Grover’s Algorithm: I
+--- PAGE 21 ---
+Grover’s Algorithm
+• Implementation of Grover’s Algorithm
+▪ Implementation of V We will use the quantum oracle to implement 𝑽 . Therefore, 𝑽 = 𝑼𝑓, where 𝑼𝑓 is the quantum
+phase oracle of the problem and we assume it is given and available. The quantum oracle is assumed to contain the
+information of 𝑓(𝑥) and can compute 𝑓(𝑥). Therefore, it knows the value of a that gives 𝑓 𝑎 = 1. Our goal is to query the
+quantum oracle so that it reveals the value of a.
+▪ Implementation of W and the Quantum Oracle The action of W is to reflect any vector on the plane in Pic. 29 about ȁ ۧ
+𝜙.
+A vector, ȁ ۧ
+𝛾, on that plane can be expressed as a linear combination of the two orthonormal vectors, ȁ ۧ
+𝜙 and ȁ ۧ
+𝜙⊥ .
+where 𝛾0 and 𝛾𝟏 are the complex coefficients. We expect that after applying W, it will become 𝛾0ȁ ۧ
+𝜙 − 𝛾1ȁ ۧ
+𝜙⊥ because
+reflection about ȁ ۧ
+𝜙 means that the ȁ ۧ
+𝜙 coefficient should be unchanged and the ȁ ۧ
+𝜙⊥ coefficient should be negated (gain a
+phase shift of π). To achieve this, we can set
+ȁ ۧ
+𝛾 = 𝛾0ȁ ۧ
+𝜙 + 𝛾1ȁ ۧ
+𝜙⊥
+𝑾 = 2 ȁ ۧ
+𝜙 ⟨ ȁ
+𝜙 − 𝑰
+131
+Chapter 22: Grover’s Algorithm: I
+--- PAGE 22 ---
+Grover’s Algorithm
+• Implementation of Grover’s Algorithm
+▪ Implementation of W and the Quantum Oracle Shows that W reflect ȁ ۧ
+𝛾 about ȁ ۧ
+𝜙.
+We construct 𝑾 using more fundamental gates. This is called the Grover diffusion operator.
+𝑾 = 𝑯⊗𝒏(2ȁ ۧ0 𝑛⟨ ȁ0 𝑛− 𝑰)𝑯⊗𝒏
+𝑾ȁ ۧ
+𝛾 = (2 ȁ ۧ
+𝜙 ⟨ ȁ
+𝜙 − 𝑰)ȁ ۧ
+𝛾
+= 2 ȁ ۧ
+𝜙 ⟨ ȁ
+𝜙 ȁ ۧ
+𝛾 − 𝑰ȁ ۧ
+𝛾
+= 2 ȁ ۧ
+𝜙 ⟨ ȁ
+𝜙 𝛾0ȁ ۧ
+𝜙 + 𝛾1ȁ ۧ
+𝜙⊥− (𝛾0ȁ ۧ
+𝜙 + 𝛾1ȁ ۧ
+𝜙⊥ )
+= 2 ȁ ۧ
+𝜙 𝛾0− (𝛾0ȁ ۧ
+𝜙 + 𝛾1ȁ ۧ
+𝜙⊥ )
+= 𝛾0ȁ ۧ
+𝜙 − 𝛾1ȁ ۧ
+𝜙⊥
+132
+Chapter 22: Grover’s Algorithm: I
+--- PAGE 23 ---
+Grover’s Algorithm
+• Implementation of Grover’s Algorithm
+▪ Circuit for Grover’s Algorithm
+Pic. 30 shows the circuit for Grover’s algorithm when a quantum phase oracle 𝑼𝑓 is available. Although it looks
+sophisticated that we need to implement WV many times, this is actually not a problem for a quantum circuit. As discussed
+earlier, unlike in a classical circuit, the horizontal direction in a quantum circuit represents the flow of time instead of the
+space and a quantum gate is nothing but just a sequence of pulses (e.g. microwave or laser). The repetition just refers to the
+application of pulses multiple times to the same atoms or electrons. Therefore, even 𝑁 = 1012, we just need to apply the
+sequence of pulses corresponding to WV for 106 times instead of having 106 gates in the circuit.
+Pic. 30 Circuit to implement the Grover’s algorithm when a quantum phase oracle, 𝑼𝑓 , is available
+￼
+133
+Chapter 22: Grover’s Algorithm: I
+--- PAGE 24 ---
+Chapter 23:
+Grover’s Algorithm: II
+Kamonluk Suksen Ph.D.
+134
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 25 ---
+Numerical Example for Grover’s Algorithm
+• Assume there is a database with four entries. Therefore, it has indices, 0, 1, 2, and 3. It is unstructured,
+and we do not know where what we are looking for is stored. Assume it is stored in entry 1, i.e. index
+𝑎 = 1. We assume there is a phase quantum oracle, 𝑼𝑓 , corresponding to 𝑓 𝑥 = 1 = 1 and
+𝑓 𝑥 ≠ 1 = 0 available.
+• 𝑁 = 4 in this problem. Therefore, 𝑛 = 2 as 22 = 4. So, we only need 2 qubits. As 𝑎 = 1, therefore,
+ȁ ۧ
+𝑎 =ȁ ۧ01 . For ȁ ۧ
+𝑎⊥ , which is a superposition of all basis vectors but excluding ȁ ۧ
+𝑎 =ȁ ۧ
+01 , it is
+ȁ ۧ
+𝑎⊥ =
+1
+2𝑛 − 1 ෍
+𝑥=0(𝑥≠𝑎)
+2𝑛
+−1
+ȁ ۧ
+𝑥
+=
+1
+2𝑛 − 1 (ȁ ۧ
+00 + ȁ ۧ10 + ȁ ۧ
+11 )
+=
+1
+3 (ȁ ۧ
+00 + ȁ ۧ10 + ȁ ۧ
+11 )
+135
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 26 ---
+Numerical Example for Grover’s Algorithm
+• For ȁ ۧ
+𝜙 , which is a superposition of all basis vectors, it is
+ȁ ۧ
+𝜙 =
+1
+2𝑛 ෍
+𝑥=0
+2𝑛
+−1
+ȁ ۧ
+𝑥
+=
+1
+2 ൗ2
+2
+(ȁ ۧ
+00 + ȁ ۧ
+01 + ȁ ۧ10 + ȁ ۧ
+11 )
+=
+1
+2 (ȁ ۧ
+00 + ȁ ۧ01 + ȁ ۧ10 + ȁ ۧ
+11 )
+136
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 27 ---
+Numerical Example for Grover’s Algorithm
+• Construction of Quantum Oracle
+▪ In reality, we do not know the structure of the quantum oracle, 𝑼𝑓. It will be realized through some physical systems. We are
+supposed to have no knowledge of the value of a. But to construct the oracle for calculation and simulation, we need to use the
+knowledge in this example that a = 1. So, we have
+This is because ȁ ۧ
+00 =
+1
+0
+0
+0
+, ȁ ۧ
+01 =
+0
+1
+0
+0
+, ȁ ۧ
+10 =
+0
+0
+1
+0
+, and ȁ ۧ
+11 =
+0
+0
+0
+1
+and particularly, 𝑼𝑓ȁ ۧ
+01 =(−1)𝑓(1)ȁ ۧ
+01 =(−1)1ȁ ۧ
+01 =
+−ȁ ۧ
+01 . So, 𝐕 = 𝑼𝑓. 𝑼𝑓 looks like a controlled-Z-gate, CZ, except that it gains a negative sign when the MSB is 0 and the LSB is
+1 instead of when both are 1.
+𝑼𝑓 =
+1 0
+0 −1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+￼
+Pic. 31 Circuit to implement the Grover’s algorithm for the given example 137
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 28 ---
+Numerical Example for Grover’s Algorithm
+• Construction of Quantum Oracle
+▪ In this case from Pic. 31, we can perform a NOT operation on the MSB first and then apply a controlled Z-gate. After that, we
+will apply a NOT gate again to bring the basis vector back to themselves. Therefore,
+The rightmost NOT gate in the equation (which will be the leftmost NOT gate in the circuit) shuffles the basis vectors so that |01ۧ
+can get the negative sign from the CZ gate in line 3 (therefore, in line 3, we performed the multiplication of the rightmost 2
+matrices first). The last NOT gate then shuffles the basis vector components back to the original position (lines 4).
+𝑼𝑓 = (𝑼𝑁𝑂𝑇 ⊗ 𝑰)𝑼𝐶𝑃𝑆,𝜋(𝑼𝑁𝑂𝑇 ⊗ 𝑰)
+=
+0 1
+1 0 ⊗ 1 0
+0 1
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 −1
+0 1
+1 0 ⊗ 1 0
+0 1
+=
+0 0
+0 0
+1 0
+0 1
+1 0
+0 1
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 −1
+0 0
+0 0
+1 0
+0 1
+1 0
+0 1
+0 0
+0 0
+=
+0 0
+0 0
+1 0
+0 1
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+1 0
+0 −1
+0 0
+0 0
+=
+1 0
+0 −1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+= 𝑼𝑓
+138
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 29 ---
+Numerical Example for Grover’s Algorithm
+• Construction of the Grover Diffusion Operator
+▪ Previously, we show that the Grover diffusion operator can be expressed as
+It is easy to implement the leftmost and rightmost Hadamard gates, which are just
+▪ Find the matrix for 2ȁ ۧ
+0 2⟨ ȁ
+0 2− 𝑰.
+2ȁ ۧ0 2⟨ ȁ0 2− 𝑰 = 2
+1
+0
+0
+0
+1 0 0 0 −
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+=
+2 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+−
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+=
+1 0
+0 −1
+0 0
+0 0
+0 0
+0 0
+−1 0
+0 −1
+𝑾 = 𝑯⊗𝒏 2ȁ ۧ0 𝑛⟨ ȁ0 𝑛− 𝑰 𝑯⊗𝒏 = 𝑯⊗𝟐 2ȁ ۧ0 2⟨ ȁ0 2− 𝑰 𝑯⊗𝟐
+𝑯⊗𝟐 =
+1
+2
+1 1
+1 −1 ⊗
+1
+2
+1 1
+1 −1
+=
+1
+2
+1 1
+1 −1
+1 1
+1 −1
+1 1
+1 −1
+−1 −1
+−1 1
+139
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 30 ---
+Numerical Example for Grover’s Algorithm
+• Construction of the Grover Diffusion Operator
+▪ To implement it, we have to use more elementary quantum gates, we need to further decompose it. To get three −1’s and one 1 in
+the diagonal, one possibility is to use the tensor product of two Z gates (which will give us two −1’s) and then apply 𝑪𝒁 = 𝑼𝐶𝑃𝑆,𝜋
+gate again to get another -1. Therefore, 2ȁ ۧ
+0 2⟨ ȁ
+0 2− 𝑰 = 𝑼𝐶𝑃𝑆,𝜋(𝐙 ⊗ 𝐙). (Pic. 31)
+▪ Try to proof that 2ȁ ۧ
+0 2⟨ ȁ
+0 2− 𝑰 = 𝑼𝐶𝑃𝑆,𝜋 𝐙 ⊗ 𝐙 !
+𝑼𝐶𝑃𝑆,𝜋 𝐙 ⊗ 𝐙 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 −1
+1 0
+0 −1 ⨂ 1 0
+0 −1
+=
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 −1
+1 0
+0 −1
+0 0
+0 0
+0 0
+0 0
+−1 0
+0 1
+=
+1 0
+0 −1
+0 0
+0 0
+0 0
+0 0
+−1 0
+0 −1
+= 2ȁ ۧ0 2⟨ ȁ0 2− 𝑰
+140
+Chapter 23: Grover’s Algorithm: II
+￼
+Pic. 31 Circuit to implement the Grover’s algorithm for the given example
+--- PAGE 31 ---
+Numerical Example for Grover’s Algorithm
+• Evolution of the Wavefunction
+▪ We use matrix multiplications to see how the wavefunction evolves in Pic. 31.
+▪ The wavefunction is first initialized to ȁ ۧ
+0 2
+= ȁ ۧ
+00 =
+1
+0
+0
+0
+at the far left. After passing through the Hadamard gate, it becomes
+This is just the ȁ ۧ
+𝜙 . Then it goes through the quantum oracle (i.e. 𝑽) and it becomes, which it flips the sign of ȁ ۧ
+𝑎 = ȁ ۧ
+01 .
+𝑯⊗𝟐 =
+1
+2
+1 1
+1 −1
+1 1
+1 −1
+1 1
+1 −1
+−1 −1
+−1 1
+1
+0
+0
+0
+=
+1
+2
+1
+1
+1
+1
+=
+1
+2 ȁ ۧ
+00 + ȁ ۧ
+01 + ȁ ۧ
+10 + ȁ ۧ11
+𝑽ȁ ۧ
+𝜙 = 𝑼𝑓(
+1
+2 ȁ ۧ
+00 + ȁ ۧ
+01 + ȁ ۧ
+10 + ȁ ۧ11 )
+=
+1 0
+0 −1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+1
+2
+1
+1
+1
+1
+=
+1
+2
+1
+−1
+1
+1 141
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 32 ---
+Numerical Example for Grover’s Algorithm
+• Evolution of the Wavefunction
+▪ We then apply the Grover diffusion operator, therefore, we have
+Interestingly, we have achieved the solution by applying 𝑾𝑽 only one time instead of the approximately 2 times predicted by 𝜋
+4
+𝑁.
+This is because N is small here, and it is no longer valid to ignore θ in the calculation of the number of 𝑾𝑽 operations required.
+That is, Τ
+𝜋 2 − 𝜃 ≈ Τ
+𝜋 2 is no longer valid.
+𝑯⊗𝒏 2ȁ ۧ
+0 2⟨ ȁ0 2− 𝑰 𝑯⊗𝟐(𝑽ȁ ۧ
+𝜙 )
+=
+1
+2
+1 1
+1 −1
+1 1
+1 −1
+1 1
+1 −1
+−1 −1
+−1 1
+1 0
+0 −1
+0 0
+0 0
+0 0
+0 0
+−1 0
+0 −1
+1
+2
+1 1
+1 −1
+1 1
+1 −1
+1 1
+1 −1
+−1 −1
+−1 1
+1
+2
+1
+−1
+1
+1
+=
+1
+4
+1 1
+1 −1
+1 1
+1 −1
+1 1
+1 −1
+−1 −1
+−1 1
+1 0
+0 −1
+0 0
+0 0
+0 0
+0 0
+−1 0
+0 −1
+1
+1
+−1
+1
+=
+1
+4
+1 1
+1 −1
+1 1
+1 −1
+1 1
+1 −1
+−1 −1
+−1 1
+1
+−1
+1
+−1
+=
+0
+1
+0
+0
+= ȁ ۧ
+01 = ȁ ۧ
+𝑎
+142
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 33 ---
+Numerical Example for Grover’s Algorithm
+• Evolution of the Wavefunction
+▪ Find 𝜃 using the orthonormal property of the basis vectors.
+Therefore, 𝜃 =
+𝜋
+6
+. One 𝑾𝑽 operation will rotate it by 2𝜃 =
+𝜋
+3 and it will be aligned with ȁ ۧ
+𝑎 because 𝜋
+6
++ 𝜋
+3
+=
+𝜋
+2.
+cos 𝜃 = 𝑎⊥ 𝜙
+=
+1
+3 ⟨ ȁ00 + ⟨ ȁ10 + ⟨ ȁ11 1
+2 ⟨ ȁ00 + ⟨ ȁ
+01 + ⟨ ȁ10 + ⟨ ȁ11
+=
+3
+2
+143
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 34 ---
+Implementation Using XOR Quantum Oracle
+• We have been assuming that the quantum oracle is given as a phase oracle. It is also possible to implement
+Grover’s algorithm using XOR quantum oracle.
+• We need to think of how to incorporate the XOR quantum oracle in V .
+• Firstly, the XOR quantum oracle is a quantum gate of 𝑛 + 𝑚 qubits, where n is the number of qubits we need
+to encode the index of the database (i.e. 2𝑛 = 𝑁) and m is the number of the auxiliary qubit to encode the
+output 𝑓(𝑥). Since 𝑓(𝑥) is either 0 or 1, we only need 1-qubit and thus 𝑚 = 1.
+• The definition of an XOR quantum oracle is repeated here
+where we have used 𝑚 = 1. Therefore, the oracle has 𝑛 + 1 qubits. In order to use the oracle in V , we need
+to apply ȁ ۧ
+− , we can apply a 𝑼𝑵𝑶𝑻 gate followed by a H gate to the initial ȁ ۧ0 state of the auxiliary qubit.
+𝑼𝑓ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦 = ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑦⨁𝑓(𝑥)
+144
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 35 ---
+Implementation Using XOR Quantum Oracle
+• For any basis vector ȁ ۧ
+𝑥 𝑛, it combines (perform tensor product with) the auxiliary qubit as the input to the
+oracle.
+𝑼𝑓ȁ ۧ
+𝑥 𝑛ȁ ۧ− = 𝑼𝑓(ȁ ۧ
+𝑥 𝑛
+1
+2 (ȁ ۧ0 − ȁ ۧ1 )
+=
+1
+2 (𝑼𝑓(ȁ ۧ
+𝑥 𝑛ȁ ۧ
+0 ) − (𝑼𝑓ȁ ۧ
+𝑥
+𝑛ȁ ۧ1 ))
+=
+1
+2 (ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑓(𝑥)⨁0 −ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑓(𝑥)⨁1 )
+=
+1
+2 (ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑓(𝑥) −ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑓(𝑥)⨁1 )
+￼
+Pic. 32 Circuit to implement the Grover’s algorithm with a XOR quantum oracle, 𝑼𝑓. 145
+Chapter 23: Grover’s Algorithm: II
+--- PAGE 36 ---
+Implementation Using XOR Quantum Oracle
+• If 𝑓 𝑥 = 0, then 𝑓 𝑥 ⊕ 1 = 1 and (−1)𝑓 𝑥 = 1. Therefore,
+• If 𝑓 𝑥 = 1, then 𝑓 𝑥 ⊕ 1 = 0 and (−1)𝑓 𝑥 = −1. Therefore,
+• Combining together, regardless of the value of 𝑓 𝑥 , we have
+By adding the auxiliary bit with |−ۧ as the input value, the XOR quantum oracle behaves exactly as a phase quantum
+oracle on the n query qubits. The output of the auxiliary qubit is unchanged (still |−ۧ). Therefore, we can repeat the
+WV as before by about 𝑁 times to find the solution.
+𝑼𝑓(ȁ ۧ
+𝑥 𝑛ȁ ۧ− ) =
+1
+2 (ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑓(𝑥) −ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑓(𝑥)⨁1 )=
+1
+2 (ȁ ۧ
+𝑥 𝑛ȁ ۧ0 − ȁ ۧ
+𝑥 𝑛ȁ ۧ
+1 )
+= ȁ ۧ
+𝑥 𝑛
+1
+2 (ȁ ۧ0 − ȁ ۧ1 )
+= ȁ ۧ
+𝑥 𝑛ȁ ۧ
+−
+= (−1)𝑓 𝑥 ȁ ۧ
+𝑥 𝑛ȁ ۧ
+−
+𝑼𝑓(ȁ ۧ
+𝑥 𝑛ȁ ۧ− ) =
+1
+2 (ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑓(𝑥) −ȁ ۧ
+𝑥 𝑛ȁ ۧ
+𝑓(𝑥)⨁1 )=
+1
+2 (ȁ ۧ
+𝑥 𝑛ȁ ۧ1 − ȁ ۧ
+𝑥 𝑛ȁ ۧ
+0 )
+= −ȁ ۧ
+𝑥 𝑛
+1
+2 (ȁ ۧ0 − ȁ ۧ1 )
+= −ȁ ۧ
+𝑥 𝑛ȁ ۧ−
+= (−1)𝑓 𝑥 ȁ ۧ
+𝑥 𝑛ȁ ۧ
+−
+𝑼𝑓(ȁ ۧ
+𝑥 𝑛ȁ ۧ
+− ) = (−1)𝑓 𝑥 ȁ ۧ
+𝑥 𝑛ȁ ۧ−
+= 𝑽ȁ ۧ
+𝑥 𝑛 ⨂ 𝑰ȁ ۧ
+− = 𝑽⨂𝑰ȁ ۧ
+𝑥 𝑛ȁ ۧ−
+146
+Chapter 23: Grover’s Algorithm: II

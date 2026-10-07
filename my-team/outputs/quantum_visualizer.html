@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quantum Computing Interactive Visualizer</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-6 min-h-screen">
+  
+  <div class="max-w-7xl mx-auto space-y-6">
+    <!-- Header -->
+    <header class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20">Interactive Suite</span>
+          <span class="text-xs text-[var(--muted-foreground)]">v1.0 • GDG Build AI Agent</span>
+        </div>
+        <h1 class="text-2xl font-bold mt-1 text-[var(--foreground)] flex items-center gap-2">
+          ⚛️ Quantum Computing Visualizer
+        </h1>
+        <p class="text-sm text-[var(--muted-foreground)]">Interactive Bloch sphere simulator, step-by-step quantum circuit runner, and algorithm visualizer.</p>
+      </div>
+      
+      <!-- Navigation Tabs -->
+      <div class="flex flex-wrap gap-2 bg-[var(--sidebar)] p-1.5 rounded-xl border border-[var(--border)]">
+        <button onclick="switchTab('bloch')" id="tab-bloch" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-all bg-[var(--card)] text-[var(--foreground)] shadow-sm">
+          Bloch Sphere
+        </button>
+        <button onclick="switchTab('circuit')" id="tab-circuit" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+          Circuit Simulator
+        </button>
+        <button onclick="switchTab('algorithms')" id="tab-algorithms" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+          Algorithm Explorer
+        </button>
+        <button onclick="switchTab('workflows')" id="tab-workflows" class="tab-btn px-4 py-2 rounded-lg text-sm font-medium transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+          Assignment Workflows
+        </button>
+      </div>
+    </header>
+
+    <!-- TAB 1: BLOCH SPHERE VISUALIZER -->
+    <main id="view-bloch" class="tab-view grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Bloch Sphere Canvas Box -->
+      <div class="lg:col-span-7 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center relative min-h-[420px]">
+        <div class="absolute top-4 left-4 text-xs font-mono text-[var(--muted-foreground)] bg-[var(--sidebar)] px-3 py-1.5 rounded-lg border border-[var(--border)]">
+          State Vector: <span id="state-vector-str" class="text-blue-400 font-semibold">1.00|0⟩ + 0.00|1⟩</span>
+        </div>
+        
+        <canvas id="blochCanvas" width="380" height="380" class="cursor-grab active:cursor-grabbing"></canvas>
+        
+        <div class="text-xs text-[var(--muted-foreground)] mt-2 flex gap-4">
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span> X-axis</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span> Y-axis</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span> Z-axis</span>
+          <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span> State Vector |ψ⟩</span>
+        </div>
+      </div>
+
+      <!-- Controls Panel -->
+      <div class="lg:col-span-5 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-6 flex flex-col justify-between">
+        <div>
+          <h2 class="text-lg font-semibold mb-1">Single Qubit State Control</h2>
+          <p class="text-xs text-[var(--muted-foreground)] mb-4">Adjust spherical coordinates θ and φ or apply single-qubit logic gates.</p>
+          
+          <!-- Spherical Sliders -->
+          <div class="space-y-4 bg-[var(--sidebar)] p-4 rounded-xl border border-[var(--border)] mb-6">
+            <div>
+              <div class="flex justify-between text-xs font-mono mb-1">
+                <span>Polar Angle (θ): <span id="val-theta">0.00</span> rad</span>
+                <span id="val-theta-deg" class="text-[var(--muted-foreground)]">0°</span>
+              </div>
+              <input type="range" id="slider-theta" min="0" max="3.14159" step="0.01" value="0" class="w-full accent-blue-500">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-mono mb-1">
+                <span>Azimuthal Angle (φ): <span id="val-phi">0.00</span> rad</span>
+                <span id="val-phi-deg" class="text-[var(--muted-foreground)]">0°</span>
+              </div>
+              <input type="range" id="slider-phi" min="0" max="6.28318" step="0.01" value="0" class="w-full accent-emerald-500">
+            </div>
+          </div>
+
+          <!-- Quantum Gate Presets -->
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)] mb-2">Apply Quantum Gates</h3>
+          <div class="grid grid-cols-4 gap-2">
+            <button onclick="applyGate('H')" class="px-3 py-2 text-sm font-semibold rounded-lg bg-blue-600/20 text-blue-400 border border-blue-500/30 hover:bg-blue-600/30 transition-all">H</button>
+            <button onclick="applyGate('X')" class="px-3 py-2 text-sm font-semibold rounded-lg bg-rose-600/20 text-rose-400 border border-rose-500/30 hover:bg-rose-600/30 transition-all">X</button>
+            <button onclick="applyGate('Y')" class="px-3 py-2 text-sm font-semibold rounded-lg bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-600/30 transition-all">Y</button>
+            <button onclick="applyGate('Z')" class="px-3 py-2 text-sm font-semibold rounded-lg bg-amber-600/20 text-amber-400 border border-amber-500/30 hover:bg-amber-600/30 transition-all">Z</button>
+            <button onclick="applyGate('S')" class="px-3 py-2 text-sm font-semibold rounded-lg bg-purple-600/20 text-purple-400 border border-purple-500/30 hover:bg-purple-600/30 transition-all">S</button>
+            <button onclick="applyGate('T')" class="px-3 py-2 text-sm font-semibold rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 hover:bg-indigo-600/30 transition-all">T</button>
+            <button onclick="resetQubit('0')" class="px-3 py-2 text-sm font-semibold rounded-lg bg-gray-600/20 text-gray-300 border border-gray-500/30 hover:bg-gray-600/30 transition-all">|0⟩</button>
+            <button onclick="resetQubit('1')" class="px-3 py-2 text-sm font-semibold rounded-lg bg-gray-600/20 text-gray-300 border border-gray-500/30 hover:bg-gray-600/30 transition-all">|1⟩</button>
+          </div>
+        </div>
+
+        <!-- Probabilities -->
+        <div class="bg-[var(--sidebar)] p-4 rounded-xl border border-[var(--border)] space-y-3">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-mono">P(|0⟩) = |α|²</span>
+            <span id="prob-0-text" class="font-bold text-blue-400">100.0%</span>
+          </div>
+          <div class="w-full bg-[var(--border)] h-2 rounded-full overflow-hidden">
+            <div id="prob-0-bar" class="bg-blue-500 h-full transition-all duration-300" style="width: 100%"></div>
+          </div>
+
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-mono">P(|1⟩) = |β|²</span>
+            <span id="prob-1-text" class="font-bold text-emerald-400">0.0%</span>
+          </div>
+          <div class="w-full bg-[var(--border)] h-2 rounded-full overflow-hidden">
+            <div id="prob-1-bar" class="bg-emerald-500 h-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TAB 2: STEP-BY-STEP CIRCUIT SIMULATOR -->
+    <main id="view-circuit" class="tab-view hidden space-y-6">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-6">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h2 class="text-lg font-semibold">Step-by-Step Circuit Execution Simulator</h2>
+            <p class="text-xs text-[var(--muted-foreground)]">Select a standard quantum circuit and step through gate transformations live.</p>
+          </div>
+
+          <!-- Preset Selector & Controls -->
+          <div class="flex flex-wrap items-center gap-3">
+            <select id="circuit-select" onchange="loadPresetCircuit()" class="bg-[var(--sidebar)] border border-[var(--border)] text-sm rounded-xl px-3 py-2 font-medium">
+              <option value="bell">Bell State Preparation (|Φ⁺⟩)</option>
+              <option value="teleportation">Quantum Teleportation</option>
+              <option value="deutsch">Deutsch-Jozsa Algorithm (Balanced)</option>
+              <option value="bv">Bernstein-Vazirani (s = 101)</option>
+              <option value="grover">Grover's Search (Target = |11⟩)</option>
+              <option value="qft">3-Qubit Quantum Fourier Transform (QFT)</option>
+              <option value="qec">3-Qubit Bit-Flip QEC Recovery</option>
+            </select>
+
+            <div class="flex items-center gap-1.5 bg-[var(--sidebar)] p-1 rounded-xl border border-[var(--border)]">
+              <button onclick="resetCircuitStep()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--card)] hover:bg-[var(--border)] transition-all">⏮ Reset</button>
+              <button onclick="prevCircuitStep()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--card)] hover:bg-[var(--border)] transition-all">◀ Step</button>
+              <button onclick="nextCircuitStep()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-500 transition-all shadow-sm">Step ▶</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Circuit Wire Board -->
+        <div class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-6 overflow-x-auto">
+          <div id="circuit-wire-board" class="min-w-[650px] space-y-6 font-mono text-sm">
+            <!-- Dynamic Circuit Wires Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- Execution Step Log & Amplitudes -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          <div class="md:col-span-7 bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4 space-y-3">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Step Explanation</h3>
+            <div id="circuit-step-desc" class="text-sm font-medium text-blue-400">
+              Initial State: |00⟩
+            </div>
+            <p id="circuit-step-detail" class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+              All qubits initialized in computational basis state |0⟩.
+            </p>
+          </div>
+
+          <div class="md:col-span-5 bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4 space-y-3">
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">State Vector Amplitudes</h3>
+            <div id="amplitude-list" class="space-y-2 text-xs font-mono">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TAB 3: ALGORITHM EXPLORER -->
+    <main id="view-algorithms" class="tab-view hidden grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-3">
+        <span class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">Communication</span>
+        <h3 class="font-bold text-base">Quantum Teleportation</h3>
+        <p class="text-xs text-[var(--muted-foreground)]">Transfers an unknown qubit state $|\psi\rangle$ to a remote receiver using 1 EPR Bell pair and 2 classical bits.</p>
+        <div class="bg-[var(--sidebar)] p-3 rounded-xl border border-[var(--border)] text-xs font-mono space-y-1">
+          <div>Cost: 1 EPR Pair + 2 Bits</div>
+          <div>Success: 100% Deterministic</div>
+        </div>
+      </div>
+
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-3">
+        <span class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Oracle Speedup</span>
+        <h3 class="font-bold text-base">Deutsch-Jozsa & BV</h3>
+        <p class="text-xs text-[var(--muted-foreground)]">Determines constant vs balanced functions or extracts secret bitstring $s$ in a single query via phase kickback.</p>
+        <div class="bg-[var(--sidebar)] p-3 rounded-xl border border-[var(--border)] text-xs font-mono space-y-1">
+          <div>Speedup: Exponential</div>
+          <div>Queries: 1 (vs $2^{n-1}+1$ classical)</div>
+        </div>
+      </div>
+
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-3">
+        <span class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">Database Search</span>
+        <h3 class="font-bold text-base">Grover's Search</h3>
+        <p class="text-xs text-[var(--muted-foreground)]">Searches $N=2^n$ unstructured items by rotating state vectors in a 2D subspace using phase oracle and diffuser.</p>
+        <div class="bg-[var(--sidebar)] p-3 rounded-xl border border-[var(--border)] text-xs font-mono space-y-1">
+          <div>Speedup: Quadratic $O(\sqrt{N})$</div>
+          <div>Iterations: $R \approx \frac{\pi}{4}\sqrt{N}$</div>
+        </div>
+      </div>
+
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-3">
+        <span class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">Fourier & Period</span>
+        <h3 class="font-bold text-base">QFT & Shor's Factoring</h3>
+        <p class="text-xs text-[var(--muted-foreground)]">Quantum Fourier Transform maps basis states to frequency domain. Shor's algorithm factors large numbers in polynomial time.</p>
+        <div class="bg-[var(--sidebar)] p-3 rounded-xl border border-[var(--border)] text-xs font-mono space-y-1">
+          <div>QFT Gates: $O(n^2)$</div>
+          <div>Shor Complexity: $O(n^3)$</div>
+        </div>
+      </div>
+
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-3">
+        <span class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20">Fault Tolerance</span>
+        <h3 class="font-bold text-base">Quantum Error Correction</h3>
+        <p class="text-xs text-[var(--muted-foreground)]">3-Qubit Bit-Flip code, Shor 9-qubit, and Surface codes extract error syndromes via parity checks without state collapse.</p>
+        <div class="bg-[var(--sidebar)] p-3 rounded-xl border border-[var(--border)] text-xs font-mono space-y-1">
+          <div>Stabilizers: $Z_1 Z_2, Z_2 Z_3$</div>
+          <div>Code Rate: $[[n, k, d]]$</div>
+        </div>
+      </div>
+
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-3">
+        <span class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">NISQ Algorithms</span>
+        <h3 class="font-bold text-base">VQE & QAOA Optimization</h3>
+        <p class="text-xs text-[var(--muted-foreground)]">Hybrid quantum-classical loops evaluate parameterized ansatz states $U(\vec{\theta})$ on hardware and optimize parameters classically.</p>
+        <div class="bg-[var(--sidebar)] p-3 rounded-xl border border-[var(--border)] text-xs font-mono space-y-1">
+          <div>Loop: Quantum Loss $\to$ Classical Opt</div>
+          <div>Hardware: NISQ Compatible</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TAB 4: ASSIGNMENT WORKFLOWS -->
+    <main id="view-workflows" class="tab-view hidden space-y-4">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold mb-1">Course Assignment Step-by-Step Workflow Guide</h2>
+        <p class="text-xs text-[var(--muted-foreground)] mb-6">Structured resolution protocols covering all 11 course tutorials and assignments.</p>
+
+        <div class="space-y-4">
+          <details class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4 cursor-pointer" open>
+            <summary class="font-semibold text-sm flex justify-between items-center">
+              <span>Workflow 1: Single-Qubit Mechanics & Bloch Parameters (Assignment 1)</span>
+              <span class="text-xs text-blue-400 font-mono">Assg 1</span>
+            </summary>
+            <div class="mt-3 text-xs text-[var(--muted-foreground)] space-y-2 border-t border-[var(--border)] pt-3 font-mono">
+              <div>1. Normalize vector $v = [c_0, c_1]^T \implies N = \sqrt{|c_0|^2 + |c_1|^2}$.</div>
+              <div>2. Calculate gate transformation $|\psi'\rangle = U \cdot |\psi\rangle$.</div>
+              <div>3. Extract Bloch polar angle $\theta = 2\arccos(|\alpha|)$ and azimuthal angle $\phi = \arg(\beta) - \arg(\alpha)$.</div>
+              <div>4. Compute expectation values $\langle X \rangle, \langle Y \rangle, \langle Z \rangle$.</div>
+            </div>
+          </details>
+
+          <details class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4 cursor-pointer">
+            <summary class="font-semibold text-sm flex justify-between items-center">
+              <span>Workflow 2: Bell State Generation & Entanglement Audit (Assignment 2-3)</span>
+              <span class="text-xs text-blue-400 font-mono">Assg 2-3</span>
+            </summary>
+            <div class="mt-3 text-xs text-[var(--muted-foreground)] space-y-2 border-t border-[var(--border)] pt-3 font-mono">
+              <div>1. Expand tensor product $|\psi_{AB}\rangle = |\psi_A\rangle \otimes |\psi_B\rangle$.</div>
+              <div>2. Apply $H \otimes I$ followed by CNOT to synthesize Bell pair $|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$.</div>
+              <div>3. Calculate density matrix $\rho_{AB} = |\psi_{AB}\rangle\langle\psi_{AB}|$ and partial trace $\rho_A = \text{Tr}_B(\rho_{AB})$.</div>
+              <div>4. Verify purity $P = \text{Tr}(\rho_A^2)$: $P=1 \implies$ Separable, $P=0.5 \implies$ Maximally Entangled.</div>
+            </div>
+          </details>
+
+          <details class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4 cursor-pointer">
+            <summary class="font-semibold text-sm flex justify-between items-center">
+              <span>Workflow 3: Quantum Teleportation & Superdense Coding (Assignment 3-4)</span>
+              <span class="text-xs text-blue-400 font-mono">Assg 3-4</span>
+            </summary>
+            <div class="mt-3 text-xs text-[var(--muted-foreground)] space-y-2 border-t border-[var(--border)] pt-3 font-mono">
+              <div>1. Teleportation: Initialize state $|\psi\rangle_C \otimes |\Phi^+\rangle_{AB}$.</div>
+              <div>2. Apply $\text{CNOT}_{CA}$ and $H_C$, then measure qubits $C, A$ to obtain classical bits $(m_C, m_A)$.</div>
+              <div>3. Bob applies conditional Pauli gate $X^{m_A} Z^{m_C}$ to recover exact state $|\psi\rangle_B$.</div>
+              <div>4. Superdense coding: Alice applies $I, Z, X, iY$ to encode bits $00, 01, 10, 11$.</div>
+            </div>
+          </details>
+
+          <details class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4 cursor-pointer">
+            <summary class="font-semibold text-sm flex justify-between items-center">
+              <span>Workflow 4: Oracle Algorithms & Phase Kickback (Assignment 4-7)</span>
+              <span class="text-xs text-blue-400 font-mono">Assg 4-7</span>
+            </summary>
+            <div class="mt-3 text-xs text-[var(--muted-foreground)] space-y-2 border-t border-[var(--border)] pt-3 font-mono">
+              <div>1. Deutsch-Jozsa: Query oracle $U_f$ with input $H^{\otimes n}|0\rangle^{\otimes n}$ and ancilla $|-\rangle$.</div>
+              <div>2. Measure input register: $|0\rangle^{\otimes n} \implies$ Constant, otherwise $\implies$ Balanced.</div>
+              <div>3. Bernstein-Vazirani: Oracle phase $(-1)^{s \cdot x}$ collapses deterministically to $|s\rangle$.</div>
+              <div>4. Simon: Collect $n-1$ linear equations $y \cdot s = 0 \pmod 2$ and solve via Gaussian elimination over $\mathbb{Z}_2$.</div>
+            </div>
+          </details>
+
+          <details class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4 cursor-pointer">
+            <summary class="font-semibold text-sm flex justify-between items-center">
+              <span>Workflow 5: QFT, QPE & Shor's Order Finding (Assignment 8-9)</span>
+              <span class="text-xs text-blue-400 font-mono">Assg 8-9</span>
+            </summary>
+            <div class="mt-3 text-xs text-[var(--muted-foreground)] space-y-2 border-t border-[var(--border)] pt-3 font-mono">
+              <div>1. QFT: Construct circuit using Hadamard and Controlled-$R_k$ phase gates ($O(n^2)$ gates).</div>
+              <div>2. QPE: Apply controlled unitary powers $U^{2^j}$ to counting register followed by $QFT^\dagger$.</div>
+              <div>3. Shor: Find period $r$ of $f(x) = a^x \pmod N$ using QPE and continued fractions expansion.</div>
+              <div>4. Extract factors $p, q = \gcd(a^{r/2} \pm 1, N)$.</div>
+            </div>
+          </details>
+
+          <details class="bg-[var(--sidebar)] border border-[var(--border)] rounded-xl p-4 cursor-pointer">
+            <summary class="font-semibold text-sm flex justify-between items-center">
+              <span>Workflow 6: Grover Search & Quantum Error Correction (Assignment 10-11)</span>
+              <span class="text-xs text-blue-400 font-mono">Assg 10-11</span>
+            </summary>
+            <div class="mt-3 text-xs text-[var(--muted-foreground)] space-y-2 border-t border-[var(--border)] pt-3 font-mono">
+              <div>1. Grover: Repeat Oracle phase flip $I - 2|\omega\rangle\langle\omega|$ and Diffuser $2|s\rangle\langle s| - I$ for $R \approx \frac{\pi}{4}\sqrt{N}$ iterations.</div>
+              <div>2. QEC 3-Qubit: Encode $|0_L\rangle = |000\rangle, |1_L\rangle = |111\rangle$. Measure stabilizers $Z_1 Z_2, Z_2 Z_3$.</div>
+              <div>3. Map syndrome string $(s_1, s_2)$ to Pauli flip recovery operator $X_1, X_2, X_3$.</div>
+              <div>4. VQE: Evaluate expectation $\langle H(\vec{\theta}) \rangle$ on hardware and update parameters classically.</div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- JAVASCRIPT SIMULATION LOGIC -->
+  <script>
+    // --- TAB SWITCHING LOGIC ---
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-[var(--card)]', 'text-[var(--foreground)]', 'shadow-sm');
+        btn.classList.add('text-[var(--muted-foreground)]');
+      });
+
+      document.getElementById('view-' + tabId).classList.remove('hidden');
+      const activeBtn = document.getElementById('tab-' + tabId);
+      activeBtn.classList.add('bg-[var(--card)]', 'text-[var(--foreground)]', 'shadow-sm');
+      activeBtn.classList.remove('text-[var(--muted-foreground)]');
+
+      if (tabId === 'bloch') drawBlochSphere();
+    }
+
+    // --- BLOCH SPHERE SIMULATOR LOGIC ---
+    let theta = 0; // 0 to PI
+    let phi = 0;   // 0 to 2PI
+
+    const canvas = document.getElementById('blochCanvas');
+    const ctx = canvas.getContext('2d');
+
+    document.getElementById('slider-theta').addEventListener('input', (e) => {
+      theta = parseFloat(e.target.value);
+      updateBlochUI();
+    });
+
+    document.getElementById('slider-phi').addEventListener('input', (e) => {
+      phi = parseFloat(e.target.value);
+      updateBlochUI();
+    });
+
+    function applyGate(gate) {
+      if (gate === 'H') {
+        if (Math.abs(theta) < 0.1) { theta = Math.PI/2; phi = 0; }
+        else if (Math.abs(theta - Math.PI/2) < 0.1 && Math.abs(phi) < 0.1) { theta = 0; phi = 0; }
+        else { theta = Math.PI - theta; phi = (phi + Math.PI) % (2 * Math.PI); }
+      } else if (gate === 'X') {
+        theta = Math.PI - theta;
+        phi = (2 * Math.PI - phi) % (2 * Math.PI);
+      } else if (gate === 'Y') {
+        theta = Math.PI - theta;
+        phi = (3 * Math.PI - phi) % (2 * Math.PI);
+      } else if (gate === 'Z') {
+        phi = (phi + Math.PI) % (2 * Math.PI);
+      } else if (gate === 'S') {
+        phi = (phi + Math.PI/2) % (2 * Math.PI);
+      } else if (gate === 'T') {
+        phi = (phi + Math.PI/4) % (2 * Math.PI);
+      }
+      
+      document.getElementById('slider-theta').value = theta;
+      document.getElementById('slider-phi').value = phi;
+      updateBlochUI();
+    }
+
+    function resetQubit(val) {
+      if (val === '0') { theta = 0; phi = 0; }
+      else { theta = Math.PI; phi = 0; }
+      document.getElementById('slider-theta').value = theta;
+      document.getElementById('slider-phi').value = phi;
+      updateBlochUI();
+    }
+
+    function updateBlochUI() {
+      // Numerical updates
+      document.getElementById('val-theta').innerText = theta.toFixed(2);
+      document.getElementById('val-theta-deg').innerText = Math.round(theta * 180 / Math.PI) + '°';
+      document.getElementById('val-phi').innerText = phi.toFixed(2);
+      document.getElementById('val-phi-deg').innerText = Math.round(phi * 180 / Math.PI) + '°';
+
+      const alpha = Math.cos(theta / 2);
+      const betaMag = Math.sin(theta / 2);
+      const prob0 = alpha * alpha;
+      const prob1 = betaMag * betaMag;
+
+      document.getElementById('prob-0-text').innerText = (prob0 * 100).toFixed(1) + '%';
+      document.getElementById('prob-0-bar').style.width = (prob0 * 100) + '%';
+      document.getElementById('prob-1-text').innerText = (prob1 * 100).toFixed(1) + '%';
+      document.getElementById('prob-1-bar').style.width = (prob1 * 100) + '%';
+
+      const signStr = phi === 0 ? '+' : (phi === Math.PI ? '-' : (phi === Math.PI/2 ? '+ i' : ''));
+      document.getElementById('state-vector-str').innerText = 
+        `${alpha.toFixed(2)}|0⟩ ${betaMag >= 0 ? '+' : '-'} ${(betaMag).toFixed(2)}e^(i${phi.toFixed(1)})|1⟩`;
+
+      drawBlochSphere();
+    }
+
+    function drawBlochSphere() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const r = 130;
+
+      // Outer Circle Sphere Wireframe
+      ctx.strokeStyle = '#475569';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+      ctx.stroke();
+
+      // Equatorial Ellipse
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, r, r * 0.35, 0, 0, 2 * Math.PI);
+      ctx.strokeStyle = '#334155';
+      ctx.setLineDash([4, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Z-axis (Vertical)
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - r - 15);
+      ctx.lineTo(cx, cy + r + 15);
+      ctx.strokeStyle = '#3b82f6';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // X-axis (Diagonal)
+      ctx.beginPath();
+      ctx.moveTo(cx - r * 0.7, cy + r * 0.4);
+      ctx.lineTo(cx + r * 0.7, cy - r * 0.4);
+      ctx.strokeStyle = '#ef4444';
+      ctx.stroke();
+
+      // Y-axis (Horizontal)
+      ctx.beginPath();
+      ctx.moveTo(cx - r - 15, cy);
+      ctx.lineTo(cx + r + 15, cy);
+      ctx.strokeStyle = '#22c55e';
+      ctx.stroke();
+
+      // Axis Labels
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '12px monospace';
+      ctx.fillText('|0⟩ (+Z)', cx - 22, cy - r - 20);
+      ctx.fillText('|1⟩ (-Z)', cx - 22, cy + r + 30);
+      ctx.fillText('+X', cx + r * 0.7 + 5, cy - r * 0.4);
+      ctx.fillText('+Y', cx + r + 20, cy + 4);
+
+      // State Vector 3D to 2D projection
+      const x3d = Math.sin(theta) * Math.cos(phi);
+      const y3d = Math.sin(theta) * Math.sin(phi);
+      const z3d = Math.cos(theta);
+
+      const vx = cx + r * (y3d * 0.85 - x3d * 0.45);
+      const vy = cy - r * (z3d * 0.95 - x3d * 0.25);
+
+      // Draw State Vector Arrow
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(vx, vy);
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 3.5;
+      ctx.stroke();
+
+      // Vector Point Tip
+      ctx.beginPath();
+      ctx.arc(vx, vy, 6, 0, 2 * Math.PI);
+      ctx.fillStyle = '#facc15';
+      ctx.fill();
+    }
+
+    // --- STEP-BY-STEP CIRCUIT SIMULATOR LOGIC ---
+    let currentCircuitKey = 'bell';
+    let currentStepIndex = 0;
+
+    const circuitPresets = {
+      bell: {
+        title: "Bell State Preparation (|Φ⁺⟩)",
+        qubits: ["q0", "q1"],
+        steps: [
+          { name: "Init", gates: ["|0⟩", "|0⟩"], desc: "Initial state |00⟩", detail: "Both qubits initialized to basis state |0⟩.", state: "|00⟩ (100%)", amps: [{"state":"|00⟩", "prob": 1.0}] },
+          { name: "Hadamard", gates: ["H", "-"], desc: "Apply H to q0: 1/√2(|0⟩ + |1⟩)|0⟩", detail: "Hadamard puts qubit q0 into equal superposition state |+⟩.", state: "1/√2 |00⟩ + 1/√2 |10⟩", amps: [{"state":"|00⟩", "prob": 0.5}, {"state":"|10⟩", "prob": 0.5}] },
+          { name: "CNOT", gates: ["CTRL", "TARGET"], desc: "Apply CNOT (Control: q0, Target: q1)", detail: "Flips q1 whenever q0 is |1⟩, producing maximally entangled Bell pair |Φ⁺⟩.", state: "1/√2 |00⟩ + 1/√2 |11⟩", amps: [{"state":"|00⟩", "prob": 0.5}, {"state":"|11⟩", "prob": 0.5}] }
+        ]
+      },
+      teleportation: {
+        title: "Quantum Teleportation Protocol",
+        qubits: ["|ψ⟩_C", "Qubit_A", "Qubit_B"],
+        steps: [
+          { name: "Init", gates: ["|ψ⟩", "|0⟩", "|0⟩"], desc: "State |ψ⟩ = α|0⟩ + β|1⟩ prepared on Qubit C.", detail: "Alice holds target state |ψ⟩ and EPR Qubit A; Bob holds EPR Qubit B.", state: "(α|0⟩+β|1⟩) ⊗ |00⟩", amps: [{"state":"α|000⟩", "prob": 0.5}, {"state":"β|100⟩", "prob": 0.5}] },
+          { name: "Entangle EPR", gates: ["-", "H", "CNOT"], desc: "Prepare EPR Pair |Φ⁺⟩ on A & B", detail: "Hadamard on A followed by CNOT(A,B) entangles Alice's Qubit A with Bob's Qubit B.", state: "|ψ⟩_C ⊗ 1/√2(|00⟩+|11⟩)_AB", amps: [{"state":"|000⟩", "prob": 0.25}, {"state":"|011⟩", "prob": 0.25}] },
+          { name: "CNOT (C,A)", gates: ["CTRL", "TARGET", "-"], desc: "Alice applies CNOT(Control: C, Target: A)", detail: "Entangles the target state |ψ⟩ with Alice's half of the Bell pair.", state: "Entangled 3-Qubit State", amps: [{"state":"|000⟩", "prob": 0.25}, {"state":"|110⟩", "prob": 0.25}] },
+          { name: "Hadamard C", gates: ["H", "-", "-"], desc: "Alice applies Hadamard to Qubit C", detail: "Prepares state for measurement in Bell basis.", state: "Superposition across Bell basis", amps: [{"state":"|00⟩_CA |ψ⟩_B", "prob": 0.25}] },
+          { name: "Measure & Recover", gates: ["MEAS", "MEAS", "X^m2 Z^m1"], desc: "Alice measures C & A; Bob applies recovery gates", detail: "Bob receives 2 classical bits and applies X and/or Z gates to perfectly reconstruct |ψ⟩!", state: "Bob holds exact state |ψ⟩_B!", amps: [{"state":"|ψ⟩_B", "prob": 1.0}] }
+        ]
+      },
+      grover: {
+        title: "Grover's Search Algorithm (Target |11⟩)",
+        qubits: ["q0", "q1"],
+        steps: [
+          { name: "Init", gates: ["|0⟩", "|0⟩"], desc: "Initial state |00⟩", detail: "Initialize 2-qubit database register to basis state |00⟩.", state: "|00⟩", amps: [{"state":"|00⟩", "prob": 1.0}] },
+          { name: "Superposition", gates: ["H", "H"], desc: "Apply H ⊗ H -> Equal Superposition |s⟩", detail: "Prepares state |s⟩ = 1/2(|00⟩+|01⟩+|10⟩+|11⟩) with uniform 25% probability.", state: "1/2(|00⟩+|01⟩+|10⟩+|11⟩)", amps: [{"state":"|00⟩", "prob": 0.25}, {"state":"|01⟩", "prob": 0.25}, {"state":"|10⟩", "prob": 0.25}, {"state":"|11⟩", "prob": 0.25}] },
+          { name: "Oracle U_w", gates: ["CZ", "CZ"], desc: "Phase Oracle flips sign of target |11⟩", detail: "Oracle flips the phase of target state |11⟩ to -1/2.", state: "1/2|00⟩+1/2|01⟩+1/2|10⟩-1/2|11⟩", amps: [{"state":"|00⟩", "prob": 0.25}, {"state":"|11⟩ (sign flip)", "prob": 0.25}] },
+          { name: "Diffuser", gates: ["DIFF", "DIFF"], desc: "Apply Diffuser 2|s⟩⟨s| - I", detail: "Reflects amplitudes about the average, amplifying target state |11⟩ to 100%!", state: "|11⟩ (100% Probability)", amps: [{"state":"|11⟩ (Target)", "prob": 1.0}] }
+        ]
+      }
+    };
+
+    function loadPresetCircuit() {
+      currentCircuitKey = document.getElementById('circuit-select').value;
+      currentStepIndex = 0;
+      if (!circuitPresets[currentCircuitKey]) {
+        currentCircuitKey = 'bell';
+      }
+      renderCircuitBoard();
+    }
+
+    function renderCircuitBoard() {
+      const preset = circuitPresets[currentCircuitKey];
+      const step = preset.steps[currentStepIndex];
+      const board = document.getElementById('circuit-wire-board');
+
+      let html = '';
+      preset.qubits.forEach((qName, qIdx) => {
+        html += `<div class="flex items-center gap-3">
+          <span class="w-20 font-bold text-xs text-blue-400 text-right">${qName}:</span>
+          <div class="flex-1 flex items-center gap-2 border-b-2 border-[var(--border)] py-2">`;
+        
+        preset.steps.forEach((sObj, sIdx) => {
+          const gateLabel = sObj.gates[qIdx] || "-";
+          const isActive = sIdx === currentStepIndex;
+          const isPassed = sIdx < currentStepIndex;
+
+          let badgeClass = "bg-[var(--card)] text-[var(--muted-foreground)] border-[var(--border)]";
+          if (isActive) badgeClass = "bg-blue-600 text-white border-blue-400 font-bold shadow-md scale-110";
+          else if (isPassed) badgeClass = "bg-blue-500/10 text-blue-400 border-blue-500/30";
+
+          html += `<div class="px-3 py-1.5 rounded-lg border text-xs text-center transition-all ${badgeClass}">${gateLabel}</div>`;
+          if (sIdx < preset.steps.length - 1) {
+            html += `<span class="text-[var(--muted-foreground)] opacity-40">──</span>`;
+          }
+        });
+
+        html += `</div></div>`;
+      });
+
+      board.innerHTML = html;
+
+      // Update descriptions
+      document.getElementById('circuit-step-desc').innerText = `Step ${currentStepIndex + 1}/${preset.steps.length}: ${step.desc}`;
+      document.getElementById('circuit-step-detail').innerText = step.detail;
+
+      // Update amplitudes list
+      const ampList = document.getElementById('amplitude-list');
+      let ampMapHtml = '';
+      step.amps.forEach(amp => {
+        ampMapHtml += `<div class="flex justify-between items-center p-2 rounded-lg bg-[var(--card)] border border-[var(--border)]">
+          <span>${amp.state}</span>
+          <span class="font-bold text-emerald-400">${(amp.prob * 100).toFixed(0)}%</span>
+        </div>`;
+      });
+      ampList.innerHTML = ampMapHtml;
+    }
+
+    function nextCircuitStep() {
+      const preset = circuitPresets[currentCircuitKey];
+      if (currentStepIndex < preset.steps.length - 1) {
+        currentStepIndex++;
+        renderCircuitBoard();
+      }
+    }
+
+    function prevCircuitStep() {
+      if (currentStepIndex > 0) {
+        currentStepIndex--;
+        renderCircuitBoard();
+      }
+    }
+
+    function resetCircuitStep() {
+      currentStepIndex = 0;
+      renderCircuitBoard();
+    }
+
+    // Init
+    window.onload = function() {
+      updateBlochUI();
+      loadPresetCircuit();
+    };
+  </script>
+</body>
+</html>

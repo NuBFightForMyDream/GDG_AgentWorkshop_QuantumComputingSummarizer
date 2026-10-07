@@ -1,0 +1,943 @@
+DOCUMENT: sources/Lecture/Chapter_28_Variational_Quantum_Eigensolver_(VQE)___Quantum_Approximate_Optimization_Algorithm_(QAOA)-1525142-17756062242514.pdf
+TOTAL_PAGES: 53
+--- PAGE 1 ---
+Chapter 27:
+Quantum Phase Estimation
+Kamonluk Suksen Ph.D.
+190
+--- PAGE 2 ---
+Chapter 27: Quantum Phase Estimation
+General Controlled Unitary Gate
+• The single-qubit arbitrary unitary gate, 𝑼𝜽,𝝓,𝝀 describes how a single qubit rotates on the Bloch sphere.
+• We discarded the global phase information because for a single qubit, the global phase has no physical
+significance.
+• The rotation on a Bloch sphere can be described by the 𝑼𝜽,𝝓,𝝀 defined as following:
+𝜃
+𝜃
+𝜃
+cos
+−𝑒 sin
+2
+2
+𝑼𝜽, 𝝓, 𝝀 =
+𝜃
+𝑒 sin
+2 𝑒 ( ) cos
+2
+This gate represents all possible one-qubit gates as long as we do not care about the global phase of the
+state. But it is a problem when multiple qubits are considered.
+• When more qubits are involved, while the global phase of the whole system does not matter, the “global
+phases” of the individual qubits matter.
+• The global phases of the individual qubits determine the relative phase between different qubits and can
+result in constructive or destructive interferences that are important mechanisms in quantum computing.
+191
+--- PAGE 3 ---
+Chapter 27: Quantum Phase Estimation
+General Controlled Unitary Gate
+• Therefore, when we are not allowed to neglect the global phase of a single qubit. We can extend the
+concept, so it will be able to represent any unitary rotation of a qubit by adding a phase factor, γ , as the
+following:
+𝜃
+𝜃
+𝑼𝜽, 𝝓, 𝝀, 𝜸 = 𝑒
+cos
+2
+𝑒 sin
+−𝑒 sin
+2
+𝜃
+2 𝑒 ( ) cos
+𝜃
+2
+The 𝜽, 𝝓, and 𝝀 still have the same meaning as in 𝑼𝜽,𝝓,𝝀.
+• We can see that when we only have 𝑼𝜽,𝝓,𝝀, for some matrices, we are missing the 𝑒 . This causes an error
+when it is applied to a vector by omitting 𝑒 . But for a single-qubit case, missing a phase does not matter.
+192
+--- PAGE 4 ---
+Chapter 27: Quantum Phase Estimation
+General Controlled Unitary Gate
+• For example, represent the gate 𝑖 0
+0 −𝑖 in the form of 𝑼𝜽, 𝝓, 𝝀, 𝜸.
+0
+cos
+𝑖 0
+= 𝑖 1 0
+= 𝑒 /
+2
+0 −𝑖
+0 −1
+𝑒 sin
+0
+−𝑒 sin
+2
+0
+0
+2 𝑒 ( ) cos
+2
+• Therefore, 𝑼𝟎, 𝟎, 𝝅, 𝝅/𝟐 is the correct representation. When we apply this gate to , we get
+𝛼
+𝑼𝟎, 𝟎, 𝝅, 𝝅/𝟐
+=
+𝛽
+𝑖 0
+0 −𝑖
+𝛼
+𝛼
+= 𝑖
+𝛽
+−𝛽
+• If we use 𝑼𝟎, 𝟎, 𝝅 instead, a phase factor of 𝑒 = 𝑒 / = 𝑖 is missing. When we apply 𝑼𝟎, 𝟎, 𝝅 to becomes
+𝛼
+𝑼𝟎, 𝟎, 𝝅
+=
+𝛽
+1 0
+0 −1
+𝛼
+𝛼
+=
+𝛽
+−𝛽
+The rotated state vectors are the same except differ by the phase factor, i.
+, it
+193
+--- PAGE 5 ---
+Chapter 27: Quantum Phase Estimation
+General Controlled Unitary Gate
+• To construct a general version of a controlled unitary gate. Since two qubits are involved, we cannot ignore
+the global phase of each qubit anymore.
+• Therefore, the controlled unitary gate must use all four parameters, and its symbol is 𝑪 − 𝑼𝜽, 𝝓, 𝝀, 𝜸.
+• It has this matrix:
+𝜃
+𝜃
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 =
+2
+𝜃
+1 0
+0 1
+0 0
+0 0
+𝑒 cos
+−𝑒 ( ) sin
+0 0
+0 0
+2
+𝜃
+𝑒 ( ) sin
+2 𝑒 ( ) cos
+2
+• Here we assume the MSB is the control qubit and the LSB is the target qubit. We can find this matrix by
+using the definition. A C – U gate means that if the control qubit in the basis vector is 0, it does nothing to
+the target qubit, and if the control qubit is 1, it will apply the unitary gate. Therefore, the definition can be
+written as:
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = |00⟩ = 𝑰|0⟩⨂𝑰|0⟩ = |00⟩
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = |01⟩ = 𝑰|0⟩⨂𝑰|1⟩ = |01⟩
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = |10⟩ = 𝑰|1⟩⨂𝑼𝜽, 𝝓, 𝝀,𝜸|0⟩
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = |11⟩ = 𝑰|1⟩⨂𝑼𝜽, 𝝓, 𝝀,𝜸|1⟩
+194
+--- PAGE 6 ---
+Chapter 27: Quantum Phase Estimation
+General Controlled Unitary Gate
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = |00⟩ = 𝑰|0⟩⨂𝑰|0⟩ = |00⟩
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = |01⟩ = 𝑰|0⟩⨂𝑰|1⟩ = |01⟩
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = |10⟩ = 𝑰|1⟩⨂𝑼𝜽, 𝝓, 𝝀,𝜸|0⟩
+𝜃
+𝜃
+= |1⟩ 𝑒 cos
+2 |0⟩ + 𝑒 ( )sin
+2 |1⟩
+𝜃
+𝜃
+= 𝑒 cos
+2 |10⟩ + 𝑒 ( )sin
+2 |11⟩
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = |11⟩ = 𝑰|1⟩⨂𝑼𝜽, 𝝓, 𝝀,𝜸|1⟩
+𝜃
+= |1⟩ − 𝑒 sin
+2 |0⟩ + 𝑒 ( )cos
+𝜃
+2 |1⟩
+𝜃
+𝜃
+= − 𝑒 sin
+2 |10⟩ + 𝑒 ( )cos
+2 |11⟩
+• E.g. find the element (𝑒
+, ) of the second row and second column (counting from 0-th) of 𝑪 − 𝑼𝜽, 𝝓, 𝝀, 𝜸.
+The element corresponds to ⟨10| (row) and |10⟩ (column). Using the above equation:
+𝜃
+𝑒
+,
+= ⟨10|𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸|10⟩ = 𝑒 cos
+2
+• When we apply ⟨10| and we use the orthonormal property of the basis vectors that 10 10 = 1 and
+10 11 = 0. This is the same element 𝑒
+,
+as in the matrix 𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 195
+--- PAGE 7 ---
+Chapter 27: Quantum Phase Estimation
+General Controlled Unitary Gate
+• Finally, we may also construct the matrix 𝑪 − 𝑼𝜽, 𝝓, 𝝀, 𝜸 using this equation:
+𝑪 − 𝑼𝜽, 𝝓, 𝝀, 𝜸 = |0⟩⟨0|⨂𝑰 + |1⟩⟨1|⨂𝑼𝜽, 𝝓, 𝝀, 𝜸
+• It is easy to see the result if we recognize that |0⟩⟨0| = 1 0 =
+1 0
+0 0 and |1⟩⟨1| = 0 1
+0 0
+=
+0 1 . We then perform the tensor products accordingly.
+• This equation says that we should perform identity operation to the target qubit if the control qubit is 0 and
+apply the unitary gate to the target qubit if the control qubit is 1.
+• Pic. 45 shows the gate symbol.
+Pic. 45 Symbol of a 𝑪 − 𝑼𝜽, 𝝓, 𝝀, 𝜸 gate with the MSB as the control qubit
+196
+--- PAGE 8 ---
+Chapter 27: Quantum Phase Estimation
+Quantum Phase Estimation
+• The purpose of the Quantum Phase Estimation (QPE) algorithm is to estimate the phase, 2𝜋𝜓, of the
+eigenvalue of a unitary 𝑚 × 𝑚 matrix, U.
+• Since it is a unitary matrix, its eigenvalue must have a magnitude of one. This is because we can always
+transform the matrix into a basis formed by its eigenvectors (as the basis states), and its diagonal elements
+are just its eigenvalues.
+• And since the columns of the unitary matrix must be normalized, then the eigenvalues must have a
+magnitude of one and be in the form of 𝑒 . We choose to write its phase as 2𝜋𝜓 instead of a single
+variable is just for convenience in the derivation.
+• Let us look at a QPE example for a 2 × 2 matrix. Assume we are given a phase shift gate with 𝜙 = 𝜋, 𝑼𝑷𝑺,𝝅
+which is just a Z-gate, Z.
+𝑼𝑷𝑺,𝝅
+=
+1 0
+0 𝑒
+=
+1 0
+0 −1
+=
+𝑒 0
+0 𝑒
+We see that it is already in its diagonal form, and therefore, the elements are its eigenvalues, 1 and −1,
+which have phases of 0 and π, respectively. We express them in the form of 𝑒 , 𝜓 = 0 and 𝜓 = 1/2.
+197
+--- PAGE 9 ---
+Chapter 27: Quantum Phase Estimation
+Quantum Phase Estimation
+• Each of the eigenvalues corresponds to an eigenvector, and they are |𝑒 ⟩ = and |𝑒 ⟩ = , respectively.
+• We can prove that they are the correct eigenvectors by showing, by definition,
+𝑼𝑷𝑺,𝝅|𝑒 ⟩ =
+𝑼𝑷𝑺,𝝅|𝑒 ⟩ =
+1 0
+0 −1
+1 0
+0 −1
+1
+0 = 1
+0
+1
+0
+0 = 1|𝑒 ⟩
+1 = −1
+1 = −1|𝑒 ⟩
+The goal of the QPE is to find 𝜓 and 𝜓 for the given 𝑼𝑷𝑺,𝝅.
+• Pic 46. shows the quantum circuit for finding the phase of the Z-gate. To be exact, it finds 𝜓 instead of 2𝜋𝜓.
+• There are two groups of inputs. The less significant qubits
+(called the b-register) take the eigenvector of the Z-gate.
+Since the Z-gate is a 2 × 2 matrix, we only need 1-qubit to
+represent its eigenvector.
+• In the example, we assume the input is |𝑒 ⟩ = . The other group
+of inputs (called the c-register) contains the more significant qubits.
+In this example, we use two qubits. Pic. 46 The QPE circuit for finding the phase of the second eigenvalue
+198
+of the Z-gate (UPS,π ). Note that the bottom is the MSB
+--- PAGE 10 ---
+Chapter 27: Quantum Phase Estimation
+Quantum Phase Estimation
+• These qubits will be used to store a value related to 𝜓, which is 2 𝜓, where n is the number of the qubits in
+the c-register. In this case, it is 2 𝜓 = 4𝜓.
+• The inputs to the c-register are the ground state |0⟩ . This is a 2+1 = 3-qubit circuit. Therefore, it starts with
+|𝜉 ⟩ = |0⟩|0⟩|𝑒 ⟩.
+Pic. 46 The QPE circuit for finding the phase of the second eigenvalue
+of the Z-gate (UPS,π ). Note that the bottom is the MSB
+• The circuit begins with a two-dimensional Hadamard gate (H ⊗ H) to create a superposition on the c-
+register. 199
+--- PAGE 11 ---
+Chapter 27: Quantum Phase Estimation
+1
+=
+Quantum Phase Estimation
+|𝜉 ⟩ = 𝑯⨂𝑯⨂𝑰(|0⟩|0⟩|𝑒 ⟩)
+= 𝑯|0⟩⨂𝑯|0⟩⨂𝑰|𝑒 ⟩
+1
+2 (|0⟩ + |1⟩)
+2 (|0⟩ + |1⟩)|𝑒 ⟩
+1
+=
+2 (|00⟩ +|01⟩ +|10⟩ +|11⟩)|𝑒 ⟩
+= (|00⟩|𝑒 ⟩ +|01⟩|𝑒 ⟩ + |10⟩|𝑒 ⟩ + 11⟩|𝑒 ⟩)
+• After that, controlled gates are used. The type of controlled gate used is related to the Z-gate, of which we
+are finding the eigenvalue phase. If we were to find that of another gate/unitary matrix (e.g. the NOT gate),
+we need to use the controlled gate related to that new gate (e.g. CNOT gate).
+• It is related to the Z-gate because, besides controlled-Z-gate, it also uses controlled-𝑍 gates, where 𝑘 = 2 ,
+with l running from 0 to n – 1, n is the number of qubits in the c-register.
+• A controlled-𝑍 gate means that, for a basis state, if the control qubit is 0, it does nothing to the target qubit.
+If the control qubit is 1, it will apply 𝑍 gate to the target qubit.
+• Each qubit in the c-register acts as the control bit of one of the controlled gates. A 𝑍 gate is equivalent to
+applying Z-gate k times. In this case, l runs from 0 to 1 and thus k can be 1 or 2.
+200
+--- PAGE 12 ---
+Quantum Phase Estimation
+Chapter 27: Quantum Phase Estimation• What happens to the b-register qubit when the controlled-𝑍 gates are applied? Note that the b-register has the
+eigenvector of Z.
+• Therefore, the operation will give the eigenvalue of Z because of 𝑼𝑷𝑺,𝝅|𝑒 ⟩ = 𝒁|𝑒 ⟩ = 𝑒 |𝑒 ⟩ = −1|𝑒 ⟩.
+• And if it is 𝒁 , it becomes 𝑒 |𝑒 ⟩ = |𝑒 ⟩ as Z is applied twice. However, this only happens if the
+corresponding control qubit is 1. Therefore, the n controlled gates produce the following results:
+|𝜉 ⟩ = (|00⟩|𝑒 ⟩ +|01⟩𝒁|𝑒 ⟩ + |10⟩𝒁 |𝑒 ⟩ + 11⟩𝒁 𝒁|𝑒 ⟩)
+= (|00⟩𝒁 𝒁 |𝑒 ⟩ +|01⟩𝒁 𝒁 |𝑒 ⟩ + |10⟩𝒁 𝒁 |𝑒 ⟩ + 11⟩𝒁 𝒁 |𝑒 ⟩)
+= (|00⟩𝒁 |𝑒 ⟩ +|01⟩𝒁 |𝑒 ⟩ + |10⟩𝒁 |𝑒 ⟩ + 11⟩𝒁 |𝑒 ⟩)
+= (|0⟩𝒁 |𝑒 ⟩ +|1⟩𝒁 |𝑒 ⟩ + |2⟩𝒁 |𝑒 ⟩ + 3⟩𝒁 |𝑒 ⟩)
+1
+=
+2 𝑗⟩𝒁 |𝑒 ⟩
+• In the first line, Z is applied to the b-register if qubit 0 of the c-register is one, and 𝒁 is applied to the b-register if
+qubit 1 of the c-register is one. This is based on the definition of the controlled gates.
+• In the second line, we also add 𝒁 that is just an identity gate when the control qubits are 0. In the third line, we
+group the Z’s so we can see the sum of their exponents for each basis vector. And in the fourth line, we write the
+basis vectors in decimal.
+201
+• So, the action of all controlled gates is equivalent to applying 𝒁 gate on the b-register if the c-register is |𝑗⟩.
+--- PAGE 13 ---
+Chapter 27: Quantum Phase Estimation
+Quantum Phase Estimation
+• And since |𝑒 ⟩ is an eigenvector of 𝒁 , 𝒁 |𝑒 ⟩ = (𝑒 ) |𝑒 ⟩. So,
+1
+|𝜉 ⟩ =
+2 |𝑗⟩𝒁 |𝑒 ⟩
+1
+=
+2 |𝑗⟩(𝑒 ) |𝑒 ⟩
+1
+=
+2 (𝑒 ) |𝑗⟩|𝑒 ⟩
+• The next step is to apply QFT. What really important is that we need to use the matrix for rotating the vector
+instead of the basis and the matrix is shown in following:
+1
+𝜔⋅
+⋯ 𝜔 ⋅( )
+⋮ ⋱ ⋮
+𝜔 ( )⋅⋯ 𝜔 ( )⋅( )
+𝑼𝑸𝑭𝑻 =
+• The definition of QFT is repeated here,
+𝑁
+𝑼𝑸𝑭𝑻|𝑗⟩ =
+1
+𝑁
+𝜔 |𝑘⟩
+202
+--- PAGE 14 ---
+Chapter 27: Quantum Phase Estimation
+Quantum Phase Estimation
+• We only apply it to the c-register and keep the b-register intact. Therefore, we will apply 𝑼𝑸𝑭𝑻⨂𝑰 to |𝜉 ⟩,
+and we have the right-hand site equation:
+1
+• The first three lines just apply 𝑼𝑸𝑭𝑻 to the c-register in |𝜉 ⟩,
+|𝜉 ⟩ = 𝑼𝑸𝑭𝑻⨂𝑰
+use the linear property of quantum mechanics, and then apply
+2 (𝑒 ) |𝑗⟩|𝑒 ⟩
+𝑼𝑸𝑭𝑻.
+1
+=
+• The last two lines use the definition of the n-th root of unity, 𝜔.
+2 (𝑒 ) (𝑼𝑸𝑭𝑻|𝑗⟩)⨂𝑰|𝑒 ⟩
+• Finally, we group the terms. Note that the b-register is no longer
+1
+useful now. It is completely disentangled with the rest of the qubit,
+and it can be factorized out in the tensor product.
+2 (𝑒 )
+1
+4 (𝜔) |𝑘⟩ |𝑒 ⟩
+• If we perform a measurement on the c-register, we will get one of
+1
+the |𝑘⟩’s. However, if we rewrite the equation by shuffling
+=
+the summations, we have
+4 (𝑒 ) 𝜔 |𝑘⟩|𝑒 ⟩
+1
+|𝜉 ⟩ =
+4 (𝜔) ( ) |𝑘⟩|𝑒 ⟩
+1
+=
+4 (𝑒 ) (𝑒 / ) |𝑘⟩|𝑒 ⟩
+1
+• We see that each |𝑘⟩ has a coefficient of ∑ (𝜔) ( ), and this is
+=
+a summation of the n-th root of unity. This term is 0 unless 2 − 𝑘 4 (𝜔) ( ) |𝑘⟩|𝑒 ⟩
+due to the constructive interference.
+203
+=
+= 0
+--- PAGE 15 ---
+Chapter 27: Quantum Phase Estimation
+= 0. The basis state we will
+Quantum Phase Estimation
+• Therefore, if we perform the measurement, we will only measure |𝑘⟩, if 2 − 𝑘 measure is always
+|𝑘⟩ = |2⟩ = |10⟩
+• What is the meaning of 𝑘 = 2? Let us inspect carefully how we obtain 𝜔 ( ) in previous equation. It came
+from (𝑒 ) 𝜔 . The “2” in 𝜔 ( ) is obtained by multiplying by 4. And 4 is the 𝑁 = 2 in the 𝑁-th
+root of unity. Note that is the 𝜓 in the eigenvalue of eigenvector |𝑒 ⟩, and 4 is 2 = 2 , where n is the
+number of qubits in the c-register. Therefore, the 𝑘 = 2 we obtained is due to the 𝜓( ) being multiplied by
+2 (2 = 4).
+• If we measure |k⟩ in a n-qubit c-register, and if the input to the b-register is the eigenvector corresponding to
+the eigenvalue, 𝑒 , the phase is given by
+2𝜋𝑘
+2𝜋𝜓 =
+𝜓 =
+2
+𝑘
+2
+204
+--- PAGE 16 ---
+Chapter 27: Quantum Phase Estimation
+Implementation on IBM-Q
+• Pic. 47 shows the implementation on IBM-Q. |𝑒 ⟩ is created by using a NOT gate.
+• We can see the controlled-Z-gate that is a vertical line with two dots. There is no controlled- 𝑍 gate because
+𝑍 = I . The I gate in the circuit is there just to align the circuits.
+• The QFT circuit is only 2 qubits.
+• You can see that the output is 100% |100⟩. The first two qubits are for the c-register. Therefore, |k⟩ = |10⟩=
+|2⟩. That means 2𝜋𝜓 = = 2𝜋2/2 = 𝜋, which is the phase of the corresponding eigenvalue, −1
+(𝑒 = 𝑒 = −1).
+• Note that we did not measure the b-register (the LSB); therefore, it is 0 by default in the classical register.
+Pic. 47 Implementation of the QPE circuit. Note that the bottom is the MSB
+205
+--- PAGE 17 ---
+Chapter 27: Quantum Phase Estimation
+General QPE Circuit
+• Pic. 48 shows the general QPE circuit.
+• We note that the b-register can be m-qubit that is required if we are finding the eigenvalue phase in a m × m
+matrix case. In that case, the controlled gate is a m + 1-qubit gate (including the control bit).
+• The c-register can be n qubits.
+• n determines the accuracy of the phase it can estimate,
+larger n gives a higher resolution.
+• The resolution is 1/ 2 , when k = 1. Usually, the 𝜓 is not a fraction
+nor an integer as in the case we have discussed.
+Therefore, we cannot get the exact value, and thus
+it is an “estimation.” In summary, the QPE has m + n qubits.
+Pic. 48 General implementation of the QPE circuit
+• The QPE seems not to be useful as we need to know the eigenvector (as input to the b-register) to find its
+phase. However, every vector is a linear superposition of the eigenvectors. Due to the linearity of quantum
+mechanics, their phases can be estimated at the same time. If we use it correctly, we can use it to solve other
+more important problems such as in the HHL algorithm for solving systems of linear equations.
+206
+--- PAGE 18 ---
+Chapter 28:
+Variational Quantum Eigensolver (VQE) &
+Quantum Approximate Optimization
+Algorithm (QAOA)
+Kamonluk Suksen Ph.D.
+207
+--- PAGE 19 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Projectors and Exponentials
+• A projector operator (∏) acts on a quantum state of the Hilbert space and forces all components to zero,
+except those of the subspace it projects onto.
+∏ = ∏, ∏| ({ })
+= ∑ |𝜓 ⟩⟨𝜓 |, 𝜓 𝜓 = 𝛿
+𝑒 ∏ =
+(𝑖𝜃)
+𝑛! ∏ =
+𝑒 | ⟩⟨ |=
+𝑒 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+𝑖𝜃
+0! ∏ + (𝑖𝜃)
+𝑛! ∏ = 𝕀 +
+𝑖𝜃
+𝑛! ∏ = 𝕀 + (𝑒 − 1)∏
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+1 0
+0 1
+𝑝 𝜃 = 𝑍 =
+1 0
+0 𝑒
+208
+--- PAGE 20 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Observables
+• An observable 𝐻 is a self-adjoint operator on the Hilbert space ℂ⨂
+.
+• Spectral theorem: ∃ orthonormal basis {|𝜓 ⟩} of ℂ⨂ consisting of eigenvectors of H, and all eigenvalues 𝜆
+are real.
+• We can write: 𝐻 = ∑ 𝜆 |𝜓 ⟩⟨𝜓 |
+• To each energy 𝜆 corresponds to and energy eigenstate.
+• ground state: energy eigenstate |𝑉 ⟩ corresponding to the lowest energy
+• first excited state, second excited state, …: |𝑉 ⟩, |𝑉 ⟩, …
+209
+--- PAGE 21 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Expectation Values
+Given
+• a state |𝜙⟩ prepared on a quantum computer using the unitary U such that 𝑈|0⟩ = |𝜙⟩
+• an observable H we are interested to measure
+Then the expectation value of H respect to the state |𝜙⟩ is given by
+𝐻 | ⟩ ≔ 𝜙 𝐻 𝜙 = 0 𝑈 𝐻𝑈 0
+From the spectral theorem it follows:
+𝐻 | ⟩= 𝜙 ∑ 𝜆 𝜓 𝜓 𝜙 = 𝜆 𝜓 𝜙 = 𝜆 𝜓 𝑈 0
+Particularly: 𝐻 | ⟩= 𝜆
+210
+--- PAGE 22 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Variational Methods
+𝐻 | ⟩= 𝜆 𝜓 𝜙 ≥ 𝜆 𝜓 𝜙 = 𝜆
+• H can encode a problem as ground state
+• Prepare parameterized state |𝜙(𝜃)⟩
+• Find 𝜽∗ s.t. 𝐻 | (∗)⟩ minimal
+211
+--- PAGE 23 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Variational Quantum Eigensolver
+𝐸 ≤ 𝜓(𝜃) 𝐻 𝜓(𝜃)
+• 𝐻 = ∑ 𝑤 𝜎⃗ , 𝜎⃗ ∈ 𝐼, 𝑋, 𝑌, 𝑍⨂
+,
+⃗
+• 𝜓(𝜃
+⃗
+) = ∏ 𝑈 |0⟩ = 𝑈 𝜃
+|0⟩
+• 𝐸 = 𝑚𝑖𝑛 ∑ 𝑤 0 𝑈 (𝜃
+⃗)𝜎⃗ 𝑈(𝜃
+⃗
+) 0
+Pic. 49 Quantum–Classical Optimization Loop for Variational Quantum Algorithms
+212
+--- PAGE 24 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Ansatz Problem
+The right choice of ansatz is critical to obtain a solution that is close to the ground state.
+• Expressability: Refers the range of feasible states that the ansatz can achieve.
+• Trainability: Refers to the ability to find the best set of parameters of the ansatz respect to expectation values
+of the Hamiltonian in a finite amount of time.
+• Depth of the circuit: Refers to the number of sequential operations required for the implementation, which
+impacts the overall runtime of the method and its resilience to noise.
+Hardware Efficient Ansatz Hamiltonian Variational Ansatz
+|𝜓(𝜃)⟩ = ∏ 𝑈 𝑈 (𝜃 )|0⟩ |𝜓(𝜃)⟩ = ∏ (∏ 𝑒 ) |𝜓 ⟩, 𝐻 = ∑ 𝐻
+213
+--- PAGE 25 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Classical Optimizer Choice
+Method
+Description
+Sample
+Gradient Descent Based
+Use the analytical property of
+the ansatz, the gradient of
+observables can be directly
+computed on a quantum
+computer.
+Gradient Descent,
+Quantum Natural Gradient
+Stochastic Gradient Based
+Approximated the true gradient
+using random sampled data at
+each iteration.
+SPSA, QNSPSA, Adam
+Gradient-free searching
+Do not rely on gradient
+information and instead explore
+the parameter space using
+alternative techniques as
+random search, evolutionary
+algorithms or Bayesian
+optimization.
+COBYLA, Nelder-Mead
+214
+--- PAGE 26 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Quantum Approximate Optimization Algorithm
+• Objective function 𝑓: {0, 1} → ℝ
+• Where are looking for the optimal vector 𝑥∗ = 𝑎𝑟𝑔𝑚𝑖𝑛 ∈ , 𝑓(𝑥)
+• Encode each binary string into a quantum state: 𝑧 = {0, 1} → |𝑧⟩
+• Encode the objective function into a problem Hamiltonian
+𝐻 |𝑧⟩ = 𝑓 𝑧 |𝑧⟩, 𝐻 | ⟩ = 𝑓(𝑧)
+• The Ground state of 𝐻 correspond to the minima of the objective function.
+• 𝛾⃗, 𝛽⃗
+= 𝑈 (𝛽 ) 𝑈 𝛾 … . 𝑈 (𝛽 ) 𝑈 𝛾 |𝜙 ⟩, 𝑈 𝛾 = 𝑒 , 𝑈 = ∏ 𝑅𝑋 (𝛽)
+• Find 𝛾⃗, 𝛽⃗
+𝜖ℝ , such that 𝛾, 𝛽 𝐻 𝛾, 𝛽 is minimized.
+215
+--- PAGE 27 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Quantum Approximate Optimization Algorithm
+Energy Landscape 𝑝 = 1 Multiple layers QAOA performance
+216
+--- PAGE 28 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Combinatorial Optimization: Maxcut
+With these binary variables, we can build a cost function for any Maxcut problem
+𝐻 𝑋 = ∑ 𝑊 𝑋
+, ∈ 1 − 𝑋 𝑊 =
+1, if edge 𝑖, 𝑗 ∈ 𝐺 𝑐𝑜𝑛𝑛𝑒𝑐𝑡𝑖𝑣𝑖𝑡𝑦
+0, if egde 𝑖, 𝑗 ∉ 𝐺 (𝑎𝑑𝑗𝑎𝑛𝑐𝑒𝑛𝑐𝑦 𝑚𝑎𝑡𝑟𝑖𝑥)
+We claim a solution to the maxcut problem must maximize this Hamiltonian!
+𝑊 =
+0 1
+1 0
+0 1
+1 1
+0 1
+1 1
+0 1
+1 0
+𝑋 = 1010 = |1⟩ |0⟩ |1⟩ |0⟩ 𝑊 𝑋 1 − 𝑋 = 𝑊 ⋅ 1 ⋅ 1 − 0 = 1 𝑊 𝑋 1 − 𝑋 = 1
+𝑊 𝑋 1 − 𝑋 = 𝑊 ⋅ 1 ⋅ 1 − 0 = 1 𝑊 𝑋 1 − 𝑋 = 1
+𝑊 𝑋 1 − 𝑋 = 𝑊 ⋅ 0 ⋅ 1 − 1 = 0 𝑊 𝑋 1 − 𝑋 = 0
+𝑊 𝑋 1 − 𝑋 = 0 𝑊 𝑋 1 − 𝑋 = 0
+𝑊 𝑋 1 − 𝑋 = 0 𝑊 𝑋 1 − 𝑋 = 0
+𝑊 𝑋 1 − 𝑋 = 0 𝐻 𝑋 = 4 217
+--- PAGE 29 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Pauli Matrices
+The problem of interest can be expressed in terms of Pauli matrices, I, X, Y, Z
+1 0
+0 1
+0 −𝑖
+1 0
+𝐼 =
+0 1, 𝑋 =
+1 0, 𝑌 =
+𝑖 0, 𝑍 =
+0 −1 𝜎⃗ = 𝜎 , 𝜎 , 𝜎 , 𝜎 = 𝐼, 𝑋, 𝑌, 𝑍
+Such that we end up with a linear combinations of products of these Pauli matrices
+𝐻 = 𝑐 𝑃
+For example:
+𝐻 = 𝐼 𝐼 + 𝑋 𝑋 + 𝑌 𝑌 + 𝑍 𝑍 = 𝐼𝐼 + 𝑋𝑋 + 𝑌𝑌 + 𝑍𝑍
+exp −𝑖𝐻 𝑡 = exp (−𝑖 𝐼𝐼 + 𝑋𝑋 + 𝑌𝑌 + 𝑍𝑍 𝑡)
+218
+--- PAGE 30 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Quantum state in Pauli-Z basis
+Most quantum devices are in Z-basis or computational basis 0⟩ =
+, 1⟩ =
+In fact, any operations can be represented in this way:
+𝜎 ≡ 𝐼 ≡
+𝜎 ≡ 𝑋 ≡
+1 0
+0 1
+0 1
+1 0
+≡ |0⟩⟨0| + |1⟩⟨1|, ≡ |1⟩⟨0| + |0⟩⟨1|, 𝜎 ≡ 𝑌 ≡
+𝜎 ≡ 𝑍 ≡
+0 −𝑖
+𝑖 0
+1 0
+0 −1
+≡ 𝑖|1⟩⟨0| − 𝑖|0⟩⟨1|,
+≡ |0⟩⟨0| − |1⟩⟨1|
+Including the Control-Not gate!
+CNOT = |0⟩⟨0| ⨂𝐼 + |1⟩⟨1| ⨂𝑋
+219
+--- PAGE 31 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Maxcut Problem Qubit Encoding
+To map the Maxcut problem to quantum circuit, we use
+𝑥 → =
+0 0
+0 1
+Then, Maxcut cost function becomes a sum of Pauli-Z and Pauli-ZZ operators (i.e., Ising Hamiltonian,
+or sometimes known as the QUBO problem)
+𝐻 → 𝑊
+𝐼 − 𝑍
+2 𝐼 −
+𝐼 − 𝑍
+2
+= 𝑐 𝑍 + 𝑑 𝑍 𝑍
+220
+--- PAGE 32 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+State Preparation
+State preparation (initialization) is the First step of quantum computing.
+Unlike classical computation, one cannot simply prepare an arbitrary state in QC.
+Often it involves careful analysis of the problem and genius engineering…
+Here, we look at two possible initializations
+|0000⟩ 𝐻 𝐻 𝐻 𝐻 |0000⟩
+Hadamard Gate 𝐻 = 1 1
+1 −1
+221
+--- PAGE 33 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Variational Ansatz = Unitary Quantum Evolution
+Literally means evolving some quantum state by applying an operator H for a parameter t.
+222
+--- PAGE 34 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Single Qubit Simulation
+Rotational gates take care single qubit Pauli terms (Taylor expansion)
+𝑒 = cos 𝑡 𝐼 − 𝑖 sin(𝑡) 𝑋 = cos(𝑡) −𝑖 sin(𝑡)
+−𝑖 sin(𝑡) cos(𝑡) 𝑅 (2𝑡)
+𝑒 = cos 𝑡 𝐼 − 𝑖sin(𝑡) 𝑌 = cos(𝑡) − sin(𝑡)
+sin(𝑡) cos(𝑡) 𝑅 (2𝑡)
+𝑒 = cos 𝑡 𝐼 − 𝑖sin(𝑡) 𝑍 = 𝑒 / 0
+0 𝑒 / 𝑅 (2𝑡)
+These are just Rotational gates on Bloch sphere!
+223
+--- PAGE 35 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Multiple Qubit Simulation
+224
+--- PAGE 36 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Multiple Qubit Simulation
+The results can be generalized to exp(-i ZZ….Z t), where the circuit is a tower of control gates
+For example, exp(-i ZZZZ t) becomes
+225
+--- PAGE 37 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Multiple Qubit Simulation
+Pic. 50 Quantum Circuit Decomposition of Multi-Qubit Pauli Exponentials
+226
+--- PAGE 38 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Combinatorial Optimization: MaxKcut
+max
+∈ ,…,
+𝐶 𝑋 , 𝐶 𝑋 = 𝑊
+( , )∈
+1, 𝑖𝑓 𝑋 ≠ 𝑋
+0 𝑜𝑡ℎ𝑒𝑟𝑤𝑖𝑠𝑒
+Solving NP hard optimization problems.
+• Heuristic algorithms: No polynomial run time guarantee; appear to perform well on some instances.
+• Approximate algorithms: Efficient and provide provable guarantees. With high probability we get a solution
+𝑋∗ such that
+𝐶 𝑋∗ − 𝑚𝑖𝑛 𝐶(𝑥)
+𝑚𝑎𝑥 𝐶 𝑥 − 𝑚𝑖𝑛 𝐶(𝑥) ≥ 𝛼,
+where 0 < 𝛼 ≤ 1 is the approximation ratio.
+227
+--- PAGE 39 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Problem Hamiltonian
+For a given k we encode the information of a vertex belonging to one of the sets by |𝑖⟩ , which requires
+𝐿 ≔ log (𝑘)
+qubits.
+𝐻 = ∑ 𝑊 𝐻
+∈ , 𝐻 = 𝐼 − 𝐻 , 𝑈 𝛾 = 𝑒 = ∏ 𝑒 𝕀
+∈ 𝑒
+𝐻 = |𝑖𝑗⟩
+, | ~
+⟨𝑖𝑗|
+Here, ~clr is an equivalence relation clr = {sets of equivalent colors states}. With this, it is clear that 𝐻
+has
+,
+eigenvalue 0 for a state |𝑖⟩|𝑗⟩ if 𝑖 𝑐̃ ∼ 𝑗 and +1 if not.
+228
+--- PAGE 40 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Power of Two Case
+When 𝑘 = 2 the equivalence relation for the problem Hamiltonian becomes trivial because each color 𝐶 →
+|𝑏𝑖𝑛(𝑖)⟩ we assigned the related binary state
+𝐻 = ∑ |𝑖⟩ ⟨𝑖|⨂ |𝑖⟩⟨𝑖| = ∑ |𝑖𝑖⟩ ⟨𝑖𝑖| = 𝐶𝑋 → (𝐼 ⊗ |0⟩ ⟨0| )𝐶𝑋→
+𝐶𝑋 → |𝑞⟩ |𝑞⟩ = 𝑞 … 𝑞 𝑞 ⊕ 𝑞 … 𝑞 ⊕ 𝑞
+Where the ⊕ operation is modulo 2. This means that the state of the qubits belonging to j has zero entries if
+and only if all qubits have the same state as in the register i.
+𝑒 = 𝐶𝑋 → (𝐼 ⊗ 𝑒 | ⟩ ⟨ | )𝐶𝑋→
+229
+Pic. 51 Comparator Circuit for the Problem Hamiltonian
+--- PAGE 41 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Maxcut Case
+𝕀 + 𝑍⨂𝑍
+𝐻 = |00⟩⟨00| + |11⟩⟨11| =
+2 ⇒ 𝐻 = 𝑊
+( , )∈
+1 − 𝑍 𝑍
+2
+𝑒 ⨂ =
+𝑒 / 0
+0 𝑒 /
+0 0
+0 0
+0 0
+0 0
+𝑒 / 0
+0 𝑒 /
+=
+230
+--- PAGE 42 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Degenerate Color Method
+When 𝑘 ≠ 2 we can think to encode the k colors into all the computational basis states with some
+equivalence class degeneracy for some choices of colors. One possible choice is to assign 𝐶 → |0⟩, 𝐶 →
+|1⟩, …, 𝐶 → |𝑘 − 2⟩, 𝐶 → ⋃ {|𝑖⟩}.
+𝐻 = |𝑖⟩
+, | ~
+⟨𝑖|⨂|𝑗⟩⟨𝑗| = |𝑖𝑗⟩
+⟨𝑖𝑗|
+, | ~
+We should find a way to construct the exponential 𝑈 𝛾 = 𝑒 using the minimum amount of resources for
+the specific choices of k and the equivalence class clr.
+𝐶 → |00⟩, 𝐶 → |01⟩, 𝐶 → |10⟩, |11⟩
+𝐻 = |0000⟩⟨0000| + |0101⟩⟨0101| + |1010⟩⟨1010| + |1111⟩⟨1111| + |1110⟩⟨1110| + |1011⟩⟨1011|
+231
+--- PAGE 43 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Realizing exponential of diagonal Projecting operators
+We want to realize the exponential of a diagonal squarebinary matrix Λ, i.e.,
+Λ
+,
+∈ 0, 1 , 𝑖𝑓 𝑖 = 𝑗
+∀0 ≤ 𝑖, 𝑗 ≤ 2 − 1
+0 , 𝑜𝑡ℎ𝑒𝑟𝑤𝑖𝑠𝑒,
+with quantum gates. Let’s start with the case of where the number of ones elements in Λ are m, a power of two.
+There exists a permutation 𝑃 , such that
+Λ = 𝑃 |0⟩ ⟨0| ⨂𝐼 𝑃 where 𝐵 = log(𝑚) and 𝐴 = 𝑛 − 𝐵 . From this it follows that
+𝑒 =
+𝑙!
+(𝑖𝜃)
+Λ = 𝐼 + (𝑖𝜃)
+𝑙!
+Λ = 𝐼 + 𝑒 − 1 Λ
+= 𝑃 𝐼 + 𝑒 − 1 |0⟩ ⟨0| ⨂𝐼 𝑃 = 𝑃 𝑒 | ⟩ ⟨ | ⨂𝐼 𝑃
+232
+--- PAGE 44 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Realizing exponential of diagonal Projecting operators
+In general, we can rewrite m as 𝑚 = 2 + 2 + ⋯ + 2 and consequently, divide Λ into
+a sum of diagonal matrices with corresponding many non-zero elements, i.e.,
+Λ = Λ + Λ + ⋯ + Λ
+For all matrices Λ in the above sum the number of non-zero elements is a power of two, then
+𝑒 = 𝑒 = 𝑃 𝐼 ⨂𝐷 𝑃 = 𝑃 𝐷 𝑃
+Each permutation 𝑃 can be in principle implemented using only gates from the set {X, CX, CCX}.
+233
+--- PAGE 45 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The K=3 case
+In the edge Hamiltonian|0000⟩, |0101⟩, |1010⟩, |1111⟩, |1011⟩, |1110⟩ are the +1 eigenstates so the
+number of ones in 𝐻 is 𝑚 = 6 = 2 + 2 . Dividing 𝐻 = 𝐻 + 𝐻 , where 𝐻 represents the first two colors
+and 𝐻 the remaining ones.
+𝐻 = |𝑖𝑗⟩⟨𝑖𝑗|
+= 𝐶𝑋
+, |0⟩⟨0| ⊗ 𝐼 ⊗ |0⟩⟨0| ⊗ |0⟩⟨0| 𝐶𝑋
+, ,
+( , )∈ | ,
+𝐻 = |𝑖𝑗⟩⟨𝑖𝑗|
+= 𝑋 𝑋 |0⟩⟨0| ⊗ 𝐼 ⊗ |0⟩⟨0| ⊗ 𝐼 𝑋 𝑋 ,
+( , )∈ | ,
+Where 𝐶𝑋
+, denotes a CX gate with control index a and target index b.
+234
+--- PAGE 46 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+The Constrained to a Subspace method
+When k is not a power of two instead of using equivalence color classes we can define the feasible set B and
+constraint the QAOA ansatz to explore only this set. We then need to initialize a feasible initial state and a define
+a constraint Mixer.
+For each vertex the feasible set of color states can be defined as:
+𝐵 = |𝑖⟩|0 ≤ 𝑖 ≤ 𝑘 − 1
+Since the feasible bit-strings admit a Cartesian product structure (the vertices are independent), the feasible
+subspace becomes a tensor product of the form
+𝐵 = 𝐵 ⊗ ⋯ ⊗ 𝐵
+We observe that
+𝐻 2 | ( )= 𝐻 𝑘 ,
+Using this approach, we shift the complexity from the Phase or Cost Hamiltonian to the Mixer Hamiltonian. 235
+--- PAGE 47 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Constrained QAOA
+The solutions constrained to a feasible subspace span 𝐵 ⊂ ℋ = (𝐶 )⨂
+𝐵 = 𝑍 , 1 ≤ 𝑗 ≤ 𝐽, 𝑍 ∈ {0, 1} .
+Definition valid mixer
+• Preserve the feasible subspace
+𝑈 𝛽 |𝑉⟩ ∈ 𝑠𝑝𝑎𝑛 𝐵 , ∀|𝑉⟩ ∈ 𝑠𝑝𝑎𝑛 𝐵 , ∀𝛽 ∈ ℝ,
+• Provide transitions between all pairs of feasible states, i.e., for each pair of computational basis states
+𝑥⟩, |𝑦⟩ ∈ 𝐵 there exist 𝛽∗ ∈ ℝ and 𝑟 ∈ ℕ ∪ 0 , such that
+⟨𝑥|𝑈 𝛽∗
+… 𝑈 𝛽∗ |𝑦⟩ > 0.
+r times
+236
+--- PAGE 48 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Example of Valid Mixers
+Unconstrained case: X mixer 𝑈 𝛽 = ∏ 𝑅𝑋 𝛽 = ∏ cos 𝛽 𝕀 + 𝑖 sin(𝛽)𝑋 Constrained case: Grover mixer
+|𝐹⟩ = ∑ |𝑖⟩
+∈ = 𝑈 |0⟩ ⟹
+𝑈 𝛽 = 𝑒 | ⟩⟨ | = 𝑈 𝑒 | ⟩⟨ |𝑈
+𝑈 = (𝕀 + 𝑖 𝑋 + 𝑋 + 𝑋 − |𝐹⟩⟨𝐹| = |𝐹⟩⟨𝐹| ⟹ 𝑈 𝛽 =
+𝑋 𝑋 + 𝑋 𝑋 + 𝑋 𝑋 − 𝑖𝑋 𝑋 𝑋 ) ∑ ! |𝐹⟩⟨𝐹| = 𝕀 + 𝑒 − 1 |𝐹⟩⟨𝐹|
+237
+--- PAGE 49 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Valid Mixers as Connected Graphs
+We consider mixers of the following form
+𝑈 𝛽 = 𝑒, 𝐻 = ∑ (𝑇) ,
+𝐻 , 𝑍 , |𝑍 ⟩ ∈ 𝐵
+𝐻 = 𝑍 ⟨𝑍 | + |𝑍 ⟩ 𝑍 = 𝑋 𝑍 𝑍 + |𝑍 ⟩⟨𝑍 | = 𝑋 Π
+,
+.
+Valid mixer
+The mixer Hamiltonian 𝐻 is valid if the graph 𝐺 of the adjacency matrix T is undirected and connected.
+238
+--- PAGE 50 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Examples of Graphs and Mixers
+X mixer as Hypercube Graph Grover mixer as Complete Graph
+239
+--- PAGE 51 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Initial State Preparation
+Given the independence of the different color constraints for each vertex of the problem the initial state can be
+prepared as the uniform superposition of all feasible basis state as follows:
+|𝐹⟩⨂ ⋁
+= 𝑈 ⨂ 𝑈 … ⨂𝑈 |0⟩, where |𝐹⟩ = 𝑈 |0⟩ = ∑ |𝑖⟩
+Where we prepare independently on each vertex the equal superposition of all feasible colors due to the property
+of the tensor product:
+𝑎 |𝑖⟩
+∈
+⨂ 𝑏 |𝑗⟩
+∈
+= 𝑎 𝑏 |𝑖𝑗⟩
+∈ , ∈
+= 𝑐 |𝑚⟩
+∈ ⨂
+240
+--- PAGE 52 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Grover Mixer construction
+Now we need to define a valid mixer for the feasible subspace B. The first possibility is to use directly the initial
+state preparation circuit 𝑈 ⊗··· ⊗ 𝑈 to implement the Grover mixer
+𝑈 𝛽 = (𝑈 ⊗ ··· ⊗ 𝑈 )𝑒 | ⟩⟨ | ⨂ ∨ (𝑈 ⊗ ⋯ ⊗ 𝑈 )
+The total cost of this mixer is 2|V| times the cost of implementing the initial state for a vertex and the cost of
+implementing the |V| 𝐿 − 1 control phase operator. Alternative we can take advantage from the structure of B
+and define the Grover Mixer independently for each vertex.
+𝑈 𝛽 = 𝑈 𝑒 | ⟩⟨ |𝑈 ⊗ ··· ⊗ 𝑈 𝑒 | ⟩⟨ |𝑈
+241
+--- PAGE 53 ---
+Chapter 28: Variational Quantum Eigensolver (VQE) & Quantum Approximate Optimization Algorithm (QAOA)
+Grover Mixer construction
+This Grover mixer can be obtained by exponentiation of the following Hamiltonian Mixer
+𝐻 = 𝐺∨ = 𝐺𝐺 … 𝐺, 𝐺 = |𝐹⟩⟨𝐹|
+where the Cartesian or Box product is defined as
+𝐺𝐻 = 𝐺⊗𝕀 + 𝕀⊗H
+If G and H are connected graphs, then 𝐺𝐻 is connected too and the mixer is valid.
+Cost Circuit for an edge of the Grover Mixer for a 16 < k ≤ 32 Initial state for a 16 < k ≤ 32
+Maxkcut problem MaxKCut vertex MaxKCut vertex
+242

@@ -1,0 +1,162 @@
+DOCUMENT: sources/Assignments/Assignment7-959373-17732136830109.pdf
+TOTAL_PAGES: 3
+--- PAGE 1 ---
+Assignment X.
+1.
+We know z-gate is (8)
+1 +
+=(i),
+1= E(!)
+when we apply Igate to 1-
+21
+=(4)(i)= E( ! )= 1+
+2. We know control phase shift gate is
+Veps,
++= 1000 · o o eil
+I00 18
+In z-axis eip= it
+C= when angle is i we cosd+ ising
+cost + isinit can assume
+=- r
+Controlled 2 gate is
+-10 0 g
+I0010
+010 C I
+000 +
+Since 2= (00)-> 210= 103
+211 =k
+,
+when controlled -(t)= gate applied to 1)
+z()=
+) ==
+z(= 2()==
+)
+=t
+=
+In the P17 basis
+basis
+.
+So
+,
+entire
+,
+the 2 gate acts exactly like ifwe wrap
+the target qubit of a C2 gate ,
+apply the conditional 2 operation (which acts as a a classical NOTor Pauli-x) gate does in the computational in Igateswe transition the target &
+qubit into the 11) basis
+NOT in this basis
+and transition back.
+This makes the ,
+operation equivalent to a CNOT gate.
+O 9) (h)= 1) (ICHICICICH)] = ()=(ii)=( (
+Cot3
+.
+it6
+6
+ud
+·
+cut gate: Cot (
+Titl
+I
+,
+,
+CNOTe = -100IC
+·
+f
+g
+11
+--- PAGE 2 ---
+4. Given H1Y)= <1+>+ B1 -)
+Normallywe can directly understand that Coefficient of 1072117 basis is
+↓(+B) &2- B)
+We can derive from
+= a(+> + B1-7
+We now It= ↓(10) + 11)
+17
+,
+(10)-11)
+=
+=
+<(110+11)+ B((10- 11))
+=+1)O
+5. H(4)= He / 47
+(+ p)10)+ 24x.
+4
+=1) ↓(- B)11
+in
+Herea #822)
+means n gate.
+qubit &- p
+2 X
+Hadamard 2
+.
+=
+O O
+=(2+ 152103+ 2-11
++2)+ c-x2 +-x
++3))
+2
+0.
+e = (0 AND 1) @10 ANDO)= 000
+=0
+1.
+2 = (DAND1)e(1 ANDO)= 000= 0
+2.
+2 = (1 AND 1) @10 ANDO)= 100= 1
+3.2= (1 AND 1) @l AND )= 100= 1
+=
+He(2)= 1(10) + 11- 123- 13)
+* "
+5 H
+= (H11)(@ CHO))
+=D03-11)) @ 210)#
+E
+= /[00> R
++ 101)- 110)- 1113)
+7
+.
+=H&H
+=)(1)
+= (
+We know 12= 1103= (i)
+*
+#
+= (
+= (1007+ 101- 1103- 1113)
+--- PAGE 3 ---
+·
+So it doesn't have
+starting from LSB 16)= X 100)+ B110+- 1117 + 8101
+any effect even if we implement COT MSB
+gates
+or Wor
+right
+Uur center
+Uxor left
+,
+,
+,
+= [i] Tc
+= [= Usu
+9. Given LSB as Uxor 100= 1000
+controlling bit
+0)= 10
+03 = 1007
+,
+Uzor101)= 1001
+,
+1)= 11
+13= 111)
+,
+Unor 1103= 1180
+03
+,
+= 19
+03= 100)
+,
+Uzor(11)= 1181
+17= ,
+10
+,
+13 = 1017
+,

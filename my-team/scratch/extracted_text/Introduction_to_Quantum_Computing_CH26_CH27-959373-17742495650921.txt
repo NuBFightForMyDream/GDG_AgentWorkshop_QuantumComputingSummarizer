@@ -1,0 +1,1074 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH26_CH27-959373-17742495650921.pdf
+TOTAL_PAGES: 31
+--- PAGE 1 ---
+Chapter 26:
+Bloch Sphere and Single-Qubit Arbitrary
+Unitary Gate
+Kamonluk Suksen Ph.D.
+173
+--- PAGE 2 ---
+Bloch Sphere
+• Bloch Sphere is a very useful tool to understand the operation of quantum gates.
+• We are all familiar with the concept that a single qubit resides in the ℂ2 space. This is a two-dimensional
+complex space. It means that it has two basis vectors, |0⟩ and |1⟩, which are orthonormal to each other.
+• Any qubit state is a vector in this space formed by a linear combination of |0⟩ and |1⟩ with complex
+coefficients.
+• We have been using a real 2D space to illustrate the properties of a qubit state vector, but we emphasize
+that this is just an illustration and the ℂ2 space is NOT the real 2D space that we can feel.
+• How many degrees of freedom (DOF) does a qubit state have? We know that any single-qubit state ȁ ⟩
+𝜓
+can be expressed as ȁ ⟩
+𝜓 = 𝛼ȁ ⟩0 + 𝛽ȁ ⟩1 , where 𝛼 and 𝛽 are complex numbers. Each of the 𝛼 and 𝛽 is
+determined by two real numbers. For example, 𝛼 = 𝛼 𝑒𝑖𝛿𝛼 and 𝛽 = 𝛽 𝑒𝑖𝛿𝛽 , where 𝛼 , 𝛿𝛼, 𝛽 , and 𝛿𝛽
+are the real numbers. Therefore, it looks like has 4 DOFs.
+• For any physical qubit, it has to be normalized. Therefore, 𝛼 2 + 𝛽 2 = 1. This reduces the DOF by 1
+because if we specify 𝛼 , 𝛽 is specified at the same time due to normalization equation. So, we can
+determine 𝛼 and 𝛽 using 1 single real number parameter as long as we make the vector normalized.
+174
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 3 ---
+Bloch Sphere
+• For example, we can set 𝛼 = cos
+𝜃
+2
+and 𝛽 = sin 𝜃
+2
+as cos2 𝜃
+2
++ sin2 𝜃
+2
+= 1 will help satisfy the
+normalization criteria. So, now, the amplitudes of 𝛼 and 𝛽 can be described by a single real parameter 𝜃,
+and the DOF of the qubit state is 3.
+• The global phase means the phase shared by both ȁ ⟩0 and ȁ ⟩1 . It has no physical significant because the
+physical properties for this single qubit are all computed by involving the bra and ket versions of the
+vector. For example, the expectation value of a matrix, M, is 𝜓 𝑴 𝜓. We can take 𝑒𝑖𝛾 out from ȁ ⟩
+𝜓 to be
+𝑒𝑖𝛾 and take 𝑒𝑖𝛾 out from ȁ
+𝜓 to be 𝑒−𝑖𝛾ۦ
+. 𝑒𝑖𝛾 and 𝑒−𝑖𝛾 multiply together to be 1. Therefore, the global
+phase factor does not affect the physical results.
+• As a result, we only need two real parameter, 𝜃 and 𝜙, to describe a qubit as following:
+Since it has only two parameters, we can describe it on the surface of a unit sphere (sphere with unit
+length), and this is called the Bloch Sphere.
+ȁ ⟩
+𝜓 = cos
+𝜃
+2 𝑒−𝑖𝜙ȁ ⟩
+0 + sin
+𝜃
+2 𝑒𝑖𝜙ȁ ⟩1
+175
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 4 ---
+Bloch Sphere
+• Pic. 41 shows the Bloch sphere and its relationship to the real 3D space we live in. The surface of the
+Bloch sphere can be mapped to the space of a qubit. We may say that we map the qubit space in our real
+3D space.
+• The Bloch sphere allows us to “visualize” how a qubit state evolves. Second, some of the physical
+properties of the qubit are linked to the Bloch sphere orientation in the real 3D space.
+• Pic. 41 shows the location of state ȁ ⟩
+𝜓 on the Bloch sphere when it has the parameters 𝜃 and 𝜙. We see
+that if we put the Bloch sphere in the 3D orientation shown in Pic. 41, the 𝜃 and 𝜙 are just the polar angle
+and azimuthal angle of a spherical coordinate, respectively.
+• Consider the “North Pole” It has 𝜃 = 0 and 𝜙 = 0. Therefore,
+ห ൿ
+𝜓𝜃=0,𝜙=0 = cos
+𝜃
+2 𝑒−𝑖𝜙/2ȁ ⟩0 + sin
+𝜃
+2 𝑒𝑖𝜙/2ȁ ⟩1
+= cos
+0
+2 𝑒−𝑖0/2ȁ ⟩0 + sin
+0
+2 𝑒𝑖0/2ȁ ⟩1
+= ȁ ⟩
+0
+Pic. 41 The Bloch sphere (left) and its relationship to the 3-D real space (right)
+￼
+176
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 5 ---
+Bloch Sphere
+• What if we choose 𝜙 to be non-zero? It is still the “North Pole” as long as 𝜃 = 0. Then we will get
+𝑒−𝑖𝜙/2ȁ ⟩0 . However, since 𝑒−𝑖𝜙/2 is a global phase (as the coefficient for ȁ ⟩1 is 0), this does not matter to
+the physics.
+• Remember that we ignore the global phase of the qubit state when we construct the Bloch sphere; therefore,
+the Bloch sphere has lost the global phase information.
+• For the same point on the Bloch sphere, we can add any global phase to it without affecting its physical
+properties. And a point on the Bloch sphere is not unique, but it corresponds to qubits that differ in only a
+global phase (e.g. 𝑒−𝑖𝜙/2ȁ ⟩0 and ȁ ⟩0 in this case).
+• Consider the point corresponds to 𝑥 = −1 and 𝑦 = 𝑧 = 0 in the 3D real space. It has 𝜃 =
+𝜋
+2
+and 𝜙 = 𝜋. So,
+Again, the global phase −𝑖 = 𝑒−𝑖𝜋/2 can be discarded. So, this point corresponds to ȁ ⟩
+−
+.
+ห ൿ
+𝜓𝜃=𝜋/2,𝜙=𝜋
+= cos
+𝜃
+2 𝑒−𝑖𝜙/2ȁ ⟩0 + sin
+𝜃
+2 𝑒𝑖𝜙/2ȁ ⟩1
+= cos
+𝜋
+4 𝑒−𝑖𝜋/2ȁ ⟩0 + sin
+𝜋
+4 𝑒𝑖𝜋/2ȁ ⟩1
+=
+1
+2
+−𝑖 ȁ ⟩0 +
+1
+2
+𝑖ȁ ⟩1
+= −𝑖
+1
+2 ȁ ⟩0 − ȁ ⟩1 = −𝑖ȁ ⟩
+−
+177
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 6 ---
+Bloch Sphere
+• Consider the point corresponds to 𝑦 = 1 and 𝑥 = 𝑧 = 0 in the 3D real space. It has 𝜃 =
+𝜋
+2
+and 𝜙 = 𝜋/2. So,
+Again, the global phase 𝑒−𝑖𝜋/4 can be discarded. Therefore, this point corresponds to 1
+2 (ȁ ⟩0 + 𝑖ȁ ⟩1 ), which
+is one of the eigenvalues 𝝈𝒚.
+• From the example, the extrema of the Bloch sphere in the x, y, and z directions correspond to the eigenvalues
+of the 𝝈𝒙, 𝝈𝒚, and 𝝈𝒛 matrices, respectively. This is the first place where we see it is related to our real 3D
+space. This is because, for example, if it is a spin qubit under an external magnetic field the Pauli matrices are
+related to the directions of the magnetic field. So now we see the link between the extrema in a direction (e.g.
+z direction) on the Bloch sphere to the external magnetic direction (e.g. z direction).
+ห ൿ
+𝜓𝜃=𝜋/2,𝜙=𝜋/2 = cos
+𝜃
+2 𝑒−𝑖𝜙/2ȁ ⟩0 + sin
+𝜃
+2 𝑒𝑖𝜙/2ȁ ⟩1
+= cos
+𝜋
+4 𝑒−𝑖𝜋/4ȁ ⟩0 + sin
+𝜋
+4 𝑒𝑖𝜋/4ȁ ⟩1
+=
+1
+2
+𝑒−
+𝑖𝜋
+4 (ȁ ⟩0 + 𝑒
+𝑖𝜋
+2 ȁ ⟩1 )
+= 𝑒−𝑖𝜋/4 1
+2 (ȁ ⟩0 + 𝑖ȁ ⟩
+1 )
+178
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 7 ---
+Expectation Values of Pauli Matrices
+• The Pauli matrices are related to the directions of the external magnetic field in the spin qubit case.
+• Moreover, the expectation values of the Pauli matrices of any state are related to the energy it gains under
+the external magnetic field. Therefore, the calculation of the expectation value of the Pauli matrices is very
+important.
+• Find the expectation value of 𝝈𝒛 of ȁ ⟩
+𝜓 . First, we can express ȁ ⟩
+𝜓 in its column form. That is ȁ ⟩
+𝜓 =
+cos
+𝜃
+2
+𝑒−𝑖𝜙/2ȁ ⟩0 + sin 𝜃
+2
+𝑒𝑖𝜙/2ȁ ⟩1 =
+cos
+𝜃
+2𝑒−𝑖𝜙/2
+sin𝜃
+2𝑒𝑖𝜙/2 . Therefore,
+𝜓 𝝈𝒛 𝜓 = (cos
+𝜃
+2 𝑒
+𝑖𝜙
+2 sin
+𝜃
+2 𝑒−
+𝑖𝜙
+2 ) 1 0
+0 −1
+cos
+𝜃
+2 𝑒−𝑖𝜙/2
+sin 𝜃
+2 𝑒𝑖𝜙/2
+= (cos
+𝜃
+2 𝑒
+𝑖𝜙
+2 sin
+𝜃
+2 𝑒−
+𝑖𝜙
+2 )
+cos
+𝜃
+2 𝑒−𝑖𝜙/2
+−sin 𝜃
+2 𝑒𝑖𝜙/2
+= cos
+𝜃
+2 𝑒
+𝑖𝜙
+2 cos
+𝜃
+2 𝑒−
+𝑖𝜙
+2 + sin
+𝜃
+2 𝑒−
+𝑖𝜙
+2−sin
+𝜃
+2 𝑒
+𝑖𝜙
+2
+= cos
+𝜃
+2 cos
+𝜃
+2
+− sin
+𝜃
+2 sin
+𝜃
+2
+= cos 𝜃 179
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 8 ---
+Expectation Values of Pauli Matrices
+• What is the geometric meaning of cos 𝜃 on the Bloch sphere in Pic. 41. Since it is a unit sphere, this is just
+the projection of the state ȁ ⟩
+𝜓 on the z-axis!
+• Although the states on the Bloch sphere have no direct relationship to the real 3D space, their Paul matrices’
+expectation values turn out to be the projections on the axes from the states on the Bloch sphere.
+• Therefore, although |0⟩ and |1⟩ do not lie in our real 3D space on the opposite sides of the z-axis, their 𝝈𝒛
+expectation values do have opposite values. These expectation values are related to the energy splitting and
+magnetic moments of the qubits.
+• We can also calculate the expectation values of 𝝈𝒙 and 𝝈𝒚, and they are just the projections of the state on
+the x- and y-axis, respectively. If so, without any derivation, based on the geometry, we know that
+𝜓 𝝈𝒙 𝜓 = sin 𝜃 cos 𝜙
+𝜓 𝝈𝒚 𝜓 = sin 𝜃 sin 𝜙
+180
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+￼
+Pic. 41 The Bloch sphere (left) and its relationship to the 3-D real space (right)
+--- PAGE 9 ---
+Single-Qubit Arbitrary Unitary Rotation
+• We have been emphasizing that quantum computing is nothing but just the rotation of the quantum states in
+the hyperdimensional space that we cannot see. For example, applying a NOT gate to the |0⟩ state will
+rotate it to the |1⟩ state.
+• Note that the rotation on the Bloch sphere is NOT the rotation of the state in the 3D space. The qubit space
+is not something we can feel. This is just a convenient visualization.
+• How do we describe this rotation? This rotation is a rotation in the hyperspace where the qubit state resides,
+and it must be a unitary rotation and it must be a 2 × 2 matrix. In general, it is described by a Single-Qubit
+Arbitrary Unitary Gate 𝑼𝜽, 𝝓, 𝝀.
+• The parameters, 𝜃, 𝜙, and 𝜆, are angles, and they are the Euler angles in the Euler rotation.
+𝑼𝜽, 𝝓, 𝝀 =
+cos
+𝜃
+2
+−𝑒𝑖𝜆 sin
+𝜃
+2
+𝑒𝑖𝜙 sin
+𝜃
+2 𝑒𝑖(𝜆+𝜙) cos
+𝜃
+2
+181
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 10 ---
+Single-Qubit Arbitrary Unitary Rotation
+• Euler rotation is a sequence of three rotations. It can be described in two ways. One is the extrinsic rotation
+that it rotates about fixed 3D coordinate axes (Pic. 42).
+• In the extrinsic rotation, the body will first rotate about the z-axis by λ (also called γ in some literature) and
+then rotate about the y-axis by θ (also called β in some literature) and finally rotate about the z-axis by 𝜙
+(also called α in some literature).
+• Also be careful that in the 𝑼𝜽, 𝝓, 𝝀 notation, we do not put the rotation angles in the order of rotation (i.e. 𝜃,
+𝜙, 𝜆 instead of 𝜙, 𝜃, 𝜆 or 𝜆, 𝜃, 𝜙).
+Pic. 42 Relationship between the Bloch sphere and Euler rotation
+￼
+182
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 11 ---
+Single-Qubit Arbitrary Unitary Rotation
+• Construct a NOT gate using 𝑼𝜽, 𝝓, 𝝀 by matching the matrices as follows:
+• We can set up four equations to match each of the elements.
+• 𝜃 = 𝜋 is required to make the diagonal element zero as cos
+𝜋
+2
+= 0. Then sin 𝜃
+2
+= sin 𝜋
+2
+= 1. And we can
+put 𝜆 = 𝜋 so that −𝑒𝑖𝜆= 1 and 𝜙 = 0 so that 𝑒𝑖𝜙 = 1. So, the solution is 𝜃, 𝜙, 𝜆 = (𝜋, 0, 𝜋).
+𝑼𝜽, 𝝓, 𝝀 = 𝑼𝑵𝑶𝑻
+cos
+𝜃
+2
+−𝑒𝑖𝜆 sin
+𝜃
+2
+𝑒𝑖𝜙 sin
+𝜃
+2 𝑒𝑖(𝜆+𝜙) cos
+𝜃
+2
+=
+0 1
+1 0
+cos
+𝜃
+2= 0
+−𝑒𝑖𝜆 sin
+𝜃
+2
+= 1
+𝑒𝑖𝜙 sin
+𝜃
+2
+= 1
+𝑒𝑖(𝜆+𝜙) cos
+𝜃
+2= 0
+183
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 12 ---
+Single-Qubit Arbitrary Unitary Rotation
+• Pic. 43 shows the path of the rotation of the |0⟩ state under this quantum gate.
+• When it is at the “North” or “South” poles, the first and third rotations have no effects.
+• We can see the second rotation (about y-axis by θ = π) brings it to |1⟩. The MSB (bottom) has an input of
+|0⟩, and the LSB (top) has an input of |1⟩ (after a NOT gate) to the 𝑼𝜽, 𝝓, 𝝀 = 𝑼𝝅,𝒐,𝝅. Therefore, the input is
+|01⟩, and we can see the output is |10⟩ as expected and, thus, 𝑼𝝅,𝒐,𝝅 behave as a 𝑼𝑵𝑶𝑻.
+Pic. 43 Implementation of 𝑼𝑵𝑶𝑻 using 𝑼𝜽, 𝝓, 𝝀. Left shows how |0⟩ is rotated on the Bloch sphere under a NOT
+operation. Right shows the implementation on IBM-Q with |01⟩ as the input. MSB is at the bottom of the circuit
+￼
+184
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 13 ---
+Single-Qubit Arbitrary Unitary Rotation
+• Construct the matrix corresponding to the rotation of |0⟩ to |1⟩ on the Bloch sphere.
+• Pic. 43 clearly shows that the initial state |0⟩ is at the “North” pole and the final state is at the “South” pole.
+• Rotating about the y-axis by 𝜋 in the second rotation and do nothing in the first and third rotations. This
+corresponds to 𝑼𝜽, 𝝓, 𝝀 = 𝑼𝝅, 𝟎, 𝟎. Then we obtain
+Unfortunately, this is not a NOT gate. But this matrix correctly describes the transformation from |0⟩ to |1⟩
+because
+𝑼𝝅, 𝟎, 𝟎 =
+cos
+𝜃
+2
+−𝑒𝑖𝜆 sin
+𝜃
+2
+𝑒𝑖𝜙 sin
+𝜃
+2 𝑒𝑖(𝜆+𝜙) cos
+𝜃
+2
+=
+cos
+𝜋
+2
+−𝑒𝑖𝜆 sin
+𝜋
+2
+𝑒𝑖𝜙 sin
+𝜋
+2 𝑒𝑖(0+0) cos
+𝜋
+2
+=
+0 −1
+1 0
+𝑼𝝅, 𝟎, 𝟎ȁ ⟩0 =
+0 −1
+1 0
+1
+0
+=
+0
+1
+= ȁ ⟩1
+185
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 14 ---
+Single-Qubit Arbitrary Unitary Rotation
+• For example, describe how |+⟩ rotates on the Bloch sphere when the NOT gate is applied.
+• First, we know that 𝑼𝑵𝑶𝑻ȁ ⟩
++ = 𝑼𝑵𝑶𝑻
+1
+2 ȁ ⟩0 + ȁ ⟩1 =
+1
+2 ȁ ⟩1 + ȁ ⟩0 = ȁ ⟩
++ . We used the definition of
+𝑼𝑵𝑶𝑻 that it changes |0⟩ and |1⟩ to each other. So, |+⟩ is transformed/rotated to itself.
+• The NOT gate is 𝑼𝝅,𝒐,𝝅 on the Bloch sphere, it will first rotate about the z-axis by 𝜋, and then about the y-
+axis by 𝜋, and do nothing in the third rotation as 𝜙 = 0.
+• Pic. 44 shows that it is brought to ȁ ⟩
+− in the first rotation and brought back to ȁ ⟩
++ in the second rotation. In
+the same figure, it shows that if we use 𝑼𝝅, 𝟎, 𝟎, we get the wrong result because 𝑼𝝅, 𝟎, 𝟎 is not the NOT
+gate.
+Pic. 44 Left: Rotation path of |+⟩ under a NOT gate operation. Right: Rotation path of |+⟩ under the 𝑼𝝅, 𝟎, 𝟎 operation
+￼
+186
+Chapter 26: Bloch Sphere and Single-Qubit Arbitrary Unitary Gate
+--- PAGE 15 ---
+Chapter 27:
+Quantum Phase Estimation
+Kamonluk Suksen Ph.D.
+187
+--- PAGE 16 ---
+General Controlled Unitary Gate
+• The single-qubit arbitrary unitary gate, 𝑼𝜽,𝝓,𝝀 describes how a single qubit rotates on the Bloch sphere.
+• We discarded the global phase information because for a single qubit, the global phase has no physical
+significance.
+• The rotation on a Bloch sphere can be described by the 𝑼𝜽,𝝓,𝝀 defined as following:
+This gate represents all possible one-qubit gates as long as we do not care about the global phase of the
+state. But it is a problem when multiple qubits are considered.
+• When more qubits are involved, while the global phase of the whole system does not matter, the “global
+phases” of the individual qubits matter.
+• The global phases of the individual qubits determine the relative phase between different qubits and can
+result in constructive or destructive interferences that are important mechanisms in quantum computing.
+Chapter 27: Quantum Phase Estimation
+188
+𝑼𝜽, 𝝓, 𝝀 =
+cos
+𝜃
+2
+−𝑒𝑖𝜆 sin
+𝜃
+2
+𝑒𝑖𝜙 sin
+𝜃
+2 𝑒𝑖(𝜆+𝜙) cos
+𝜃
+2
+--- PAGE 17 ---
+General Controlled Unitary Gate
+• Therefore, when we are not allowed to neglect the global phase of a single qubit. We can extend the
+concept, so it will be able to represent any unitary rotation of a qubit by adding a phase factor, γ , as the
+following:
+The 𝜽, 𝝓, and 𝝀 still have the same meaning as in 𝑼𝜽,𝝓,𝝀.
+• We can see that when we only have 𝑼𝜽,𝝓,𝝀, for some matrices, we are missing the 𝑒𝑖𝛾. This causes an error
+when it is applied to a vector by omitting 𝑒𝑖𝛾. But for a single-qubit case, missing a phase does not matter.
+189
+𝑼𝜽, 𝝓, 𝝀, 𝜸 = 𝑒𝑖𝛾
+cos
+𝜃
+2
+−𝑒𝑖𝜆 sin
+𝜃
+2
+𝑒𝑖𝜙 sin
+𝜃
+2 𝑒𝑖(𝜆+𝜙) cos
+𝜃
+2
+Chapter 27: Quantum Phase Estimation
+--- PAGE 18 ---
+General Controlled Unitary Gate
+• For example, represent the gate 𝑖 0
+0 −𝑖 in the form of 𝑼𝜽, 𝝓, 𝝀, 𝜸.
+𝑖 0
+0 −𝑖
+= 𝑖 1 0
+0 −1
+= 𝑒𝑖𝜋/2
+cos
+0
+2
+−𝑒𝑖𝜋 sin
+0
+2
+𝑒𝑖0 sin
+0
+2 𝑒𝑖(𝜋+0) cos
+0
+2
+• Therefore, 𝑼𝟎, 𝟎, 𝝅, 𝝅/𝟐 is the correct representation. When we apply this gate to 𝛼
+𝛽 , we get
+• If we use 𝑼𝟎, 𝟎, 𝝅 instead, a phase factor of 𝑒𝑖𝛾 = 𝑒𝑖𝜋/2 = 𝑖 is missing. When we apply 𝑼𝟎, 𝟎, 𝝅 to 𝛼
+𝛽 , it
+becomes
+The rotated state vectors are the same except differ by the phase factor, i.
+190
+𝑼𝟎, 𝟎, 𝝅, 𝝅/𝟐
+𝛼
+𝛽
+=
+𝑖 0
+0 −𝑖
+𝛼
+𝛽
+= 𝑖
+𝛼
+−𝛽
+𝑼𝟎, 𝟎, 𝝅
+𝛼
+𝛽
+=
+1 0
+0 −1
+𝛼
+𝛽
+=
+𝛼
+−𝛽
+Chapter 27: Quantum Phase Estimation
+--- PAGE 19 ---
+General Controlled Unitary Gate
+• To construct a general version of a controlled unitary gate. Since two qubits are involved, we cannot ignore
+the global phase of each qubit anymore.
+• Therefore, the controlled unitary gate must use all four parameters, and its symbol is 𝑪 − 𝑼𝜽, 𝝓, 𝝀, 𝜸.
+• It has this matrix:
+• Here we assume the MSB is the control qubit and the LSB is the target qubit. We can find this matrix by
+using the definition. A C – U gate means that if the control qubit in the basis vector is 0, it does nothing to
+the target qubit, and if the control qubit is 1, it will apply the unitary gate. Therefore, the definition can be
+written as:
+191
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+𝑒𝑖𝛾cos
+𝜃
+2
+−𝑒𝑖(𝜆+𝛾) sin
+𝜃
+2
+𝑒𝑖(𝜙+𝛾) sin
+𝜃
+2 𝑒𝑖(𝜆+𝜙+𝛾) cos
+𝜃
+2
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = ȁ ⟩00 = 𝑰ȁ ⟩0 ⨂𝑰ȁ ⟩0 = ȁ ⟩00
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = ȁ ⟩01 = 𝑰ȁ ⟩0 ⨂𝑰ȁ ⟩1 = ȁ ⟩01
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = ȁ ⟩10 = 𝑰ȁ ⟩1 ⨂𝑼𝜽, 𝝓, 𝝀,𝜸ȁ ⟩0
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = ȁ ⟩11 = 𝑰ȁ ⟩1 ⨂𝑼𝜽, 𝝓, 𝝀,𝜸ȁ ⟩1
+Chapter 27: Quantum Phase Estimation
+--- PAGE 20 ---
+General Controlled Unitary Gate
+• E.g. find the element (𝑒2,2) of the second row and second column (counting from 0-th) of 𝑪 − 𝑼𝜽, 𝝓, 𝝀, 𝜸.
+The element corresponds to 10ۦ| (row) and |10⟩ (column). Using the above equation:
+• When we apply ۦ ȁ10 and we use the orthonormal property of the basis vectors that 10 10 = 1 and
+10 11 = 0. This is the same element 𝑒2,2 as in the matrix 𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸
+192
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = ȁ ⟩00 = 𝑰ȁ ⟩0 ⨂𝑰ȁ ⟩0 = ȁ ⟩00
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = ȁ ⟩01 = 𝑰ȁ ⟩0 ⨂𝑰ȁ ⟩1 = ȁ ⟩01
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = ȁ ⟩10 = 𝑰ȁ ⟩1 ⨂𝑼𝜽, 𝝓, 𝝀,𝜸ȁ ⟩0
+= ȁ ⟩1 𝑒𝑖𝛾cos
+𝜃
+2 ȁ ⟩0 + 𝑒𝑖(𝜙+𝛾)sin
+𝜃
+2 ȁ ⟩1
+= 𝑒𝑖𝛾cos
+𝜃
+2 ȁ ⟩10 + 𝑒𝑖(𝜙+𝛾)sin
+𝜃
+2 ȁ ⟩
+11
+𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸 = ȁ ⟩11 = 𝑰ȁ ⟩1 ⨂𝑼𝜽, 𝝓, 𝝀,𝜸ȁ ⟩1
+= ȁ ⟩1 − 𝑒𝑖 𝜆+𝛾 sin
+𝜃
+2 ȁ ⟩
+0 + 𝑒𝑖(𝜆+𝜙+𝛾)cos
+𝜃
+2 ȁ ⟩1
+= − 𝑒𝑖 𝜆+𝛾 sin
+𝜃
+2 ȁ1 ⟩0 + 𝑒𝑖(𝜆+𝜙+𝛾)cos
+𝜃
+2 ȁ ⟩
+11
+𝑒2,2 = ۦ ȁ10 𝑪 − 𝑼𝜽, 𝝓, 𝝀,𝜸ȁ ⟩
+10 = 𝑒𝑖𝛾cos
+𝜃
+2
+Chapter 27: Quantum Phase Estimation
+--- PAGE 21 ---
+General Controlled Unitary Gate
+• Finally, we may also construct the matrix 𝑪 − 𝑼𝜽, 𝝓, 𝝀, 𝜸 using this equation:
+• It is easy to see the result if we recognize that ȁ ⟩0 ۦ ȁ0 =
+1
+= 0 1 0
+0 1
+0 0 and ȁ ⟩1 ۦ ȁ1 =
+0
+= 1 0 1
+0 0
+0 1 . We then perform the tensor products accordingly.
+• This equation says that we should perform identity operation to the target qubit if the control qubit is 0 and
+apply the unitary gate to the target qubit if the control qubit is 1.
+• Pic. 45 shows the gate symbol.
+193
+𝑪 − 𝑼𝜽, 𝝓, 𝝀, 𝜸 = ȁ ⟩0 ۦ ȁ0 ⨂𝑰 + ȁ ⟩1 ۦ ȁ1 ⨂𝑼𝜽, 𝝓, 𝝀, 𝜸
+￼
+Pic. 45 Symbol of a 𝑪 − 𝑼𝜽, 𝝓, 𝝀, 𝜸 gate with the MSB as the control qubit
+Chapter 27: Quantum Phase Estimation
+--- PAGE 22 ---
+Quantum Phase Estimation
+• The purpose of the Quantum Phase Estimation (QPE) algorithm is to estimate the phase, 2𝜋𝜓, of the
+eigenvalue of a unitary 𝑚 × 𝑚 matrix, U.
+• Since it is a unitary matrix, its eigenvalue must have a magnitude of one. This is because we can always
+transform the matrix into a basis formed by its eigenvectors (as the basis states), and its diagonal elements
+are just its eigenvalues.
+• And since the columns of the unitary matrix must be normalized, then the eigenvalues must have a
+magnitude of one and be in the form of 𝑒𝑖2𝜋𝜓. We choose to write its phase as 2𝜋𝜓 instead of a single
+variable is just for convenience in the derivation.
+• Let us look at a QPE example for a 2 × 2 matrix. Assume we are given a phase shift gate with 𝜙 = 𝜋, 𝑼𝑷𝑺,𝝅
+which is just a Z-gate, Z.
+We see that it is already in its diagonal form, and therefore, the elements are its eigenvalues, 1 and −1,
+which have phases of 0 and π, respectively. We express them in the form of 𝑒𝑖2𝜋𝜓
+, 𝜓0 = 0 and 𝜓1 = 1/2.
+194
+𝑼𝑷𝑺,𝝅
+=
+1 0
+0 𝑒𝑖𝜋
+=
+1 0
+0 −1
+=
+𝑒𝑖2𝜋0 0
+0 𝑒
+𝑖2𝜋
+1
+2
+Chapter 27: Quantum Phase Estimation
+--- PAGE 23 ---
+Quantum Phase Estimation
+• Each of the eigenvalues corresponds to an eigenvector, and they are ȁ ⟩
+𝑒0 =
+1
+0 and ȁ ⟩
+𝑒1 =
+0
+1 , respectively.
+• We can prove that they are the correct eigenvectors by showing, by definition,
+The goal of the QPE is to find 𝜓0 and 𝜓1 for the given 𝑼𝑷𝑺,𝝅.
+• Pic 46. shows the quantum circuit for finding the phase of the Z-gate. To be exact, it finds 𝜓 instead of 2𝜋𝜓.
+• There are two groups of inputs. The less significant qubits
+(called the b-register) take the eigenvector of the Z-gate.
+Since the Z-gate is a 2 × 2 matrix, we only need 1-qubit to
+represent its eigenvector.
+• In the example, we assume the input is ȁ ⟩
+𝑒1 =
+0
+1 . The other group
+of inputs (called the c-register) contains the more significant qubits.
+In this example, we use two qubits. 195
+𝑼𝑷𝑺,𝝅ȁ ⟩
+𝑒0 =
+1 0
+0 −1
+1
+0
+= 1
+1
+0
+= 1ȁ ⟩
+𝑒0
+𝑼𝑷𝑺,𝝅ȁ ⟩
+𝑒1 =
+1 0
+0 −1
+0
+1
+= −1
+0
+1
+= −1ȁ ⟩
+𝑒1
+Pic. 46 The QPE circuit for finding the phase of the second eigenvalue
+of the Z-gate (UPS,π ). Note that the bottom is the MSB
+￼
+Chapter 27: Quantum Phase Estimation
+--- PAGE 24 ---
+Quantum Phase Estimation
+• These qubits will be used to store a value related to 𝜓, which is 2𝑛𝜓, where n is the number of the qubits in
+the c-register. In this case, it is 2𝑛𝜓 = 4𝜓.
+• The inputs to the c-register are the ground state ȁ ⟩0 2. This is a 2+1 = 3-qubit circuit. Therefore, it starts with
+• The circuit begins with a two-dimensional Hadamard gate (H ⊗ H) to create a superposition on the c-
+register.
+196
+ȁ ⟩
+𝜉0 = ȁ ⟩0 ȁ ⟩0 ȁ ⟩
+𝑒1.
+Pic. 46 The QPE circuit for finding the phase of the second eigenvalue
+of the Z-gate (UPS,π ). Note that the bottom is the MSB
+￼
+Chapter 27: Quantum Phase Estimation
+--- PAGE 25 ---
+Quantum Phase Estimation
+• After that, controlled gates are used. The type of controlled gate used is related to the Z-gate, of which we
+are finding the eigenvalue phase. If we were to find that of another gate/unitary matrix (e.g. the NOT gate),
+we need to use the controlled gate related to that new gate (e.g. CNOT gate).
+• It is related to the Z-gate because, besides controlled-Z-gate, it also uses controlled-𝑍𝑘 gates, where 𝑘 = 2𝑙
+,
+with l running from 0 to n – 1, n is the number of qubits in the c-register.
+• A controlled-𝑍𝑘 gate means that, for a basis state, if the control qubit is 0, it does nothing to the target qubit.
+If the control qubit is 1, it will apply 𝑍𝑘 gate to the target qubit.
+• Each qubit in the c-register acts as the control bit of one of the controlled gates. A 𝑍𝑘 gate is equivalent to
+applying Z-gate k times. In this case, l runs from 0 to 1 and thus k can be 1 or 2.
+197
+ȁ ⟩
+𝜉0 = 𝑯⨂𝑯⨂𝑰(ȁ ⟩0 ȁ ⟩0 ȁ ⟩
+𝑒1 )
+= 𝑯ȁ ⟩0 ⨂𝑯ȁ ⟩0 ⨂𝑰ȁ ⟩
+𝑒1
+=
+1
+2 (ȁ ⟩0 + ȁ ⟩1 )
+1
+2 (ȁ ⟩0 + ȁ ⟩1 )ȁ ⟩
+𝑒1
+=
+1
+2 (ȁ ⟩
+00 +ȁ ⟩
+01 +ȁ ⟩
+10 +ȁ ⟩11 )ȁ ⟩
+𝑒1
+=
+1
+2 (ȁ ⟩
+00 ȁ ⟩
+𝑒1 +ȁ ⟩
+01 ȁ ⟩
+𝑒1 + ȁ ⟩
+10 ȁ ⟩
+𝑒1 + ห ⟩11 ȁ ⟩
+𝑒1 )
+Chapter 27: Quantum Phase Estimation
+--- PAGE 26 ---
+Quantum Phase Estimation
+• What happens to the b-register qubit when the controlled-𝑍𝑘 gates are applied? Note that the b-register has the
+eigenvector of Z.
+• Therefore, the operation will give the eigenvalue of Z because of 𝑼𝑷𝑺,𝝅ȁ ⟩
+𝑒1 = 𝒁ȁ ⟩
+𝑒1 = 𝑒𝑖2𝜋
+1
+2ȁ ⟩
+𝑒1 = −1ȁ ⟩
+𝑒1.
+• And if it is 𝒁2, it becomes 𝑒𝑖2𝜋
+1
+2
+2
+ȁ ⟩
+𝑒1 = ȁ ⟩
+𝑒1 as Z is applied twice. However, this only happens if the
+corresponding control qubit is 1. Therefore, the n controlled gates produce the following results:
+• In the first line, Z is applied to the b-register if qubit 0 of the c-register is one, and 𝒁2 is applied to the b-register if
+qubit 1 of the c-register is one. This is based on the definition of the controlled gates.
+• In the second line, we also add 𝒁0 that is just an identity gate when the control qubits are 0. In the third line, we
+group the Z’s so we can see the sum of their exponents for each basis vector. And in the fourth line, we write the
+basis vectors in decimal.
+• So, the action of all controlled gates is equivalent to applying 𝒁𝑗 gate on the b-register if the c-register is ȁ ⟩
+𝑗.
+198
+ȁ ⟩
+𝜉2 =
+1
+2 (ȁ ⟩
+00 ȁ ⟩
+𝑒1 +ȁ ⟩
+01 𝒁ȁ ⟩
+𝑒1 + ȁ ⟩
+10 𝒁2ȁ ⟩
+𝑒1 + ห ⟩11 𝒁2𝒁ȁ ⟩
+𝑒1 )
+=
+1
+2 (ȁ ⟩
+00 𝒁0𝒁0ȁ ⟩
+𝑒1 +ȁ ⟩
+01 𝒁0𝒁1ȁ ⟩
+𝑒1 + ȁ ⟩
+10 𝒁2𝒁0ȁ ⟩
+𝑒1 + ห ⟩11 𝒁2𝒁1ȁ ⟩
+𝑒1 )
+=
+1
+2 (ȁ ⟩
+00 𝒁0+0ȁ ⟩
+𝑒1 +ȁ ⟩
+01 𝒁0+1ȁ ⟩
+𝑒1 + ȁ ⟩
+10 𝒁2+0ȁ ⟩
+𝑒1 + ห ⟩11 𝒁2+1ȁ ⟩
+𝑒1 )
+=
+1
+2 (ȁ ⟩0 𝒁0ȁ ⟩
+𝑒1 +ȁ ⟩1 𝒁1ȁ ⟩
+𝑒1 + ȁ ⟩2 𝒁2ȁ ⟩
+𝑒1 + ห ⟩3 𝒁3ȁ ⟩
+𝑒1 )
+=
+1
+2 ෍
+𝑗=0
+3
+ቚ ⟩
+𝑗 𝒁𝑗ȁ ⟩
+𝑒1
+Chapter 27: Quantum Phase Estimation
+--- PAGE 27 ---
+Quantum Phase Estimation
+• And since ȁ ⟩
+𝑒1 is an eigenvector of 𝒁𝑗
+, 𝒁𝑗 ȁ ⟩
+𝑒1 = (𝑒𝑖2𝜋
+1
+2)𝑗ȁ ⟩
+𝑒1 . So,
+• The next step is to apply QFT. What really important is that we need to use the matrix for rotating the vector
+instead of the basis and the matrix is shown in following:
+• The definition of QFT is repeated here,
+199
+ȁ ⟩
+𝜉2 =
+1
+2 ෍
+𝑗=0
+3
+ȁ ⟩
+𝑗 𝒁𝑗ȁ ⟩
+𝑒1
+=
+1
+2 ෍
+𝑗=0
+3
+ȁ ⟩
+𝑗 (𝑒
+𝑖2𝜋
+1
+2)𝑗ȁ ⟩
+𝑒1
+=
+1
+2 ෍
+𝑗=0
+3
+(𝑒
+𝑖2𝜋
+1
+2)𝑗ȁ ⟩
+𝑗 ȁ ⟩
+𝑒1
+𝑼𝑸𝑭𝑻 =
+1
+𝑁
+𝜔−0.0
+⋯ 𝜔−0.(𝑁−1)
+⋮ ⋱ ⋮
+𝜔−(𝑁−1).0
+⋯ 𝜔−(𝑁−1).(𝑁−1)
+𝑼𝑸𝑭𝑻ȁ ⟩
+𝑗 =
+1
+𝑁 ෍
+𝑘=0
+𝑁−1
+𝜔−𝑘𝑗ȁ ⟩
+𝑘
+Chapter 27: Quantum Phase Estimation
+--- PAGE 28 ---
+Quantum Phase Estimation
+• We only apply it to the c-register and keep the b-register intact. Therefore, we will apply 𝑼𝑸𝑭𝑻⨂𝑰 to ȁ ⟩
+𝜉2 ,
+and we have the right-hand site equation:
+• The first three lines just apply 𝑼𝑸𝑭𝑻 to the c-register in ȁ ⟩
+𝜉2 ,
+use the linear property of quantum mechanics, and then apply
+𝑼𝑸𝑭𝑻.
+• The last two lines use the definition of the n-th root of unity, 𝜔.
+• Finally, we group the terms. Note that the b-register is no longer
+useful now. It is completely disentangled with the rest of the qubit,
+and it can be factorized out in the tensor product.
+• If we perform a measurement on the c-register, we will get one of
+the ȁ ⟩
+𝑘 ’s. However, if we rewrite the equation by shuffling
+the summations, we have
+• We see that each ȁ ⟩
+𝑘 has a coefficient of σ𝑗=0
+3 (𝜔)𝑗(2−𝑘), and this is
+a summation of the n-th root of unity. This term is 0 unless 2 − 𝑘 = 0
+due to the constructive interference.
+200
+ȁ ⟩
+𝜉3 = 𝑼𝑸𝑭𝑻⨂𝑰
+1
+2 ෍
+𝑗=0
+3
+(𝑒
+𝑖2𝜋
+1
+2)𝑗ȁ ⟩
+𝑗 ȁ ⟩
+𝑒1
+=
+1
+2 ෍
+𝑗=0
+3
+(𝑒
+𝑖2𝜋
+1
+2)𝑗(𝑼𝑸𝑭𝑻ȁ ⟩
+𝑗 )⨂𝑰ȁ ⟩
+𝑒1
+=
+1
+2 ෍
+𝑗=0
+3
+(𝑒
+𝑖2𝜋
+1
+2)𝑗 1
+4 ෍
+𝑘=0
+3
+(𝜔)−𝑘𝑗ȁ ⟩
+𝑘 ȁ ⟩
+𝑒1
+=
+1
+4 ෍
+𝑗=0
+3
+෍
+𝑘=0
+3
+(𝑒
+𝑖2𝜋
+1
+2)𝑗 𝜔−𝑘𝑗ȁ ⟩
+𝑘 ȁ ⟩
+𝑒1
+=
+1
+4 ෍
+𝑗=0
+3
+෍
+𝑘=0
+3
+(𝑒
+𝑖2𝜋
+2
+4)𝑗 (𝑒𝑖2𝜋/4)−𝑘𝑗 ȁ ⟩
+𝑘 ȁ ⟩
+𝑒1
+=
+1
+4 ෍
+𝑗=0
+3
+෍
+𝑘=0
+3
+(𝜔)𝑗(2−𝑘) ȁ ⟩
+𝑘 ȁ ⟩
+𝑒1
+ȁ ⟩
+𝜉3 =
+1
+4 ෍
+𝑗=0
+3
+෍
+𝑘=0
+3
+(𝜔)𝑗(2−𝑘) ȁ ⟩
+𝑘 ȁ ⟩
+𝑒1
+Chapter 27: Quantum Phase Estimation
+--- PAGE 29 ---
+Quantum Phase Estimation
+• Therefore, if we perform the measurement, we will only measure ȁ ⟩
+𝑘 , if 2 − 𝑘 = 0. The basis state we will
+measure is always
+• What is the meaning of 𝑘 = 2? Let us inspect carefully how we obtain 𝜔𝑗(2−𝑘) in previous equation. It came
+from (𝑒𝑖2𝜋
+1
+2)𝑗𝜔−𝑘𝑗. The “2” in 𝜔𝑗(2−𝑘) is obtained by multiplying 1
+2 by 4. And 4 is the 𝑁 = 22 in the 𝑁-th
+root of unity. Note that 1
+2
+is the 𝜓 in the eigenvalue of eigenvector ȁ ⟩
+𝑒1 , and 4 is 2𝑛 = 22, where n is the
+number of qubits in the c-register. Therefore, the 𝑘 = 2 we obtained is due to the 𝜓(1
+2) being multiplied by
+2𝑛(22 = 4).
+• If we measure |k⟩ in a n-qubit c-register, and if the input to the b-register is the eigenvector corresponding to
+the eigenvalue, 𝑒𝑖2𝜋𝜓, the phase is given by
+201
+ȁ ⟩
+𝑘 = ȁ ⟩2 10
+= ȁ ⟩
+10 2
+2𝜋𝜓 =
+2𝜋𝑘
+2𝑛
+Chapter 27: Quantum Phase Estimation
+--- PAGE 30 ---
+Implementation on IBM-Q
+• Pic. 47 shows the implementation on IBM-Q. ȁ ⟩
+𝑒1 is created by using a NOT gate.
+• We can see the controlled-Z-gate that is a vertical line with two dots. There is no controlled- 𝑍2 gate because
+𝑍2 = I . The I gate in the circuit is there just to align the circuits.
+• The QFT circuit is only 2 qubits.
+• You can see that the output is 100% |100⟩. The first two qubits are for the c-register. Therefore, |k⟩ = |10⟩ =
+|2⟩. That means 2𝜋𝜓 =
+2𝜋𝑘
+2𝑛
+= 2𝜋2/22 = 𝜋, which is the phase of the corresponding eigenvalue, −1.
+• Note that we did not measure the b-register (the LSB); therefore, it is 0 by default in the classical register.
+202
+Pic. 47 Implementation of the QPE circuit. Note that the bottom is the MSB
+￼
+Chapter 27: Quantum Phase Estimation
+--- PAGE 31 ---
+General QPE Circuit
+• Pic. 48 shows the general QPE circuit.
+• We note that the b-register can be m-qubit that is required if we are finding the eigenvalue phase in a m × m
+matrix case. In that case, the controlled gate is a m + 1-qubit gate (including the control bit).
+• The c-register can be n qubits.
+• n determines the accuracy of the phase it can estimate,
+larger n gives a higher resolution.
+• The resolution is 1/ 2𝑛, when k = 1. Usually, the 𝜓 is not a fraction
+nor an integer as in the case we have discussed.
+Therefore, we cannot get the exact value, and thus
+it is an “estimation.” In summary, the QPE has m + n qubits.
+• The QPE seems not to be useful as we need to know the eigenvector (as input to the b-register) to find its
+phase. However, every vector is a linear superposition of the eigenvectors. Due to the linearity of quantum
+mechanics, their phases can be estimated at the same time. If we use it correctly, we can use it to solve other
+more important problems such as in the HHL algorithm for solving systems of linear equations.
+203
+Pic. 48 General implementation of the QPE circuit
+￼
+Chapter 27: Quantum Phase Estimation

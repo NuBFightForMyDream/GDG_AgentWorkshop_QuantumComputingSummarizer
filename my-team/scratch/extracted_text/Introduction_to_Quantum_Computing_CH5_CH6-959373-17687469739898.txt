@@ -1,0 +1,714 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH5_CH6-959373-17687469739898.pdf
+TOTAL_PAGES: 22
+--- PAGE 1 ---
+Chapter 5:
+Observables, Operators, Eigenvectors,
+and Eigenvalues
+Kamonluk Suksen Ph.D.
+35
+--- PAGE 2 ---
+Observables and Operators
+• Observables are something we can observe and measure.
+• We say that if we measure a state, it will collapse to one of the basis states corresponding to an observable.
+Then it means that the basis state (vector) must be a value we can understand classically.
+• To measure the spin in the Ƹ𝑧 direction, we need to apply a magnetic field in the Ƹ𝑧 direction, and through
+some processes (measurement, photon emission), we measure its energy.
+• If it has lower energy, we know it collapses to the |↑⟩ state. If it has higher energy, we know it collapses to
+the |↓⟩ state.
+• For measurement the spin in the ො
+𝑥 direction, if the energy level measured is low, we know it collapses to
+the |←⟩ state. If the energy level measured is high, we know it collapses to the |→⟩ state.
+• We see that every measurement corresponds to an observable and each measurement result must be a basis
+state corresponding to that observable/measurement.
+• For the position observable, the basis contains the basis states of (x, y, z), and since x, y, z can take any
+values, it has an infinite number of basis states.
+• In summary, a basis formed by the basis states corresponding to an observable is a convenient choice in
+the formulation of the quantum computing problems.
+36
+Chapter 5: Observables, Operators, Eigenvectors, and Eigenvalues
+--- PAGE 3 ---
+Observables and Operators
+• There are two formalisms in quantum mechanics. One is the wave quantum mechanics by Erwin
+Schrödinger or Schrödinger Equation, which describes how a quantum state evolves.
+• The other formalism is the matrix quantum mechanics. It was proposed independently by Werner
+Heisenberg. It has exactly the same content as the wave quantum mechanics including Schrödinger
+equation, but all in matrix form.
+• The matrix quantum mechanics is very useful in quantum computing. It is particularly powerful when we
+combine it with Dirac’s bra–ket notation.
+• We represent quantum mechanical states as vectors. And we use an operator to describe the evolution of a
+quantum state.
+• An operator operates on a vector. It transforms the vector from one to another.
+• The transformation can be stretching and rotation, etc.
+• In quantum computing, it is nothing but just the rotation of vectors (states) in the hyperspace.
+• In the matrix quantum mechanics, operators are represented as matrix.
+37
+Chapter 5: Observables, Operators, Eigenvectors, and Eigenvalues
+--- PAGE 4 ---
+Eigenvalues and Eigenvectors
+• There is a special type of operators that correspond to some observables/measurements. For example, the operator corresponding to the measurement of electron spin in the Ƹ𝑧 direction is given as:
+• If we try to operate on the two possible measurable outputs, i.e.ȁ ⟩
+↑ = ȁ ⟩0 =
+1
+0 andȁ ⟩
+↓ = ȁ ⟩1 =
+0
+1.
+• Both ȁ ⟩
+↑ and ȁ ⟩
+↓ are unchanged when acted by 𝜎𝑧, with ȁ ⟩
+↑ and ȁ ⟩
+↓ scaled by 1 and -1, respectively. (Note that
+while it scales ȁ ⟩
+↓ by -1, the vector is still the same in quantum mechanics.)
+• So, ȁ ⟩
+↑ and ȁ ⟩
+↓ are the eigenstates of the operator 𝜎𝑧 with eigenspins 1 and -1, respectively.
+• We may also say 1
+0 and 0
+1 are the eigenvectors of the matrix 𝜎𝑧 with eigenvalues 1 and -1, respectively.
+• In general, for an operator A which does not need to correspond to any observables/measurements, if it operates
+on a vector ȁ ⟩
+𝑎 and results in 𝑎ȁ ⟩
+𝑎 , then we say ȁ ⟩
+𝑎 and 𝑎 are the eigenvector and eigenvalue of A, respectively.
+𝜎𝑧
+=
+1 0
+0 −1
+𝜎𝑧ȁ ⟩↑ =
+1 0
+0 −1
+1
+0
+=
+1 × 1 + 0 × 0
+0 × 1 + −1 × 0
+=
+1
+0
+= ȁ ⟩↑
+𝜎𝑧ȁ ⟩↓ =
+1 0
+0 −1
+0
+1=
+1 × 0 + 0 × 1
+0 × 0 + −1 × 1= −
+0
+1= −ȁ ⟩↓
+𝐴ȁ ⟩
+𝑎 = 𝑎ȁ ⟩
+𝑎 38
+Chapter 5: Observables, Operators, Eigenvectors, and Eigenvalues
+--- PAGE 5 ---
+Eigenvalues and Eigenvectors
+• What if we operate 𝜎𝑧 on ȁ ⟩← and ȁ ⟩→ (i.e. ȁ ⟩
++ and ȁ ⟩
+− )? Since we are using matrix representation, we
+need to make sure which basis we want to use so that we know what components we have in the column
+vector.
+• Let us still use the ȁ ⟩↑ and ȁ ⟩↓ (i.e. ȁ ⟩0 and ȁ ⟩1 ) as the basis. Then we should represent ȁ ⟩
+← and ȁ ⟩
+→ as the
+linear combinations of ȁ ⟩0 and ȁ ⟩1 . We see that:
+• The following shows that ȁ ⟩
++ and ȁ ⟩
+− are not the eigenvector of 𝜎𝑧.
+ȁ ⟩
++ =
+1
+2 ȁ ⟩0 +
+1
+2 ȁ ⟩1 =
+1
+2
+1
+1
+ȁ ⟩− =
+1
+2 ȁ ⟩0 −
+1
+2 ȁ ⟩1 =
+1
+2
+1
+−1
+𝜎𝑧ȁ ⟩
++ =
+1 0
+0 −1
+1
+2
+1
+1
+=
+1
+2
+1 × 1 + 0 × 1
+0 × 1 + −1 × 1
+=
+1
+2
+1
+−1
+= ȁ ⟩−
+𝜎𝑧ȁ ⟩− =
+1 0
+0 −1
+1
+2
+1
+−1
+=
+1
+2
+1 × 1 + 0 × −1
+0 × 1 + −1 × −1
+=
+1
+2
+1
+1
+= ȁ ⟩
++
+39
+Chapter 5: Observables, Operators, Eigenvectors, and Eigenvalues
+--- PAGE 6 ---
+Eigenvalues and Eigenvectors
+• We know ȁ ⟩
++ and ȁ ⟩
+− are the eigenvectors of the operator corresponding to the measurement of electron spin in
+the ො
+𝑥 direction. It’s called 𝜎𝑥. What is the matrix form of it then?
+• This can be found by the following:
+• Here, 𝜎𝑥 is assumed to be 𝑎 𝑏
+𝑐 𝑑 and we need to find 𝑎, 𝑏, 𝑐, and 𝑑, which are complex numbers.
+• The first equation assumes ȁ ⟩
++ is the eigenvector of 𝜎𝑥 with eigenvalue 𝛼 and the second equation assumes ȁ ⟩
+−
+is the eigenvector of 𝜎𝑥 with eigenvalue 𝛽.
+• We get four equations, 𝑎 + 𝑏 = 𝛼 and 𝑐 + 𝑑 = 𝛼 and 𝑎 − 𝑏 = 𝛽 and 𝑐 − 𝑑 = −𝛽.
+• Physics tells us that the two eigenvalues must be 1 and −1. This is because, in the empty space, there is no
+difference between up/down and left/right (we call this isotropic). If measuring in the Ƹ𝑧 direction we get either 1
+or −1, we should expect to get 1 or −1 also if we measure in the ො
+𝑥 direction. So, we can set 𝛼 = 1 and β = −1.
+• We can check that 𝑎 = 𝑑 = 0 and b = 𝑐 = 1 are valid solutions.
+𝜎𝑥ȁ ⟩+ =
+𝑎 𝑏
+𝑐 𝑑
+1
+2
+1
+1
+=
+1
+2
+𝑎 × 1 + 𝑏 × 1
+𝑐 × 1 + 𝑑 × 1
+=
+1
+2
+𝑎 + 𝑏
+𝑐 + 𝑑
+=
+𝛼
+2
+1
+1
+= 𝛼ȁ ⟩
++
+𝜎𝑥ȁ ⟩− =
+𝑎 𝑏
+𝑐 𝑑
+1
+2
+1
+−1
+=
+1
+2
+𝑎 × 1 + 𝑏 × −1
+𝑐 × 1 + 𝑑 × −1
+=
+1
+2
+𝑎 − 𝑏
+𝑐 − 𝑑
+=
+𝛽
+2
+1
+−1
+= 𝛽ȁ ⟩
+−
+40
+Chapter 5: Observables, Operators, Eigenvectors, and Eigenvalues
+--- PAGE 7 ---
+Eigenvalues and Eigenvectors Finding and
+Phase Factor
+• Now assume 𝜎𝑥 is given as in 0 1
+1 0 , how do we find its eigenvalues and eigenvectors?
+• Assume the eigenvector to be 𝑒
+𝑓 and the eigenvalue to be 𝛾. We have
+• Therefore,
+• Substituting the second equation into the first one, we obtain 𝛾2 = 1. Therefore, the eigenvalues, 𝛾, are ±1.
+• Remember only normalized vectors are meaningful because the sum of the probabilities of collapsing into each
+state needs to be 1. So 𝑒 2 + 𝑓 2 = 1.
+• When 𝛾 = 1, 𝑒 = 𝑓, and therefore 𝑒 2 + 𝑓 2 = 𝑒 2 + 𝑒 2 = 1, and 𝑒 = 𝑓 =
+1
+2
+is a solution.
+• When 𝛾 = −1, 𝑒 = −𝑓, and therefore 𝑒 2 + 𝑓 2 = 𝑒 2 + −𝑒 2 = 1, and 𝑒 = −𝑓 =
+1
+2
+is a solution.
+• So, the corresponding eigenvectors are 1
+2
+1
+1 (i.e. ȁ ⟩+ ) and 1
+2
+1
+−1 (i.e. ȁ ⟩
+− ), respectively.
+𝜎𝑥ȁ ⟩
+𝑒𝑖𝑔𝑒𝑛𝑣𝑒𝑐𝑡𝑜𝑟 =
+0 1
+1 0
+𝑒
+𝑓
+=
+0 × 𝑒 + 1 × 𝑓
+1 × 𝑒 + 0 × 𝑓
+=
+𝑓
+𝑒
+= ȁ ⟩
+𝑒𝑖𝑔𝑒𝑛𝑣𝑒𝑐𝑡𝑜𝑟 = 𝛾
+𝑒
+𝑓
+𝑓 = 𝛾𝑒 −− −(𝑒𝑞. 1) and 𝑒 = 𝛾𝑓 −− −(𝑒𝑞. 2)
+41
+Chapter 5: Observables, Operators, Eigenvectors, and Eigenvalues
+--- PAGE 8 ---
+Eigenvalues and Eigenvectors Finding and
+Phase Factor
+• Since e and f may be complex numbers, there are actually infinite numbers of solutions (eigenvectors).
+However, every solution is just different from |+⟩ and |−⟩ by a phase factor.
+• Phase factor is very important in quantum computing which is used to achieve interference.
+• A phase factor is a complex number with a magnitude equal to 1. Therefore, it can be written as 𝑒𝑖𝜃
+,
+where 𝜃 is the phase. It can be expanded as:
+• However, a phase factor applying to a standalone state has no physical significance. This is because all
+physical observables are related to the inner products of vectors and the phase factor will disappear.
+• What if ȁ ⟩
+𝑣 is scaled by a phase factor 𝑒𝑖𝜃? It becomes 𝑒𝑖𝜃ȁ ⟩
+𝑣 .
+• The bra version of the new vector becomes 𝑒𝑖𝜃 ∗ۦ ȁ
+𝑣 = 𝑒−𝑖𝜃ۦ ȁ
+𝑣 .
+• The inner product is 𝑒−𝑖𝜃ۦ ȁ
+𝑣 𝑒𝑖𝜃ȁ ⟩
+𝑣 = 𝑣 𝑣 because 𝑒𝑖𝜃𝑒−𝑖𝜃 = 1. So, adding a phase factor does not
+affect the inner product.
+𝑒𝑖𝜃 = cos 𝜃 + 𝑖 sin 𝜃
+42
+Chapter 5: Observables, Operators, Eigenvectors, and Eigenvalues
+--- PAGE 9 ---
+Remarks on Eigenvectors, Basis, and
+Measurement
+• If ȁ ⟩
+𝑣 is an eigenvector of A, then cȁ ⟩
+𝑣 , which means ȁ ⟩
+𝑣 is scaled by any complex number c, is also an
+eigenvector of A. This is trivial because:
+• For matrix A, it is possible to have two different eigenvectors, ȁ ⟩
+𝑣 and ȁ ⟩
+𝑢 , which are not a scalar scaling of the
+others (ȁ ⟩
+𝑣 ≠ 𝑐ȁ ⟩
+𝑢 , having the same eigenvalue, α.
+• In such case, the eigenvectors (i.e. quantum eigenstates) are degenerated. Such situation is called
+degeneration. This means that the quantum system has multiple independent states that all yield the same
+measurement outcome (the same eigenvalue). And if this happens, any linear combination of these two vectors,
+ȁ ⟩= 𝑐ห ⟩
+𝑣 + 𝑑ȁ ⟩
+𝑢 , is also an eigenvector of the matrix and we say the two eigenvectors span an eigenspace of
+the system.
+• The matrix corresponding to the energy observable has a very important role in the matrix form of the
+Schrödinger equation. Usually, it is the so-called the Hamiltonian that determines how a state (vector) evolves
+(transforms or rotates) with time. For example, 𝜎𝑥 and 𝜎𝑧 play an important role in rotating the spin of an
+electron.
+𝐴ห ⟩
+𝑣 = 𝛼ȁ ⟩
+𝑣
+𝑐𝐴ȁ ⟩
+𝑣 = 𝑐𝛼ȁ ⟩
+𝑣
+𝐴 𝑐ȁ ⟩
+𝑣 = 𝛼(𝑐ȁ ⟩
+𝑣 )
+𝐴ห ⟩
+𝑣 = 𝛼ȁ ⟩
+𝑣
+𝐴ห ⟩
+𝑢 = 𝛼ȁ ⟩
+𝑢
+43
+Chapter 5: Observables, Operators, Eigenvectors, and Eigenvalues
+--- PAGE 10 ---
+Summary
+• Operators as matrices: In quantum mechanics, operators are represented by matrices that determine
+how a quantum state evolves (time evolution/transformations in Hilbert space).
+• Rotation vs scaling: Matrices generally “rotate” states in Hilbert space, but their eigenvectors are
+special—they are not rotated, only scaled.
+• Eigenpairs: If 𝐴∣𝑎⟩=𝑎∣𝑎⟩, then ∣𝑎⟩ is an eigenvector of 𝐴 with eigenvalue 𝑎.
+• Observable bases: For convenience, quantum computing typically uses the eigenvectors of
+observables as the computational basis.
+• Classical readout: The eigenvalues of observables correspond to the classically measurable outcomes.
+• Why it matters: Knowing what eigenvectors/eigenvalues are—and how to find them—is essential for
+analyzing measurements and state evolution.
+• Action point: Practice computing eigenvalues/eigenvectors to build fluency for quantum problems.
+44
+Chapter 5: Observables, Operators, Eigenvectors, and Eigenvalues
+--- PAGE 11 ---
+Chapter 6:
+Pauli Spin Matrices, Adjoint Matrix,
+and Hermitian Matrix
+Kamonluk Suksen Ph.D.
+45
+--- PAGE 12 ---
+Pauli Spin Matrices
+• Any quantum mechanical state is a vector. We can decompose the state (i.e. the vector) into a linear
+combination of some basis vectors that span the space of interest.
+• The eigenvectors of the matrices corresponding to observables are commonly used as the basis states.
+• This is because after all, we need to retrieve information from the quantum computer through
+measurement and the states must collapse to one of the basis states, which is one of the eigenstates of the
+matrices corresponding to the observables.
+• In a quantum computer, we commonly use observables with 2 eigenstates, which means it spans a 2D
+space because it is easier to implement quantum computers using two-level systems. That is the reason we
+still use “bit” in the qubit, as bit stands for “binary digit” like in classical computing. It is possible to use
+3-level systems for quantum computing too, but this is less practical. One of the common two-level
+systems is the electron spin.
+• We say that to perform a spin measurement, we need to apply an external magnetic field. The magnetic
+field can be applied in the ො
+𝑥,
+ො
+𝑦, Ƹ𝑧 directions. Each of the setups and measurements corresponds to a matrix
+in matrix quantum mechanics. They are called Pauli Spin Matrices,
+𝜎𝑥 =
+0 1
+1 0 , 𝜎𝑦 =
+0 −𝑖
+𝑖 0 , 𝜎𝑧
+=
+1 0
+0 −1 46
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix
+--- PAGE 13 ---
+Pauli Spin Matrices
+• Pauli matrices have some important properties.
+• I is called the identity matrix. It is just like the “1” in scalar multiplications. Any scalar multiplied by “1”
+is unchanged and any matrix (M) or vector (ȁ ⟩
+𝑣 ) multiplied by I is unchanged. For example,
+𝜎𝑥
+2 = 𝜎𝑦
+2 = 𝜎𝑧
+2 =
+1 0
+0 1
+= 𝑰
+𝑰ȁ ⟩
+𝑣 =
+1 0
+0 1
+𝑎
+𝑏
+=
+𝑎
+𝑏
+= ȁ ⟩
+𝑣
+𝑰𝑴 =
+1 0
+0 1
+𝑐 𝑑
+𝑒 𝑓 =
+𝑐 𝑑
+𝑒 𝑓 = 𝑴
+47
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix
+--- PAGE 14 ---
+Commutation and Anti-commutation
+• There are other two important properties with Pauli matrices. The first one is about their commutation
+property.
+where i and j can be x, y, or z. We can also write it as:
+where 𝜎𝑖, 𝜎𝑗 is called the commutator bracket or just commutator.
+• Pauli matrices do not commute with each other.
+• Matrix is an operator that rotates a vector in the hyperspace. We apply the matrix to a vector from the left.
+For example, 𝜎𝑥𝜎𝑧ȁ ⟩
+𝑣 means we first apply 𝜎𝑧 to rotate ȁ ⟩
+𝑣 and then 𝜎𝑥 to further rotate the rotated vector.
+• Non-commuting operators also mean their measurements are incompatible. This is the Heisenberg
+Uncertainty Principle due to which we cannot measure x and z direction spins precisely at the same time.
+𝜎𝑖𝜎𝑗 ≠ 𝜎𝑗𝜎𝑖 if 𝑖 ≠ 𝑗
+[𝜎𝑖, 𝜎𝑗] = 𝜎𝑖𝜎𝑗− 𝜎𝑗𝜎𝑖 ≠ 0 if 𝑖 ≠ 𝑗
+48
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix
+--- PAGE 15 ---
+Commutation and Anti-commutation
+• The second property is their anti-commutation property,
+where {𝜎𝑖, 𝜎𝑗} is the anti-commutator. It is different from commutator by just changing “−” to “+.”
+• 𝛿𝑖𝑗 is the Kronecker delta, which is one if 𝑖 = 𝑗 and zero if 𝑖 ≠ 𝑗. It is just a scalar (and a real number
+either 1 or 0). Because anti-commutator is a matrix and I is the identity matrix, so 𝛿𝑖𝑗 must be a scalar like
+the number “1.”
+• For example,
+• Here, we introduced the zero matrix, 0. It is also called the null matrix. The result is correct because
+𝛿𝑥𝑧 = 0 as x ≠ 𝑧. We say that the three Pauli matrices, 𝜎𝑥, 𝜎𝑦, 𝜎𝑧 anti-commute with one another because
+their anti-commutators are zero.
+{𝜎𝑖, 𝜎𝑗} = 𝜎𝑖𝜎𝑗 + 𝜎𝑗𝜎𝑖 = 2𝛿𝑖𝑗𝑰
+{𝜎𝑥, 𝜎𝑧} = 𝜎𝑥𝜎𝑧 + 𝜎𝑧𝜎𝑥
+=
+0 −1
+1 0 + 0 1
+−1 0
+=
+0 0
+0 0
+= 2𝛿𝑥𝑧𝑰
+49
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix
+--- PAGE 16 ---
+Spin Operator in Arbitrary Direction
+• The spin operator in arbitrary directions corresponds to setting up the magnetic field in an arbitrary
+direction in the 3D space we are living in.
+• This spin operator, when expressed as a matrix in the matrix quantum mechanics, has the eigenvalues
+corresponding to the possible measurement outcomes when we measure the spin in that particular
+direction.
+• This is just like 𝜎𝑧 is the operator matrix with eigenvalues corresponding to the possible outcomes when
+performing spin measurement in the Ƹ𝑧 direction.
+• The spin operator, 𝜎𝑛, in direction 𝑛 is given by 𝜎𝑛
+= 𝑛.
+Ԧ
+𝜎. 𝑛 is a unit vector in a certain direction in the
+real 3D space that we are living in. We may represent is as:
+where ො
+𝑥,
+ො
+𝑦, Ƹ𝑧 are the unit vector in the x, y, and z directions in the real space. It can also be written as ȁ ⟩
+𝑛 or
+𝑛𝑥
+𝑛𝑦
+𝑛𝑧
+as long as we know that the basis vectors are ො
+𝑥,
+ො
+𝑦, Ƹ𝑧 or (ȁ ⟩
+ො
+𝑥 , ȁ ⟩
+ො
+𝑦, ȁ ⟩Ƹ𝑧 ).
+𝑛 = 𝑛𝑥
+ො
+𝑥 + 𝑛𝑦
+ො
+𝑦 + 𝑛𝑧 Ƹ𝑧
+50
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix
+--- PAGE 17 ---
+Spin Operator in Arbitrary Direction
+• Pic.6 tell us that 𝑛 is a linear combination of ො
+𝑥,
+ො
+𝑦, Ƹ𝑧 with coefficients 𝑛𝑥, 𝑛𝑦, 𝑛𝑧, respectively.
+• Since 𝑛 is a unit vector, which means it is normalized, 𝑛 𝑛 = 1, and based on the inner product
+definition, it means 𝑛𝑥 𝑛𝑦 𝑛𝑧
+𝑛𝑥
+𝑛𝑦
+𝑛𝑧
+= 𝑛𝑥
+2 + 𝑛𝑦
+2 + 𝑛𝑧
+2 = 1.
+• Then how about Ԧ
+𝜎? Is it a matrix like 𝜎𝑧? But it has an arrow on the top, is it a vector?
+•
+Ԧ
+𝜎 is a vector but the coefficients are matrix. The definition of Ԧ
+𝜎 is as following:
+• It is called the Pauli vector. Since Ԧ
+𝜎 is a vector, we can write it in column form also
+as long as we know the basis vectors are ො
+𝑥,
+ො
+𝑦, Ƹ𝑧, 𝝈 =
+0 1
+1 0
+0 −𝑖
+𝑖 0
+1 0
+0 −1
+= ȁ ⟩
+Ԧ
+𝜎 .
+𝝈 = 𝝈𝒙
+ො
+𝑥 + 𝝈𝒚
+ො
+𝑦 + 𝝈𝒛 Ƹ𝑧
+=
+0 1
+1 0
+ො
+𝑥 + 0 −𝑖
+𝑖 0
+ො
+𝑦 + 1 0
+0 −1 Ƹ𝑧
+￼
+Pic.6 Decomposition of a unit vector 𝑛
+in the 3D real space. 51
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix
+--- PAGE 18 ---
+Spin Operator in Arbitrary Direction
+• Therefore, the spin operator 𝜎𝑛 is just an inner product between the vector 𝑛 and the vector Ԧ
+𝜎.
+• What if 𝑛 is pointing at the ො
+𝑦 direction? It means 𝑛𝑥 = 0, 𝑛𝑦 = 1, and 𝑛𝑧 = 0. We get 𝜎𝑛
+=
+0 −𝑖
+𝑖 0
+= 𝜎𝑦.
+𝜎𝑛
+= 𝑛.
+Ԧ
+𝜎 = 𝑛
+Ԧ
+𝜎
+= 𝑛𝑥 𝑛𝑦 𝑛𝑧
+0 1
+1 0
+0 −𝑖
+𝑖 0
+1 0
+0 −1
+= 𝑛𝑥
+0 1
+1 0 + 𝑛𝑦
+0 −𝑖
+𝑖 0 + 𝑛𝑧
+1 0
+0 −1
+=
+0 𝑛𝑥
+𝑛𝑥 0 +
+0 −𝑖𝑛𝑦
+𝑖𝑛𝑦 0 +
+𝑛𝑧 0
+0 −𝑛𝑧
+=
+𝑛𝑧 𝑛𝑥− 𝑖𝑛𝑦
+𝑛𝑥 + 𝑖𝑛𝑦−𝑛𝑧
+52
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix
+--- PAGE 19 ---
+Relationship Between Spin Direction and
+Real 3D Space
+• The basis states of the spin spaces (e.g. ȁ ⟩↑ , ȁ ⟩↓ , ȁ ⟩
+← , ȁ ⟩
+→ ) are not the same as the real 3D space basis
+(ො
+𝑥,
+ො
+𝑦, Ƹ𝑧). They belong to different spaces and they do not talk to one another.
+• In an isotropic space, electrons with different spin states, ȁ ⟩ , have the same energy.
+• When a magnetic field is applied in a certain direction (e.g. Ƹ𝑧), two particular states become the
+eigenstates (i.e. basis vectors) of the new system with that magnetic field. We call these two states ȁ ⟩↑ and
+ȁ ⟩↓ .
+• These two states have different energies under this external magnetic field in the Ƹ𝑧 direction. We can just
+call these two states ȁ ⟩0 and ȁ ⟩1 .
+• Moreover, it also corresponds to the classical spin direction which will give the corresponding energy
+change.
+• Therefore, we may say that the basis states such as ȁ ⟩↑ , ȁ ⟩↓ , ȁ ⟩
+← , ȁ ⟩
+→ do have a relationship to the
+direction in the real space. However, any linear combination of them loses the connection to the real 3D
+space. For example, ȁ ⟩=
+1
+2 (ȁ ⟩↑ + ȁ ⟩↓ ) does not correspond to Ƹ𝑧 + ෞ
+−𝑧.
+53
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix
+--- PAGE 20 ---
+Adjoint and Hermitian Matrices
+• We say every vector in the ket space has a corresponding vector in the bra space.
+• An operator acts on a vector by rotating it in the hyperspace and the result is still a vector (after all, this is
+just a matrix-vector multiplication, which should result in a vector).
+• So, what will happen to its corresponding vector in the bra space?
+• Mathematicians tell us that the corresponding operator in the bra space is its adjoint matrix. If the matrix
+is 𝑨, we denote its adjoint matrix as 𝑨†
+.
+• The way to find the adjoint matrix of 𝑨 is the same as finding the corresponding vector in the bra space for
+a given vector in the ket space, i.e. by applying conjugation, 𝑨∗, and transpose, 𝑨∗ 𝑇, operations.
+• If 𝑨 =
+𝑖 𝑖
+0 1 , then 𝑨∗
+=
+−𝑖 −𝑖
+0 1 and 𝑨∗ 𝑇 =
+−𝑖 0
+−𝑖 1 . Therefore, 𝑨† =
+−𝑖 0
+−𝑖 1.
+• By choosing 𝑖 = 0, 𝑗 = 1, 𝑨01
+∗
+= −𝑖 and 𝑨10
+† = −𝑖 as expected.
+𝑨† = 𝑨∗𝑇
+𝑨𝑗𝑖
+† = 𝑨𝑖𝑗
+∗
+54
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix
+--- PAGE 21 ---
+Adjoint and Hermitian Matrices
+• How do we operate the matrix on a bra vector? While an operator operates on ket vector from the left, it
+operates from the right on the bra vector.
+• If ห ⟩
+𝑣 =
+𝑖
+1 , 𝑨ȁ ⟩
+𝑣 =
+𝑖 𝑖
+1 0
+𝑖
+1
+=−1+𝑖
+1 . The corresponding vector of Aȁ ⟩
+𝑣 in the bra space is thus
+−1 − 𝑖 1 , after taking the transpose and conjugation operations.
+• We can also apply 𝑨† to ۦ ȁ
+𝑣 directly from the right. Since ۦ ȁ
+𝑣 = −𝑖 1 , ۦ ȁ
+𝑣 𝑨† = −𝑖 1−𝑖 0
+−𝑖 1
+=
+−1 − 𝑖 1 . The results are the same.
+• What if we take the adjoint of the adjoint of a matrix? It reverts to itself, 𝑨† †
+= 𝑨.
+• If a matrix’s adjoint matrix equals itself, this matrix is self-adjoint or Hermitian, 𝑨† = 𝑨 and 𝑨𝑗𝑖
+† = 𝑨𝑗𝑖.
+• Then 𝑨𝑖𝑗
+∗
+= 𝑨𝑗𝑖, it means that after performing the transpose and complex conjugation, the matrix is still
+the same. This is similar to a real number, in which after performing complex conjugation, it still equals
+itself.
+55
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix
+--- PAGE 22 ---
+Summary
+• Always distinguish scalars, vectors, and matrices in the notation.
+• Coefficients can themselves be matrices (e.g., in the Pauli vector).
+• Pauli matrices are fundamental in quantum mechanics and quantum computing—try to memorize them.
+• We also discussed the adjoint (†) and Hermitian matrices.
+56
+Chapter 6: Pauli Spin Matrices, Adjoint Matrix, and Hermitian Matrix

@@ -1,0 +1,821 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH24_CH25-959373-17742495270131.pdf
+TOTAL_PAGES: 26
+--- PAGE 1 ---
+Chapter 24:
+Quantum Fourier Transform I
+Kamonluk Suksen Ph.D.
+147
+--- PAGE 2 ---
+The N-th Root of Unity
+• Some of the important properties and identities of the complex numbers, particularly those related to the
+N-th root of unity. This is a very important warm-up to understand the Quantum Fourier Transform
+(QFT).
+• A complex number, c, has two components, namely the real and the imaginary parts. For example, 𝑐 =
+𝑎 + 𝑏𝑖 = 1.5 + 1.4𝑖, in which a and b are the real numbers and 𝑎 = 1.5, 𝑏 = 1.4, and 𝑖 = −1. This
+is equivalent to a 2D real space vector, and we can draw it on a 2D plane with the imaginary (real) part as
+the vertical (horizontal) axis as Pic. 33.
+Pic. 33 Illustration of the complex plane and the N-th root of unity with 𝑁 = 12.
+￼
+148
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 3 ---
+The N-th Root of Unity
+• Each point on the plane represents a complex number (or a vector pointing from the origin to that point).
+• Each point is NOT a quantum state vector, and it is still just a number. It is used as the coefficients for the
+state vectors.
+• We may also represent a complex number using the length of the vector, 𝑐 , and its angle to the positive
+real axis, 𝜃. That is 𝑐 = 𝑐 𝑒𝑖𝜃 = 𝑐 cos 𝜃 + 𝑖 sin 𝜃
+• This is a special set of complex numbers with lengths equal to 1, and they lie on the unit circle in Pic. 33.
+Pic. 33 Illustration of the complex plane and the N-th root of unity with 𝑁 = 12.
+￼
+149
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 4 ---
+The N-th Root of Unity
+• They can be expressed simply as 𝑒𝑖𝜃 = cos 𝜃 + 𝑖 sin 𝜃 because 𝑐 = 1.
+• Among them, some of them (yellow dots), z, are even more special because they are the N-th roots of
+unity, which means 𝑧𝑁 = 1.
+• We can easily check that 𝑧 = 𝑒𝑖2𝜋𝑚/𝑁, with m being an integer, satisfies 𝑧𝑁 = 1 because
+• The N-th roots of unity reside and spread evenly on the unit circle. We define 𝜔 = 𝑒𝑖2𝜋/𝑁, and all can be
+expressed as 𝜔𝑚
+, where m runs from 0 to N-1. For example, when 𝑚 = 0, 𝜔0 = 1. Pic. 33 shows the
+distribution of the N-th roots of unity on the unit circle when N = 12.
+Pic. 33 Illustration of the complex plane and the N-th root of unity with 𝑁 = 12.
+￼
+𝑧𝑁 = (𝑒𝑖2𝜋𝑚/𝑁)𝑁= 𝑒𝑖2𝜋𝑚 = cos 2𝜋𝑚 + 𝑖 sin 2𝜋𝑚 = 1
+150
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 5 ---
+The N-th Root of Unity
+• As m increases, 𝜔𝑚 moves counter-clockwise, and eventually, it repeats after one cycle (corresponds to
+increasing the exponent by N). This can be seen from proved using
+• The second property is that the sum of all N-th roots of unity for a given N is zero. This can be seen from the
+picture again. Since they are all evenly and symmetrically distributed, their corresponding vectors sum to null.
+This can also be proved as
+Here we have used the summation equation of a geometric series with the first term being 𝜔0, the ratio being 𝜔,
+and the number of terms being N.
+𝜔𝑚+𝑁 = 𝑒𝑖2𝜋(𝑚+𝑁)/𝑁 = 𝑒𝑖2𝜋𝑚/𝑁𝑒𝑖2𝜋𝑁/𝑁 = 𝑒𝑖2𝜋𝑚/𝑁 = 𝜔𝑚
+෍
+𝑚=0
+𝑁−1
+𝜔𝑚 = 𝜔0 + 𝜔1 + … + 𝜔𝑁−1
+=
+𝜔0
+− 𝜔𝑁
+𝜔0 − 𝜔
+=
+1 − 1
+1 − 𝜔
+= 0
+151
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 6 ---
+The N-th Root of Unity
+• We also used that 𝜔𝑁 = 𝜔0+𝑁 = 𝜔0
+. Similarly, for any integer 𝑞 ≠ 0,
+• For this geometric series, the first term is 𝜔0𝑞, the ratio is 𝜔𝑞, and the number of term is N. (𝜔𝑞)𝑁= 1 is
+just because (𝜔𝑞)𝑁= (𝜔𝑁)𝑞= 1𝑞 = 1. It represents the destructive interference we see in many quantum
+algorithms.
+• However, if 𝑞 = 0,
+• Because there are N 1’s. This represents the constructive interference we see in many quantum algorithms.
+The final property is that 𝜔𝑁−𝑚 = 𝜔−𝑚
+. It can be proved as
+𝜔𝑁−𝑚 = 𝑒𝑖2𝜋(𝑁−𝑚)/𝑁 = 𝑒𝑖2𝜋𝑁/𝑁𝑒
+𝑖2𝜋(−
+𝑚
+𝑁) = 𝑒
+𝑖2𝜋(−
+𝑚
+𝑁) = 𝜔−𝑚
+෍
+𝑚=0
+𝑁−1
+𝜔𝑚𝑞 = 𝜔0𝑞 + 𝜔1𝑞 + … + 𝜔 𝑁−1 𝑞
+=
+𝜔0𝑞− (𝜔𝑞)𝑁
+𝜔0𝑞− 𝜔𝑞
+=
+1 − 1
+1 − 𝜔0𝑞
+= 0
+෍
+𝑚=0
+𝑁−1
+𝜔𝑚𝑞 = ෍
+𝑚=0
+𝑁−1
+𝜔0 = ෍
+𝑚=0
+𝑁−1
+1 = 𝑁
+152
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 7 ---
+Discrete Fourier Transform
+• Discrete Fourier Transform (DFT) is the transformation (or mapping) of a discrete data series (perceived as
+in one domain e.g. time) into another data series (perceived as in another domain e.g. frequency).
+• For example, if we sample the voltages of an electrical signal throughout the time, you will get a series of
+data (a series of voltages). By performing a DFT on the voltage series, you will get another series of data
+corresponding to the strength of the signal due to various frequency components. Both data series contain
+the same amount of information.
+• Pic. 34 shows an example. The signal is constant (so it is a DC voltage). It is sampled at different times,
+from 𝑡0 to 𝑡𝑁−1, and the sampled values form a series of numbers, {𝑥0, 𝑥1, … , 𝑥𝑁−1}. After DFT, this series
+is transformed into another series of numbers {𝑦0, 𝑦1, … , 𝑦𝑁−1}. In this particular case, each 𝑦𝑖 represents
+the strength of various frequency components from 𝑓0 to 𝑓𝑁−1.
+Pic. 34 Illustration of Discrete Fourier Transform
+￼
+153
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 8 ---
+Discrete Fourier Transform
+• Since it is a DC signal, only 𝑓0 = 𝑦0Hz has a non-zero value as expected (meaning that it has no
+contribution due to any AC components). We can say that the 𝑡𝑖’s and the 𝑓𝑖’s form two sets of basis vectors
+with 𝑥𝑖 and 𝑦𝑖 being their “magnitudes,” respectively. They are just like the ො
+𝑥,
+ො
+𝑦, Ƹ𝑧 in the 3D real space.
+• In this application, they are perceived to be two different sets of basis (i.e. time vs. frequency). But
+mathematically, they can be the same set of basis vectors because, as you will see below, they (the basis
+vectors) do not appear in any equations except they mandate the locations of 𝑥𝑖 and 𝑦𝑖.
+• The exact content of the basis vector is not important to the operations after we have chosen the basis. So,
+we can make the series to be a vector and let them share the same basis.
+• We then have Ԧ
+𝑋 =
+𝑥0
+𝑥1
+⋮
+𝑥𝑁−1
+and 𝑌 =
+𝑦0
+𝑦1
+⋮
+𝑦𝑁−1
+. The DFT is defined as follow:
+where 𝜔 = 𝑒𝑖2𝜋/𝑁 is the N-th root of unity. The dimensions of the series/vectors are N. We see that the new
+series is just a linear combination of the old series weighted by the N-th roots of unity.
+𝑦𝑘 =
+1
+𝑁 ෍
+𝑗=0
+𝑁−1
+𝜔−𝑘𝑗𝑥𝑗 =
+1
+𝑁 ෍
+𝑗=0
+𝑁−1
+𝑒−𝑖2𝜋𝑘𝑗/𝑁𝑥𝑗
+154
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 9 ---
+Discrete Fourier Transform
+• This can also be represented in a matrix form as
+• We see that each column and row in the DFT matrix are composed of a power series of the N-th roots of unity.
+In particular, the component of the series after DFT (i.e. 𝑦𝑘) is the sum of a power series of the N-th roots of unity
+(i.e. 𝜔−𝑘𝑗 ) weighted by the components of the input series (i.e. 𝑥𝑗). If 𝑥𝑗 is constant, then it is just purely a sum
+of a power series of the N-th roots of unity scaled by the 𝑥𝑗.
+• E.g. Find 𝑌 if Ԧ
+𝑋 is a normalized constant vector. Ԧ
+𝑋 =
+1
+𝑁
+1
+1
+⋮
+1
+if it is normalized constant vector. Each component
+has a magnitude of 1
+𝑁; therefore, its total length is 𝑁( 1
+𝑁)2= 1. This means that 𝑥𝑗 =
+1
+𝑁.
+• We can find 𝑦𝑘 using 𝑦𝑘 =
+1
+𝑁 σ𝑗=0
+𝑁−1 𝜔−𝑘𝑗𝑥𝑗 =
+1
+𝑁 σ𝑗=0
+𝑁−1 𝜔−𝑘𝑗
+. But we already know the answer. For 𝑘 = 0,
+𝑦0 =
+𝑁
+𝑁
+= 1. This is due to constructive interference. For 𝑘 ≠ 0, it becomes 0. This is due to destructive
+interference. Therefore, 𝑌 =
+1
+0
+⋮
+0
+, which is also a normalized vector.
+𝑌 = 𝐷𝐹𝑇{𝑋}
+𝑌 = Ω𝑋
+𝑦0
+𝑦1
+⋮
+𝑦𝑁−1
+=
+1
+𝑁
+𝜔−0.0
+⋯ 𝜔−0.(𝑁−1)
+⋮ ⋱ ⋮
+𝜔−(𝑁−1).0
+⋯ 𝜔−(𝑁−1).(𝑁−1)
+𝑥0
+𝑥1
+⋮
+𝑥𝑁−1
+155
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 10 ---
+Quantum Fourier Transform
+• In DFT, we emphasized that the basis vectors of the input and output vectors (or series) can be the same.
+• In engineering, we usually perceive them in different domains (e.g. time vs. frequency), but this is not
+necessary. If they are treated the same, DFT is just a rotation of the vector on a given basis.
+• If we decide to use quantum basis states (ȁ ۧ
+𝑗 ) as the basis vectors, we can use DFT as usual. And this is
+called QFT.
+• QFT is a quantum gate, and it needs to obey the properties of a quantum gate, namely, being unitary.
+• In an N-dimensional space, we can assume 𝑁 = 2𝑛 where n is the number of qubits, and the matrix of a
+QFT gate, 𝑼𝑸𝑭𝑻, is defined as
+Note that 𝑼𝑸𝑭𝑻 is a symmetric matrix. This is because 𝑼𝑸𝑭𝑻,𝒊𝒋 = 𝑼𝑸𝑭𝑻,𝒋𝒊.
+For example, 𝑼𝑸𝑭𝑻,𝟎𝟏 = 𝜔−0.1 = 𝜔−1.0 = 𝑼𝑸𝑭𝑻,𝟏𝟎.
+• Another equivalent way to define 𝑼𝑸𝑭𝑻 is to define it by showing how it transforms the basis vectors.
+𝑼𝑸𝑭𝑻 =
+1
+𝑁
+𝜔−0.0
+⋯ 𝜔−0.(𝑁−1)
+⋮ ⋱ ⋮
+𝜔−(𝑁−1).0
+⋯ 𝜔−(𝑁−1).(𝑁−1)
+… … . (24.1)
+156
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 11 ---
+Quantum Fourier Transform
+• For basis vectors ȁ ۧ
+𝑗 and ȁ ۧ
+𝑘 ,
+This can be checked easily using the fact that the k-th row and j-th column of 𝑼𝑸𝑭𝑻 are given by
+𝑘 𝑼𝑸𝑭𝑻 𝑗,
+• We can also check that Eqs. (24.1) and (24.2) are equivalent using numerical substitutions. Show that, for
+example, when 𝑗 = 1, we have
+𝑼𝑸𝑭𝑻,𝒌𝒋 = 𝑘 𝑼𝑸𝑭𝑻 𝑗 = 𝑘 1
+𝑁 σ𝑘=0
+𝑁−1 𝜔−𝑘𝑗ȁ ۧ
+𝑘 𝑘′ =
+1
+𝑁
+𝜔−𝑘𝑗
+𝑼𝑸𝑭𝑻ȁ ۧ
+𝑗 =
+1
+𝑁 ෍
+𝑘=0
+𝑁−1
+𝜔−𝑘𝑗ȁ ۧ
+𝑘 … … . (24.2)
+𝑼𝑸𝑭𝑻ȁ ۧ
+𝑗 = 𝑼𝑸𝑭𝑻ȁ ۧ1
+=
+1
+𝑁
+𝜔−0.0
+⋯ 𝜔−0.(𝑁−1)
+⋮ ⋱ ⋮
+𝜔−(𝑁−1).0
+⋯ 𝜔−(𝑁−1).(𝑁−1)
+0
+1
+⋮
+0
+=
+1
+𝑁
+𝜔−0.1
+𝜔−1.1
+⋮
+𝜔− 𝑁−1 .1
+=
+1
+𝑁
+𝜔−0.1ȁ ۧ0 + 𝜔−1.1ȁ ۧ1 + ⋯ + 𝜔− 𝑁−1 .1ȁ ۧ
+𝑁 − 1 =
+1
+𝑁 ෍
+𝑘=0
+𝑁−1
+𝜔−𝑘𝑗ȁ ۧ
+𝑘 157
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 12 ---
+Quantum Fourier Transform
+• For 𝑁 = 2, show how 𝑼𝑸𝑭𝑻 transforms ȁ ۧ0 and ȁ ۧ1 .
+This is the same as the definition of the Hadamard gate! Therefore, a 1qubit 𝑼𝑸𝑭𝑻 is just a Hadamard gate.
+𝑼𝑸𝑭𝑻ȁ ۧ0 =
+1
+𝑁 ෍
+𝑘=0
+𝑁−1
+𝜔−𝑘0ȁ ۧ0
+=
+1
+2 (𝜔−0.0ȁ ۧ0 + 𝜔−1.0ȁ ۧ1 )
+=
+1
+2 ȁ ۧ0 + ȁ ۧ1 = ȁ ۧ
++
+𝑼𝑸𝑭𝑻ȁ ۧ1 =
+1
+𝑁 ෍
+𝑘=0
+𝑁−1
+𝜔−𝑘1ȁ ۧ0
+=
+1
+2 (𝜔−0.1ȁ ۧ0 + 𝜔−1.1ȁ ۧ1 )
+=
+1
+2 (𝜔−0.1ȁ ۧ0 + 𝑒−𝑖2𝜋/2ȁ ۧ1 )
+=
+1
+2 ȁ ۧ0 − ȁ ۧ1 = ȁ ۧ
+−
+158
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 13 ---
+Quantum Fourier Transform
+• Find the matrix representation of 𝑼𝑸𝑭𝑻 when 𝑁 = 2.
+• This is a 1-qubit 𝑼𝑸𝑭𝑻, we have
+This is the matrix of the Hadamard gate.
+• The first row and first column of any 𝑼𝑸𝑭𝑻 are evaluated to be 1 because either the row or the column
+index is 0, and thus it is always 𝜔0 = 1. For column j , the elements increase as a geometric series with
+ratio 𝜔−𝑗 (or decreases by 𝜔𝑗 ). Therefore, we can rewrite as:
+𝑼𝑸𝑭𝑻=
+1
+2
+𝜔−0.0 𝜔−0.1
+𝜔−(2−1).0 𝜔−(2−1).1
+=
+1
+2
+1 1
+1 𝜔−1
+=
+1
+2
+1 1
+1 𝑒−𝑖2𝜋/2
+=
+1
+2
+1 1
+1 −1
+𝑼𝑸𝑭𝑻=
+1
+𝑁
+1 1 …
+1 𝜔−1
+…
+⋮ ⋮ ⋱
+1
+𝜔−(𝑁−1)
+⋮
+1 𝜔−(𝑁−1)
+…
+𝜔−(𝑁−1)(𝑁−1) 159
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 14 ---
+Quantum Fourier Transform
+• Find the matrix representation of 𝑼𝑸𝑭𝑻 when 𝑁 = 4.
+• This is a 2-qubit 𝑼𝑸𝑭𝑻 gate. First, 𝜔 = 𝑒𝑖2𝜋/4 = cos
+𝜋
+2
++ 𝑖 sin 𝜋
+2
+= 𝑖. So, the element of the j-th column
+increases by 𝜔−𝑗 = 𝑖−𝑗. Therefore,
+where elements in columns 0, 1, 2, and 3 increase by 𝑖−0 = 1, 𝑖−1 = −𝑖, 𝑖−2 = −1, 𝑖−3 = 𝑖, respectively,
+from row to row.
+𝑼𝑸𝑭𝑻=
+1
+4
+1 1
+1 𝑖−1
+1 1
+𝑖−2 𝑖−3
+1 𝑖−2
+1 𝑖−3
+𝑖−4 𝑖−6
+𝑖−6 𝑖−9
+=
+1
+2
+1 1
+1 −𝑖
+1 1
+−1 𝑖
+1 −1
+1 𝑖
+1 −1
+−1 −𝑖
+160
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 15 ---
+Inverse Quantum Fourier Transform
+• The inverse Quantum Fourier Transform (IQFT) is just the inverse matrix of QFT.
+• It can be constructed by removing the negative sign in the exponents in the QFT matrix.
+To prove it, we only need to show 𝑼𝑰𝑸𝑭𝑻𝑼𝑸𝑭𝑻 = 𝑼𝑸𝑭𝑻𝑼𝑰𝑸𝑭𝑻 = 𝑰. We can see that the i-th row vector of
+𝑼𝑰𝑸𝑭𝑻 is the complex conjugate of the i-th column vector of 𝑼𝑸𝑭𝑻. By utilizing the definition of matrix
+multiplication and the unitary property, it means that 𝑼𝑰𝑸𝑭𝑻 and 𝑼𝑸𝑭𝑻 are the inverse matrices of each other.
+𝑼𝑰𝑸𝑭𝑻
+=
+1
+𝑁
+𝜔0.0 𝜔0.1
+…
+𝜔1.0 𝜔1.0
+…
+⋮ ⋮ ⋱
+𝜔0.(𝑁−1)
+𝜔−(𝑁−1)
+⋮
+𝜔(𝑁−1).0 𝜔 𝑁−1 .1
+…
+𝜔(𝑁−1)(𝑁−1)
+=
+1
+2
+1 1 …
+1 𝜔1
+…
+⋮ ⋮ ⋱
+1
+𝜔(𝑁−1)
+⋮
+1 𝜔(𝑁−1)
+…
+𝜔(𝑁−1)(𝑁−1)
+161
+Chapter 24: Quantum Fourier Transform I
+--- PAGE 16 ---
+Chapter 25:
+Quantum Fourier Transform II
+Kamonluk Suksen Ph.D.
+Chaper 1 162
+--- PAGE 17 ---
+Another Definition of QFT and IQFT
+• The QFT matrix is made exactly the same as the DFT matrix. This is a natural way to define the QFT
+matrix.
+• Assume the vector is ȁ ۧ
+𝑋 = 𝑋0ȁ ۧ0 + 𝑋0ȁ ۧ1 + ⋯ + 𝑋𝒏−𝟏ȁ ۧ
+𝑁 − 1 . This is a quantum state vector on the basis
+formed by the basis vectors ȁ ۧ0 to ȁ ۧ
+𝑁 − 1 . And assume after transformation, it becomes ȁ ۧ
+𝑋 = 𝑋0ȁ ۧ0 +
+𝑋0ȁ ۧ1 + ⋯ + 𝑋𝒏−𝟏ȁ ۧ
+𝑁 − 1 . Then the transformation shares exactly the same equation as below because we
+are using the same matrix for DFT and QFT.
+Therefore, each component of the transformed vector, ȁ ۧ
+𝑌 still have the same equation as in the first part
+that is:
+We call it QFT, because the matrix for transforming/rotating a quantum vector is the same as the DFT.
+ȁ ۧ
+𝑌 = 𝑼𝑸𝑭𝑻ȁ ۧ
+𝑋
+𝑦0
+𝑦1
+⋮
+𝑦𝑁−1
+=
+1
+𝑁
+𝜔−0.0
+⋯ 𝜔−0.(𝑁−1)
+⋮ ⋱ ⋮
+𝜔−(𝑁−1).0
+⋯ 𝜔−(𝑁−1).(𝑁−1)
+𝑥0
+𝑥1
+⋮
+𝑥𝑁−1
+𝑦𝑘 =
+1
+𝑁 ෍
+𝑗=0
+𝑁−1
+𝜔−𝑘𝑗𝑥𝑗
+163
+Chapter 25: Quantum Fourier Transform II
+--- PAGE 18 ---
+Another Definition of QFT and IQFT
+• Pic. 33 shows an example of transforming a vector ȁ ۧ
+𝑉 by rotating it counter-clockwise by θ. The basis and
+basis vectors are not changed, and only the vector is rotated/transformed into ȁ ۧ
+𝑉𝑛𝑒𝑤 in the original ȁ ۧ0 / ȁ ۧ1
+basis.
+• However, we can also perform a transformation of the basis in the reverse direction to achieve the same
+purpose.
+• In Pic. 35, if we rotate the basis vector clockwise by θ, we achieve the same result. So, we need to rotate
+the basis using an inverse matrix of the one for rotating the vector. In the QFT case, applying QFT, 𝑼𝑸𝑭𝑻,
+to a vector is the same as applying IQFT, 𝑼𝑰𝑸𝑭𝑻 to the basis.
+Pic. 35 Illustration of two equivalent transformations, transformation of basis (rotating basis
+vectors clockwise by θ) and transformation of vector (rotating vector by θ counter-clockwise)
+￼
+164
+Chapter 25: Quantum Fourier Transform II
+--- PAGE 19 ---
+Many-Qubit SWAP Gate
+• The many-qubit SWAP gate is an important part of the QFT circuit.
+• The definition of a 2-qubit swap gate is repeated here:
+An n-qubit SWAP gate is defined as
+where ȁ ۧ
+𝑋0𝑋1𝑋2… 𝑋𝑛−3𝑋𝑛−2𝑋𝑛−1 is the basis vector of the 2𝑛
+-dimensional space, we can also write
+ȁ ۧ
+𝑋0𝑋1𝑋2… 𝑋𝑛−3𝑋𝑛−2𝑋𝑛−1 = ȁ ۧ
+𝑋0 ȁ ۧ
+𝑋1 ȁ ۧ
+𝑋2… ȁ ۧ
+𝑋𝑛−3 ȁ ۧ
+𝑋𝑛−2 ȁ ۧ
+𝑋𝑛−1 . We see that we can implement the n-
+qubit SWAP gate using a series of 2-qubit swap gate.
+• Let 𝑼𝑺𝑾𝑨𝑷,𝒊,𝒋 be a 2-qubit SWAP gate swapping the i-th and j-th qubits. We have
+𝑼𝑺𝑾𝑨𝑷ȁ ۧ
+𝑎𝑏 = ȁ ۧ
+𝑏𝑎
+𝑼𝑺𝑾𝑨𝑷,𝒏,ȁ ۧ
+𝑋0𝑋1𝑋2… 𝑋𝑛−3𝑋𝑛−2𝑋𝑛−1 = ȁ ۧ
+𝑋𝑛−1𝑋𝑛−2𝑋𝑛−3… 𝑋2𝑋1𝑋0
+𝑼𝑺𝑾𝑨𝑷,𝒏,ȁ ۧ
+𝑋0𝑋1𝑋2… 𝑋𝑛−3𝑋𝑛−2𝑋𝑛−1
+= 𝑼𝑺𝑾𝑨𝑷,
+𝒏
+𝟐−𝟏,𝒏/𝟐… 𝑼𝑺𝑾𝑨𝑷,𝟐,𝒏−𝟑𝑼𝑺𝑾𝑨𝑷,𝟏,𝒏−𝟐𝑼𝑺𝑾𝑨𝑷,𝟎,𝒏−𝟏ȁ ۧ
+𝑋0𝑋1𝑋2… 𝑋𝑛−3𝑋𝑛−2𝑋𝑛−1
+= 𝑼𝑺𝑾𝑨𝑷,
+𝒏
+𝟐−𝟏,𝒏/𝟐… 𝑼𝑺𝑾𝑨𝑷,𝟐,𝒏−𝟑𝑼𝑺𝑾𝑨𝑷,𝟏,𝒏−𝟐ȁ ۧ
+𝑋𝑛−1𝑋1𝑋2… 𝑋𝑛−3𝑋𝑛−2𝑋0
+⋮
+= ȁ ۧ
+𝑋𝑛−1𝑋𝑛−2𝑋𝑛−3… 𝑋2𝑋1𝑋0 165
+Chapter 25: Quantum Fourier Transform II
+--- PAGE 20 ---
+Many-Qubit SWAP Gate
+• Here we assume n is even. We first swap the 0-th and (n − 1)-th qubits and then swap the 1-st and (n − 2)-th
+qubits and continue until the (n/(2 − 1))-th and n/2-th qubits. If n is odd, the middle qubit need not to be
+swapped.
+• Pic. 36 shows the implementation on IBM-Q. Note that the symbol of a 2-qubit SWAP gate is different
+from ours. It is used to test the |10100ۧ basis vector. Therefore, two NOT gates are added to the 1st (q4) and
+the 3rd (q2) most significant qubits to generate |10100ۧ from the initial state |00000ۧ. There are 5 classical
+bits to store the measured qubits. The MSB is at the bottom corresponding to bit 4.
+Pic. 36 Quantum circuit for a 5-qubit SWAP gate (left). It can be implemented using two 2-
+qubit SWAP gates (right).
+￼
+166
+Chapter 25: Quantum Fourier Transform II
+--- PAGE 21 ---
+QFT Circuit
+• Here we will describe how to construct a QFT circuit.
+• A 1-qubit QFT circuit is just a Hadamard gate as we have proved.
+• A 2-qubit QFT circuit is shown in Pic. 37. We need a 2-qubit SWAP gate, two Hadamard gates, and also a
+controlled phase shift gate.
+• The matrix for a controlled phase shift gate is
+Pic. 37 Quantum circuit of 1-, 2-, and 3-qubit QFT
+￼
+𝑼𝑪𝑷𝑺,𝝓 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 𝑒𝑖𝝓 167
+Chapter 25: Quantum Fourier Transform II
+--- PAGE 22 ---
+QFT Circuit
+• From Pic. 37, we see that the phase needs to be shifted is 𝜙 =−2𝜋
+22
+=−𝜋
+2 . Therefore, the matrix is
+Therefore, the matrix of the 2-qubit QFT circuit is given by (note again that the vector goes from left to
+right in the circuit, but in matrix multiplication, the vector goes from right to left)
+𝑼
+𝑪𝑷𝑺,
+−𝟐𝝅
+𝟐𝟐
+=
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 𝑒−𝑖𝜋/2
+=
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 −𝑖
+𝑼𝑺𝑾𝑨𝑷(𝑰 ⊗ 𝑯)𝑼
+𝑪𝑷𝑺,
+−𝟐𝝅
+𝟐𝟐
+(𝑯 ⊗ 𝑰)
+=
+1 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 1
+1
+2
+1 1
+1 −1
+0 0
+1 0
+0 0
+0 0
+1 1
+1 −1
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 −𝑖
+1
+2
+1 0
+0 1
+1 0
+0 1
+1 0
+0 1
+−1 1
+0 −1
+=
+1
+2
+1 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 1
+1 1
+1 −1
+0 0
+1 0
+0 0
+0 0
+1 1
+1 −1
+1 0
+0 1
+1 0
+0 1
+1 0
+0 −𝑖
+−1 0
+0 −𝑖
+=
+1
+2
+1 0
+0 0
+0 0
+1 0
+0 1
+0 0
+0 0
+0 1
+1 1
+1 −1
+1 1
+1 −1
+1 −𝑖
+1 𝑖
+−1 𝑖
+−1 −𝑖
+=
+1
+2
+1 1
+1 −𝑖
+1 1
+−1 −𝑖
+1 −1
+1 𝑖
+1 −1
+−1 −𝑖 168
+Chapter 25: Quantum Fourier Transform II
+--- PAGE 23 ---
+Implementation of a 3-Qubit QFT Circuit
+• Pic. 37, also shows the circuit for a 3-qubit QFT. We see that when we add one more qubit so that the total
+number of qubits is n, that qubit needs to go through a H gate, and then (n-1) 𝑼𝑪𝑷𝑺,𝝓 gates, with 𝜙 going
+from −𝟐𝝅
+𝟐𝟐 to −𝟐𝝅
+𝟐𝒏.
+• For the 3-qubit QFT, we need a 𝑼𝑪𝑷𝑺,−𝟐𝝅
+𝟐𝟑
+gate, which has a matrix of
+𝑼𝑪𝑷𝑺,𝝓 =
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 𝑒
+𝑖
+−2𝜋
+23
+=
+1 0
+0 1
+0 0
+0 0
+0 0
+0 0
+1 0
+0 𝑒
+𝑖
+−𝜋
+4
+169
+￼
+Pic. 37 Quantum circuit of 1-, 2-, and 3-qubit QFT
+Chapter 25: Quantum Fourier Transform II
+--- PAGE 24 ---
+Implementation of a 3-Qubit QFT Circuit
+• Pic. 38, shows the implementation of the circuit for a 3-qubit QFT. Everything is a straightforward mapping
+to the circuit in Pic. 37. The only part that needs special attention is the 𝑼𝑪𝑷𝑺,𝝓 gate.
+• To create the 𝑼𝑪𝑷𝑺,𝝓, one needs to choose the “Phase gate” icon first and then drop the “Control gate
+modifier” (the icon with a black dot) to it.
+• The phase angles used from left to right are −π/2, −π/4, and −π/2 in this circuit. Since the input is |000ۧ by
+default (the initialized quantum state), we expect the output to be an equal linear superposition of all basis
+vectors, and indeed the hardware execution shows the correction result besides with noise
+Pic. 38 Quantum circuit of a 3-qubit QFT implemented on IBM-Q. The phase angles used from
+left to right are −π/2, −π/4, and −π/2. The hardware result is shown on the right
+￼
+170
+Chapter 25: Quantum Fourier Transform II
+--- PAGE 25 ---
+Implementation of IQFT
+• By definition, IQFT is the inverse of QFT. Therefore, to construct the circuit for IQFT, we only need to
+reverse the arrangement of the gates in the QFT circuit and replace them with their inverse counterparts.
+• Since the Hadamard gate and the SWAP gate are their own inverse, we can just leave them as they are.
+• For the controlled phase shift gate, all we need to do is to change the angle to positive to get its inverse
+counterpart. So, we can just reverse the order of the QFT circuit and negate the phase angles to construct an
+IQFT circuit. This is shown at the top of Pic. 39.
+• Another way to implement the circuit for IQFT is by
+realizing that IQFT and QFT have the same matrix
+form except the exponents have different signs.
+Phase shift term 𝑒𝑖𝜙 = 𝑒−𝑖2𝜋/2𝑛 is just the 𝜔−1 in
+the QFT for the 2𝑛 dimension, and this is the only
+source for generating the ω in the final QFT or IQFT
+matrices. So, we can just use the QFT gates but
+negate all phases, i.e. change 𝜙 to −𝜙 as shown
+at the bottom of Pic. 39. Pic. 39 Implementation of IQFT after QFT. Top: IQFT is implemented by reversing
+the gates in QFT with 𝝓 changed to − 𝝓. Bottom: IQFT is implemented by using QFT
+circuits with 𝝓 changed to − 𝝓
+￼
+171
+Chapter 25: Quantum Fourier Transform II
+--- PAGE 26 ---
+General Circuit of QFT
+• The general circuit for an n-qubit QFT is shown in Pic. 40.
+• When we add one more qubit, that qubit needs to go through a H gate and then n −1 𝑼𝑪𝑷𝑺,𝝓 gates, with 𝜙
+going from −2𝜋
+22 to −2𝜋
+2𝑛 . Therefore, for the MSB, it has n −1 controlled phase shift gates after the Hadamard
+gate.
+• To construct IQFT, as we have shown in the 3-qubit case, we can use the same circuit but use positive
+phases, or we can reverse the circuit and use positive phases. That is, changing 𝑼𝑪𝑷𝑺,−𝟐𝝅
+𝟐𝒋
+to 𝑼𝑪𝑷𝑺,
+𝟐𝝅
+𝟐𝒋
+for
+𝑗 = 2 to 𝑛.
+Pic. 40 An n-qubit QFT circuit
+￼
+172
+Chapter 25: Quantum Fourier Transform II

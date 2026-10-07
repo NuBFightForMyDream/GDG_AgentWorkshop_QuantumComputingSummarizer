@@ -1,0 +1,632 @@
+DOCUMENT: sources/Lecture/Introduction_to_Quantum_Computing_CH7_CH8-959373-17687470342464.pdf
+TOTAL_PAGES: 21
+--- PAGE 1 ---
+Chapter 7:
+Operator Rules, Real Eigenvalues,
+and Projection Operator
+Kamonluk Suksen Ph.D.
+57
+--- PAGE 2 ---
+Operator Rules in the Bra-ket Notation
+• We know that an operator is a matrix, e.g. M. An operator in quantum computing rotates the vector (a
+quantum state), ȁ ۧα , in a hyperspace. So, when it operates on a vector, it gives another vector (i.e. a rotated
+vector), ȁ ۧ
+α′
+.
+• If there are two operators, M and N, that give the same final vector after rotating the same vector, |αۧ, for all
+|αۧ in the space, then they must be the same,
+This is true unless the space only contains ȁ ۧ0 . ȁ ۧ0 is the so-called null vector. It is just like the zero in real
+number that anything multiplied by it will be a ȁ ۧ0 .
+• For example, in a 2-D space, ȁ ۧ0 =
+0
+0 . In a 4-D space, ȁ ۧ0 =
+0
+0
+0
+.0
+• Their corresponding bra vectors are ۦ ȁ0 = 0 0 and ۦ ȁ0 = 0 0 0 0 in the 2-D spaces and 4-D spaces.
+• As a matrix, the operator should obey distribution law also, 𝑴 𝑪𝜶ȁ ۧα + 𝑪𝜷ȁ ۧ
+β = 𝑪𝜶𝑴ȁ ۧα + 𝑪𝜷𝑴ȁ ۧ
+β.
+where 𝑪𝜶 and 𝑪𝜷 are scalars (any complex numbers).
+ȁ ۧ
+α′
+= 𝑴 ȁ ۧ
+α = 𝑴ȁ ۧ
+α
+𝑴ห ۧ
+α = 𝑵ȁ ۧ
+α , ∀ȁ ۧ
+α ⇒ 𝑴 = 𝑵
+58
+Chapter 7: Operator Rules, Real Eigenvalues, and Projection Operator
+--- PAGE 3 ---
+Operator Rules in the Bra-ket Notation
+• Due to dual correspondence, a vector in the ket space, ȁ ۧα , has a corresponding vector in the bra space, ۦ ȁα.
+Then the rotated vector in the ket space, ȁ ۧ
+α′ , must also have a corresponding vector in the bra space ۦ ȁ
+α′ :
+• We can also say 𝑴 is the adjoint of 𝑴† because 𝑴 = 𝑴† †. So, the operators in the ket and bra spaces are
+the adjoint of each other.
+• Another important rule is the associative axiom. It can be written as below equation, the left-hand side is
+the inner product of two vectors, ȁ ۧα and 𝑴ȁ ۧ
+β , and the product is a scalar. 𝑴ȁ ۧ
+β is a vector because it is the
+rotation of ȁ ۧ
+β in the hyperspace by the operator 𝑴.
+• For example, ȁ ۧ
+β =
+𝑖
+1 , 𝑴 =
+𝑖 𝑖
+0 1, ȁ ۧα =
+2
+𝑖 . Then, 𝑴ȁ ۧ
+β =
+𝑖 𝑖
+1 0
+𝑖
+1
+=−1+𝑖
+1 and, thus,
+ۧ ȁα 𝑴ȁ ۦ
+β = 2 − 𝑖−1+𝑖
+1
+= −2 + 𝑖, which is a scalar complex number.
+• The right-hand side is also the inner product of two vectors. It is the multiplication of the bra space vector
+ۧ ȁα 𝑴 and the ket space vector ȁ ۦ
+β , and the product is a scalar.
+ȁ ۦ
+α 𝑴† = ۦ ȁ
+α′ ⇔ 𝑴ห ۧ
+α = ȁ ۧ
+α′
+ȁ ۦ
+α 𝑴ȁ ۧβ = ۦ ȁ
+α 𝑴 ȁ ۧβ
+59
+Chapter 7: Operator Rules, Real Eigenvalues, and Projection Operator
+--- PAGE 4 ---
+Operator Rules in the Bra-ket Notation
+• The corresponding bra space vector must be ۦ ȁ
+𝑴β by definition. Therefore, we will get ۦ ȁα 𝑴 ۧ
+β = ۦ𝑴𝛽ȁ ۧα
+∗
+.
+• We also know that due to dual correspondence, the corresponding bra vector of 𝑴ȁ ۧ
+β is also ۦ ȁ
+β 𝑴†
+.
+So, we can arrange the above equation as:
+• The notation of ۦ ȁα 𝑴ȁ ۧ
+β is just the multiplication of a row vector to a matrix and then to a column vector
+from the left to the right in the form of:
+ȁ ۦ
+α 𝑴ȁ ۧβ = ۦ ȁβ 𝑴†ȁ ۧα
+∗
+￼
+60
+Chapter 7: Operator Rules, Real Eigenvalues, and Projection Operator
+--- PAGE 5 ---
+Eigenvalues of Hermitian Matrix
+• Hermitian matrices are very important in quantum computing because Hermitian matrices have real eigenvalues.
+• Matrices correspond to operators and some of them even correspond to measurements (e.g. Pauli spin matrices) and observables.
+• The measured values are the values we read in our daily life and must be real numbers (e.g. ±1).
+Therefore, all operators corresponding to observables and measurements must be Hermitian.
+• If a matrix 𝑴 is Hermitian, it means 𝑴† = 𝑴. If 𝜆𝑖 and ȁ ۧ
+i are its i-th eigenvalue and eigenvector, respectively,
+we have
+• By finding the inner product of vector 𝑴ȁ ۧ
+i (This is the rotation of ȁ ۧ
+i by 𝑴 and it is a vector) and ۦ ȁ
+i .
+• We can pull 𝜆𝑖 out because it is just a scalar and 𝑖 𝑖 is 1 if we assume 𝑴’s eigenvector are normalized.
+• Since 𝑴 is Hermitian,
+We thus have 𝜆𝑖 = 𝜆𝑖
+∗. And 𝜆𝑖 must be real as it equals to its complex conjugate.
+𝑴ȁ ۧ
+i = 𝜆𝑖ȁ ۧ
+i
+ȁ ۦ
+i 𝑴ห ۧ
+i = ۦ ȁ
+i 𝜆𝑖ȁ ۧ
+i = 𝜆𝑖 𝑖 𝑖
+ȁ ۦ
+i 𝑴ȁ ۧ
+i = ۦ ȁ
+i 𝑴†ȁ ۧ
+i
+∗
+ȁ ۦ
+i 𝑴ȁ ۧ
+i = ۦ ȁ
+i 𝑴ȁ ۧ
+i ∗
+61
+Chapter 7: Operator Rules, Real Eigenvalues, and Projection Operator
+--- PAGE 6 ---
+Copenhagen Interpretation/Born Rule and
+Projection Operator
+• The operator that corresponds to an observable is required to be Hermitian to be meaningful so that it will
+have real eigenvalues. This is related to the Copenhagen Interpretation.
+• It states that “If an observable corresponding to a self-adjoint operator (i.e. Hermitian) M with discrete
+spectrum is measured in a system with normalized state Ψ, then
+1. The result will be one of the eigenvalues 𝜆𝑖 of M.
+2. The probability is ۦΨ| 𝑃𝑖 |Ψۧ, where 𝑃𝑖 is projection operator to project any state to the subspace of ȁ ۧ
+i .”
+• The first statement tells us that when we perform a measurement corresponding to M, it must collapse to
+an eigenstate, ȁ ۧi , corresponding to one of the eigenvalues, 𝜆𝑖, of M (e.g. either spin up or down in the 𝜎𝑧
+case).
+• The second statement tells us the probability of a certain state we will get. We learned that the probability
+ȁ ۧψ is expressed as the linear combination of the basis states formed by the eigenstates of M.
+• For example, ȁ ۧψ = 𝑎0ȁ ۧ0 + 𝑎1ȁ ۧ1 + ⋯ + 𝑎𝑁−1ȁ ۧN−1 , the probability to get state ȁ ۧi is just 𝑎𝑖
+2
+.
+• In the above statement, it gives a more general equation to find the probability, i.e. ൻ ȁψ 𝑃𝑖ȁ ۧψ , by
+introducing the projection operator, 𝑷𝒊.
+62
+Chapter 7: Operator Rules, Real Eigenvalues, and Projection Operator
+--- PAGE 7 ---
+Copenhagen Interpretation/Born Rule and
+Projection Operator
+• The projection operator is just a matrix. What it does is to project a state into a subspace. In our real 3D
+space, a building has a 3D nature that has height, width, and depth. We can project its shadow on the floor,
+maybe the 2D x-y plane, or on a vertical wall, maybe the 2D y-z plane.
+• ȁ ۧψ is a vector in a high dimensional space. We can project it to a lower dimension space using an
+appropriate projection operator. Here 𝑃𝑖 is the projection operator that will project an arbitrary vector ȁ ۧ
+ψ
+to the subspace spanned by ȁ ۧi .
+• The projection operator that projects a vector to a subspace formed by ȁ ۧi is given by 𝑃𝑖 = ห ۧi ۦ ȁi .
+• A ket multiplied by a bra is a matrix and this is called the outer product or tensor product of vectors.
+• We write it in matrix form but then we need to choose a set of basis states first. The easiest one is to
+choose the eigenstates of M as the basis states.
+￼
+63
+Chapter 7: Operator Rules, Real Eigenvalues, and Projection Operator
+--- PAGE 8 ---
+Copenhagen Interpretation/Born Rule and
+Projection Operator
+• So |iۧ has the i-th entry non-zero in a column vector and ۦi| has the i-th entry non-zero in a row vector.
+Let’s assume N = 4 and i = 2, we have
+• Let us see how 𝑃𝑖 accomplish the projection task by apply 𝑃𝑖 to ȁ ۧψ :
+• We can distribute 𝑃𝑖 into each term as follows:
+𝑃𝑖 = 𝑃2 = ห ۧ2 ۦ ȁ2
+=
+0
+0
+1
+0
+= )0 1 0 0(
+0 0
+0 0
+0 0
+0 0
+0 0
+0 0
+0 1
+0 0
+𝑃𝑖ȁ ۧ
+ψ = 𝑃𝑖(𝑎0ȁ ۧ0 + 𝑎1ȁ ۧ1 + ⋯ + 𝑎𝑁−1ȁ ۧN−1 )
+𝑃𝑖ȁ ۧ
+ψ = 𝑃𝑖 𝑎0ȁ ۧ0 + 𝑎1ȁ ۧ1 + ⋯ + 𝑎𝑁−1ȁ ۧ
+N−1
+= 𝑎0𝑃𝑖ห ۧ0 + 𝑎1𝑃𝑖ȁ ۧ1 + ⋯ + 𝑎𝑁−1𝑃𝑖ȁ ۧ
+N−1
+= 𝑎0 ห ۧ
+i ۦ ȁ
+i ห ۧ0 + 𝑎1ห ۧ
+i ۦ ȁ
+i ȁ ۧ1 + ⋯ + 𝑎𝑁−1ห ۧ
+i ۦ ȁ
+i ȁ ۧ
+N−1 64
+Chapter 7: Operator Rules, Real Eigenvalues, and Projection Operator
+--- PAGE 9 ---
+Copenhagen Interpretation/Born Rule and
+Projection Operator
+• Due to the association rule, we get 𝑎𝑗ȁ ۧ
+𝑖 𝑖 𝑗 for 𝑗 = 0 to 𝑁 − 1. Since the basis states are supposed to be
+orthonormal, only 𝑖 𝑖 is non-zero. Therefore, 𝑃𝑖ȁ ۧψ = 𝑎𝑖ห ۧ
+𝑖 𝑖 𝑖 = 𝑎𝑖ȁ ۧi .
+• The projection operation removes all the orthogonal components and only keeps the component in the
+subspace spanned by ȁ ۧi .
+• Then we apply the bra vector ۦ ȁψ from the left,
+• What if we apply 𝑃𝑖 twice?
+ൻ ȁ
+ψ 𝑃𝑖ȁ ۧ
+ψ = ൻ ȁ
+ψ (𝑃𝑖ȁ ۧ
+ψ ) = ൻ ȁ
+ψ (𝑎𝑖ȁ ۧ
+i )
+= (𝑎0
+ȁ0 + 𝑎1 ۦ ∗
+1−ȁ1 + ⋯ + 𝑎𝑁 ۦ∗
+∗ ൻ ȁN−1 )𝑎𝑖ȁ ۧ
+i
+= 𝑎0
+∗ 𝑎𝑖 0 𝑖 + 𝑎1
+∗𝑎𝑖 1 𝑖 + ⋯ + 𝑎𝑁−1
+∗ 𝑎𝑖 𝑁 − 1 𝑖
+= 𝑎𝑖
+∗
+𝑎𝑖 = 𝑎𝑖
+2
+𝑃𝑖𝑃𝑖ȁ ۧ
+ψ = 𝑃𝑖ห ۧ
+i ۦ ȁ
+i ȁ ۧ
+ψ = ห ۧ
+i ۦ ȁ
+i ห ۧ
+i ۦ ȁ
+i ȁ ۧ
+ψ
+= ȁ ۧ
+i (ۦ ȁ
+i ȁ ۧ
+i )ۦ ȁ
+i ȁ ۧ
+ψ = ȁ ۧ
+i (1)ۦ ȁ
+i ȁ ۧ
+ψ = 𝑃𝑖ȁ ۧ
+ψ
+65
+Chapter 7: Operator Rules, Real Eigenvalues, and Projection Operator
+--- PAGE 10 ---
+Summary
+• Operator Application: We have learned how to apply operators within the bra-ket (Dirac) notation.
+• Associative Axiom: You understand the utility of the associative property in mathematics to simplify
+complex expressions by performing easier operations first.
+• Hermitian Matrices: You have seen the proof that Hermitian matrices always have real eigenvalues, a
+fundamental property in quantum mechanics.
+• Projection Operator: The concept of the projection operator has been introduced.
+• Outer Product: The outer product concept has been introduced, which, along with the projection
+operator, will be crucial for understanding future topics in quantum computing.
+66
+Chapter 7: Operator Rules, Real Eigenvalues, and Projection Operator
+--- PAGE 11 ---
+Chapter 8:
+Eigenvalue, Matrix Diagonalization and
+Unitary Matrix
+Kamonluk Suksen Ph.D.
+67
+--- PAGE 12 ---
+Eigenvalues and Matrix Diagonalization
+• The concept of matrix diagonalization is related to the change of basis.
+• For any matrix, A, with dimension 𝑛 × 𝑛, it can be written as the following with n rows and n columns.
+• We index the matrix elements using the row-column convention. We may also write it as (𝑎𝑖,𝑗) to indicate
+that the matrix has the i-th row and j-th column element equals to 𝑎𝑖,𝑗.
+• To find its eigenvalues 𝜆𝑖, and eigenvectors, ȁ ۧi , we need to solve the following equation, 𝑨ȁ ۧi = 𝜆𝑖ȁ ۧi .
+The eigenvector of a matrix is so special because when we apply the matrix to that vector, the vector is not
+rotated but just scaled by a scalar.
+𝑨 =
+𝑎0,0 𝑎0,1
+𝑎1,0 𝑎1,1
+⋯ 𝑎0,𝑛−1
+⋯ 𝑎1,𝑛−1
+⋮ ⋮
+𝑎𝑛−1,0 𝑎𝑛−1,1
+⋱ ⋮
+⋯ 𝑎𝑛−1,𝑛−1
+= (𝑎𝑖,𝑗)
+68
+Chapter 8: Eigenvalue, Matrix Diagonalization and Unitary Matrix
+--- PAGE 13 ---
+Eigenvalues and Matrix Diagonalization
+• For example, ȁ ۧi may be
+1
+2
+0
+5
+if 𝑛 = 4. In general, ȁ ۧi =
+𝛼0
+𝛼1
+⋮
+𝛼𝑛−1
+for an n-dimensional vector so, we can write:
+• The right-hand side is the multiplication of a scalar and a vector. But we can also write it as a matrix-vector
+multiplication,
+• We see that a scalar multiplied to a vector acts the same as a diagonal matrix with the scalar value as the
+diagonal element multiplied to that vector. This is because 𝜆𝑖ȁ ۧi =𝜆𝑖𝑰ȁ ۧi , where I is the identity matrix.
+𝑨ȁ ۧ
+i =
+𝑎0,0 𝑎0,1
+𝑎1,0 𝑎1,1
+⋯ 𝑎0,𝑛−1
+⋯ 𝑎1,𝑛−1
+⋮ ⋮
+𝑎𝑛−1,0 𝑎𝑛−1,1
+⋱ ⋮
+⋯ 𝑎𝑛−1,𝑛−1
+𝛼0
+𝛼1
+⋮
+𝛼𝑛−1
+= 𝜆𝑖
+𝛼0
+𝛼1
+⋮
+𝛼𝑛−1
+𝑨ȁ ۧ
+i =
+𝑎0,0 𝑎0,1
+𝑎1,0 𝑎1,1
+⋯ 𝑎0,𝑛−1
+⋯ 𝑎1,𝑛−1
+⋮ ⋮
+𝑎𝑛−1,0 𝑎𝑛−1,1
+⋱ ⋮
+⋯ 𝑎𝑛−1,𝑛−1
+𝛼0
+𝛼1
+⋮
+𝛼𝑛−1
+=
+𝜆𝑖 0
+0 𝜆𝑖
+⋯ 0
+⋯ 0
+⋮ ⋮
+0 0
+⋱ ⋮
+⋯ 𝜆𝑖
+𝛼0
+𝛼1
+⋮
+𝛼𝑛−1
+= 𝜆𝑖𝑰ȁ ۧ
+i
+69
+Chapter 8: Eigenvalue, Matrix Diagonalization and Unitary Matrix
+--- PAGE 14 ---
+Eigenvalues and Matrix Diagonalization
+• If we move the right-hand side term to the left, we have
+• The right-hand side is the null vector 0. We need to equate the left to the right and there are n equations.
+For the j-th row, we need to equate
+• If all 𝛼𝑖’s equal to zero, i.e. |iۧ = 0, that is a valid solution but this is useless to us. We want to find non-zero
+|iۧ which will be the eigenvectors of A. We have n equations and n variables (𝛼0 to 𝛼𝑛−1). The theory tells
+us that we need to make the determinant of the matrix zero.
+(𝑨 − 𝜆𝑖𝑰)ȁ ۧ
+i =
+𝑎0,0− 𝜆𝑖 𝑎0,1
+𝑎1,0 𝑎1,1− 𝜆𝑖
+⋯ 𝑎0,𝑛−1
+⋯ 𝑎1,𝑛−1
+⋮ ⋮
+𝑎𝑛−1,0 𝑎𝑛−1,1
+⋱ ⋮
+⋯ 𝑎𝑛−1,𝑛−1− 𝜆𝑖
+𝛼0
+𝛼1
+⋮
+𝛼𝑛−1
+=
+0
+0
+⋮
+0
+𝑎𝑗,0 𝛼0 + 𝑎𝑗,0 𝛼1 + ⋯ + 𝑎𝑗,𝑗− 𝜆𝑖 𝛼𝑗 + ⋯ + 𝑎𝑗,𝑛−1 𝛼𝑛−1 = 0
+𝑨 − 𝜆𝑖𝑰 =
+𝑎0,0− 𝜆𝑖 𝑎0,1
+𝑎1,0 𝑎1,1− 𝜆𝑖
+⋯ 𝑎0,𝑛−1
+⋯ 𝑎1,𝑛−1
+⋮ ⋮
+𝑎𝑛−1,0 𝑎𝑛−1,1
+⋱ ⋮
+⋯ 𝑎𝑛−1,𝑛−1− 𝜆𝑖
+= 𝟎
+70
+Chapter 8: Eigenvalue, Matrix Diagonalization and Unitary Matrix
+--- PAGE 15 ---
+Eigenvalues and Matrix Diagonalization
+• This is equivalent to what we did in Chap. 5. We want to find the eigenvalues and eigenvectors of 𝜎𝑥.
+• Since 𝜎𝑥 =
+0 1
+1 0 , the equation we need to solve is
+• The determinant is thus −𝜆𝑖 × −𝜆𝑖− 1 × 1. Therefore, the equation becomes, 𝜆𝑖
+2
+− 1 = 0.
+And thus, 𝜆𝑖 = ±1. We can assign, 𝜆0 = 1 and 𝜆1 = −1. This is what we got in Chap. 5.
+Now we know the eigenvalues, we can use them to find the eigenvectors. For 𝜆0 = 1, we have
+This give us two equations,
+• So, for 𝜆0 = 1, the eigenvector is ȁ ۧ
++ =
+1
+2
+1
+1 . And for 𝜆0 = −1, the eigenvector is ȁ ۧ
+− =
+1
+2
+1
+−1.
+𝑎0,0− 𝜆𝑖 𝑎0,1
+𝑎1,0 𝑎1,1− 𝜆𝑖
+=
+0 − 𝜆𝑖 1
+1 0 − 𝜆𝑖
+= 0
+0 − 1 𝛼0 + 1 𝛼1 = 0
+1 𝛼0 + 0 − 1 𝛼1 = 0
+𝑎0,0− 𝜆𝑖 𝑎0,1
+𝑎1,0 𝑎1,1− 𝜆𝑖
+𝛼0
+𝛼1
+=
+0 − 1 1
+1 0 − 1
+𝛼0
+𝛼1
+=
+0
+0
+71
+Chapter 8: Eigenvalue, Matrix Diagonalization and Unitary Matrix
+--- PAGE 16 ---
+Eigenvalues and Matrix Diagonalization
+• In general, if we represent a matrix using its eigenvectors as the basis vectors, it will be a diagonal matrix
+with the eigenvalues as the diagonal elements. This process is called diagonalization.
+• But how do we do that? We need to find its eigenvectors and eigenvalues first. Therefore, the
+diagonalization of a matrix is equivalent to finding its eigenvectors and eigenvalues.
+• It is also important to note that while the matrix and vector representations change with basis, the
+eigenvalues are kept the same.
+𝐴 =
+𝜆0⋯ 0
+⋮ ⋱ ⋮
+0 ⋯ 𝜆𝑛−1
+72
+Chapter 8: Eigenvalue, Matrix Diagonalization and Unitary Matrix
+--- PAGE 17 ---
+Unitary Matrix
+• In quantum computing and quantum mechanics, the unitary matrix is very important.
+This is as important as the Hermitian matrix.
+• A matrix is an operator that rotates the vector (state). A Hermitian matrix is a matrix that is equal to its adjoint
+matrix, i.e. 𝐴† = 𝐴, where 𝐴† is the adjoint matrix of A by performing the complex conjugate and transpose
+operations.
+• The Hermitian matrix is important because it has real eigenvalues and therefore, all observables must
+correspond to Hermitian matrices.
+• The unitary matrix is important because it preserves the inner product of vectors when they are transformed
+together by a unitary matrix. It also preserves the length of a vector. This is very important because it will
+preserve the probability amplitude of a vector in quantum computing so that it is always 1.
+• A unitary matrix, U, is defined as a matrix whose adjoint, 𝑈†
+, equals to its inverse, 𝑈−1 (instead of to itself as
+in the Hermitian matrix).
+If we multiply both sides by U from the right or the left, respectively, we get
+where I is the identity matrix. This is because any matrix multiplied by its inverse must equal the identity
+matrix by definition.
+𝑈† = 𝑈−1
+𝑈†𝑈 = 𝑈𝑈† = 𝐼
+73
+Chapter 8: Eigenvalue, Matrix Diagonalization and Unitary Matrix
+--- PAGE 18 ---
+Unitary Matrix
+• Why this is important? Assume there are two vectors, ȁ ۧ
+𝑓 and ȁ ۧ
+𝑔 . Their inner product is 𝑓 𝑔.
+• What happens if we operate U on the vectors (i.e. rotate them in hyperspace)? We expect their inner
+product to be the same. For example, your table’s corner angle should be the same if you rotate your table
+(recall that the inner product is related to the angle between the two edges in the real space).
+• If two basis vectors are orthogonal to each other (meaning they will not appear at the same time during a
+measurement), they are still orthogonal after being rotated together.
+• After applying U, ȁ ۧ
+𝑓 and ȁ ۧ
+𝑔 become 𝑈ȁ ۧ
+𝑓 and 𝑈ȁ ۧ
+𝑔, respectively. Their inner product is the
+multiplication of the bra version of 𝑈ȁ ۧ
+𝑓 on the ket version of 𝑈ȁ ۧ
+𝑔 . So, we get
+• We see that the inner product is conserved if the rotation matrix is unitary.
+• In quantum computing, when we operate a qubit, we need to make sure the operation matrix is unitary.
+• The unitary matrix is also used to describe the evolution of a quantum state as a function of time.
+𝑓 𝑈†𝑈 𝑔 = 𝑓 𝐼 𝑔 = 𝑓 𝑔
+74
+Chapter 8: Eigenvalue, Matrix Diagonalization and Unitary Matrix
+--- PAGE 19 ---
+Unitary Matrix
+• Assume
+where it has n columns and n rows. So, 𝑈†𝑈 becomes:
+In general,
+• Since only the diagonal element in I is non-zero and equal to one, therefore, 𝛿𝑖,𝑗 is used.
+𝑼 =
+𝑏0,0 𝑏0,1
+𝑏1,0 𝑏1,1
+⋯ 𝑏0,𝑛−1
+⋯ 𝑏1,𝑛−1
+⋮ ⋮
+𝑏𝑛−1,0 𝑏𝑛−1,1
+⋱ ⋮
+⋯ 𝑏𝑛−1,𝑛−1
+𝑼†𝑼 =
+𝑏0,0
+∗ 𝑏1,0
+∗
+𝑏0,1
+∗ 𝑏1,1
+∗
+⋯ 𝑏𝑛−1,0
+∗
+⋯ 𝑏𝑛−1,1
+∗
+⋮ ⋮
+𝑏0,𝑛−1
+∗ 𝑏1,𝑛−1
+∗
+⋱ ⋮
+⋯ 𝑏𝑛−1,𝑛−1
+∗
+𝑏0,0 𝑏0,1
+𝑏1,0 𝑏1,1
+⋯ 𝑏0,𝑛−1
+⋯ 𝑏1,𝑛−1
+⋮ ⋮
+𝑏𝑛−1,0 𝑏𝑛−1,1
+⋱ ⋮
+⋯ 𝑏𝑛−1,𝑛−1
+= 𝐼 =
+1 0
+0 1
+⋯ 0
+⋯ 0
+⋮ ⋮
+0 0
+⋱ ⋮
+⋯ 1
+𝐼𝑖,𝑗 = 𝑏0,𝑖
+∗𝑏0,𝑗 + 𝑏1,𝑖
+∗𝑏1,𝑗 + ⋯ + 𝑏𝑛−1,𝑖
+∗𝑏𝑛−1,𝑗 = 𝛿𝑖,𝑗
+75
+Chapter 8: Eigenvalue, Matrix Diagonalization and Unitary Matrix
+--- PAGE 20 ---
+Unitary Matrix
+• If we treat every column of U as a vector and called the i-th column ȁ ۧ
+𝑣𝑖 , we have
+Here we take the transpose and conjugate to get the bra version of ȁ ۧ
+𝑣𝑖 . It is just the inner product of the
+column vectors of U,
+However, for the identity matrix, only the diagonal elements are one and the others are zero. That means
+𝑣𝑖 𝑣𝑗 = 𝛿𝑖,𝑗
+This Kronecker delta (𝛿𝑖,𝑗 ) tells us that the inner products are zero if they are not from the same column
+and one if they are from the same column (i.e. same vector). Therefore, the column vectors of any unitary
+matrix are orthonormal to each other. And this is the same for the row vectors in the unitary matrix.
+ȁ ۧ
+𝑣𝑖 =
+𝑏0,𝑖
+𝑏1,𝑖
+⋮
+𝑏𝑛−1,𝑖
+and ۦ ȁ
+𝑣𝑖 = (𝑏0,𝑖
+∗
+, 𝑏1,𝑖
+∗
+, … , 𝑏𝑛−1,𝑖
+)∗
+𝐼𝑖,𝑗 = 𝑏0,𝑖
+∗𝑏0,𝑗 + 𝑏1,𝑖
+∗𝑏1,𝑗 + ⋯ + 𝑏𝑛−1,𝑖
+∗𝑏𝑛−1,𝑗 = 𝑣𝑖 𝑣𝑗
+76
+Chapter 8: Eigenvalue, Matrix Diagonalization and Unitary Matrix
+--- PAGE 21 ---
+Summary
+• Finding Eigenvalues: A new, often more convenient, method for finding the eigenvalues of a matrix was
+derived.
+• Diagonalization: If a matrix is represented using its own eigenvectors as the basis, it becomes a diagonal
+matrix where the diagonal elements are its eigenvalues.
+• Unitary Matrix: The concept of a unitary matrix was introduced, which is crucial in quantum
+computing.
+• Properties of Unitary Matrices:
+• They preserve the inner product between any two vectors after transformation.
+• They preserve the magnitude (norm) of a vector.
+• Their rows and columns form an orthonormal set.
+• Unitary Test: A key method to determine if a matrix U is unitary is to check if it transforms an
+orthonormal set of basis vectors into another orthonormal set. This principle will be used later to verify
+quantum oracles.
+77
+Chapter 8: Eigenvalue, Matrix Diagonalization and Unitary Matrix
